@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <span><a routerLink="dashboardmain">laboratary</a></span>
+  <span class="spacer"></span>
+  <ul>
+      <li>
+        <div *ngIf="!IsSignedIn">
+          <a mat-button routerLink="sign-in" routerLinkActive="mat-accent">Log in</a>
+          <a mat-button routerLink="register-user" routerLinkActive="mat-accent">Sign Up</a>
+        </div>
+        <div *ngIf="IsSignedIn">
+            <a mat-button (click)="authService.SignOut()" routerLinkActive="mat-accent">Log out</a>
+            <a mat-button routerLink="profile" routerLinkActive="mat-accent">Profile</a>
+          </div>
+         
+      </li>
+
+  </ul>
+
+</mat-toolbar>

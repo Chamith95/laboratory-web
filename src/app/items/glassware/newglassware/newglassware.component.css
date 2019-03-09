@@ -1,0 +1,28 @@
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 100px 0px;
+  }
+
+
+.mat-card{
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+    text-align:center 
+}
+
+form.normal-form{
+    margin: 10px;
+}
+
+.controles-container{
+    align-content: center;
+    margin:auto ;
+    width :100%;
+}
+
+mat-form-field{
+    margin:10px
+}
+
