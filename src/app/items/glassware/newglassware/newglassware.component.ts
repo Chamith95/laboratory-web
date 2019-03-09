@@ -17,9 +17,7 @@ export class NewglasswareComponent implements OnInit {
      this.service.getGlassware();
   }
 
-  onClick() {
-    console.log("star clicked");
-  }
+
   
   onSubmit(){
     if(this.service.form.valid){

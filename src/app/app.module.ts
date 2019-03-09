@@ -31,6 +31,8 @@ import {MatCardModule} from '@angular/material/card';
 import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
 import { GlasswareComponent } from './items/glassware/glassware.component';
 import { NewglasswareComponent } from './items/glassware/newglassware/newglassware.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
 
 import {ItemService} from './services/item.service';
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component'
@@ -66,7 +68,9 @@ import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswar
     MatInputModule,
     MatButtonModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatTableModule,
+    MatIconModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService],
   bootstrap: [AppComponent]
