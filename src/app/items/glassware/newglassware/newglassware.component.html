@@ -1,7 +1,13 @@
-
-
+<!-- <mat-toolbar>
+  <span>{{service.form.controls['$key'].value?"Modify Glassware":"New Glassware"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabInex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar> -->
 <mat-card class="my-card">
-    <mat-card-title>New Category</mat-card-title>
+  <mat-card-title>{{service.form.controls['$key'].value?"Modify Glassware":"New Glassware"}}
+    
+      <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabInex="-1"><mat-icon>clear</mat-icon></button>
+  </mat-card-title>
 <mat-card-content>
 
 <form [formGroup]="service.form" class="normal-form" (submit)="onSubmit()" >

@@ -11,11 +11,11 @@ export class HeaderComponent implements OnInit {
   IsSignedIn=null;
 
   constructor(public authService: AuthService,private route : ActivatedRoute) { 
-
+    this.IsSignedIn=this.authService.isLoggedIn;
   }
 
   ngOnInit() {
-    this.IsSignedIn=this.authService.isLoggedIn;
+    
   }
 
 }

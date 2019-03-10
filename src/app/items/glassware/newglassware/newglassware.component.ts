@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup,FormControl} from '@angular/forms';
+import {MatDialogRef} from '@angular/material'
 
 
 import { ItemService } from 'src/app/services/item.service';
@@ -11,7 +12,8 @@ import { ItemService } from 'src/app/services/item.service';
 })
 export class NewglasswareComponent implements OnInit {
 
-  constructor(private service:ItemService) { }
+  constructor(private service:ItemService,
+    public dialogRef:MatDialogRef<NewglasswareComponent>) { }
 
   ngOnInit() {
      this.service.getGlassware();
@@ -21,10 +23,17 @@ export class NewglasswareComponent implements OnInit {
   
   onSubmit(){
     if(this.service.form.valid){
-       this.service.insertGlassware(this.service.form.value);
-       this.service.form.reset();
+      if(!this.service.form.get('$key').value)
+        this.service.insertGlassware(this.service.form.value);
+      else
+        this.service.updateGlassware(this.service.form.value);;
+      this.service.form.reset();
+       this.onClose();
       }
   }
-
-
+// Dialog close
+  onClose(){
+    this.service.form.reset();
+    this.dialogRef.close()
+  }
 }

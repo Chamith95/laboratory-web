@@ -41,6 +41,11 @@ export class ItemService {
   deleteGlassware($key:string){
     this.glasswarelist.remove($key); 
   }
+
+  // populating for edit
+  populateForm(glassware){
+    this.form.setValue(glassware);
+  }
 }
 
 

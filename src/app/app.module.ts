@@ -33,9 +33,13 @@ import { GlasswareComponent } from './items/glassware/glassware.component';
 import { NewglasswareComponent } from './items/glassware/newglassware/newglassware.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import {ItemService} from './services/item.service';
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component'
+
 
 
 
@@ -70,9 +74,13 @@ import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswar
     MatToolbarModule,
     MatCardModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[NewglasswareComponent]
 })
 export class AppModule { }

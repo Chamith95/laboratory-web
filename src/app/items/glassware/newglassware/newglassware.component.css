@@ -1,9 +1,8 @@
 :host {
     display: flex;
     justify-content: center;
-    margin: 100px 0px;
+    margin: -10px;
   }
-
 
 .mat-card{
     max-width: 500px;
@@ -20,6 +19,13 @@ form.normal-form{
     align-content: center;
     margin:auto ;
     width :100%;
+}
+
+.btn-dialog-close{
+    justify-content: center;
+    width: 40px;
+    height:35px;
+    margin-left: 200px;
 }
 
 mat-form-field{
