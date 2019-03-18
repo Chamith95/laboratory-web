@@ -1,5 +1,5 @@
+<div class="container">
 <h1 class="mat-display-1">Glassware</h1>
-
 <div class="searchdiv">
   <button mat-raised-button color="primary" (click)="OnCreate()">
     <mat-icon>add</mat-icon>Create
@@ -46,4 +46,6 @@
   <mat-footer-row *matFooterRowDef="['nodata']" [ngClass]="{'hide':!(listData!=null && listData.length>0)}"></mat-footer-row>
 </mat-table>
 <mat-paginator [pageSizeOptions]="[5,10,25,100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+
 </div>

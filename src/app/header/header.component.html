@@ -1,4 +1,11 @@
 <mat-toolbar color="primary">
+    <button *ngIf="IsSignedIn"
+    type="button"
+    aria-label="Toggle sidenav"
+    mat-icon-button
+    (click)="drawer.toggle()">
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
   <span><a routerLink="dashboardmain">laboratary</a></span>
   <span class="spacer"></span>
   <ul>

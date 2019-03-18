@@ -4,6 +4,7 @@ import { auth } from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { Router } from "@angular/router";
 
 export class AuthService {
   userData: any; // Save logged in user data
+  authChange =new Subject<boolean>();
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -24,10 +26,12 @@ export class AuthService {
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
+        this.authChange.next(true);
         JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
+        this.authChange.next(false); 
       }
     })
   }
@@ -78,6 +82,10 @@ export class AuthService {
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
+    // this.firebase.auth().currentUser
+  //  if( this.afAuth.auth.currentUser){
+  //    return true;
+  //  }
     const user = JSON.parse(localStorage.getItem('user'));
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
@@ -109,7 +117,7 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL,
+      // photoURL: user.photoURL,
       emailVerified: user.emailVerified
     }
     return userRef.set(userData, {

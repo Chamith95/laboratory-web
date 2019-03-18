@@ -38,7 +38,12 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDialogModule} from '@angular/material/dialog';
 
 import {ItemService} from './services/item.service';
-import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component'
+import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component';
+import { AdminNavComponent } from './admin-nav/admin-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule, MatListModule } from '@angular/material';
+
+
 
 
 
@@ -56,6 +61,9 @@ import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswar
     GlasswareComponent,
     NewglasswareComponent,
     GlasswarelistComponent,
+    AdminNavComponent,
+
+   
 
   ],
   imports: [
@@ -77,7 +85,10 @@ import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswar
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService],
   bootstrap: [AppComponent],
