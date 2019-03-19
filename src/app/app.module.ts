@@ -36,12 +36,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 import {ItemService} from './services/item.service';
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component';
 import { AdminNavComponent } from './admin-nav/admin-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule, MatListModule } from '@angular/material';
+import { ItemAdditionService } from './services/item-addition.service';
 
 
 
@@ -88,9 +90,10 @@ import { MatSidenavModule, MatListModule } from '@angular/material';
     MatDialogModule,
     LayoutModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatGridListModule
   ],
-  providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService],
+  providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService],
   bootstrap: [AppComponent],
   entryComponents:[NewglasswareComponent]
 })

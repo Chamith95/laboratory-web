@@ -15,6 +15,7 @@
           <a mat-button routerLink="register-user" routerLinkActive="mat-accent">Sign Up</a>
         </div>
         <div *ngIf="IsSignedIn">
+            <a mat-button  routerLinkActive="mat-accent">Additions</a>
             <a mat-button (click)="authService.SignOut()" routerLinkActive="mat-accent">Log out</a>
             <a mat-button routerLink="profile" routerLinkActive="mat-accent">Profile</a>
           </div>

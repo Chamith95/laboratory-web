@@ -2,10 +2,27 @@
     height: 100%;
 }
 
+.mat-column- {
+    display: flex;
+    justify-content: flex-end;
+    }
+    
+.adddeletebtn{
+    min-width: 1%;
+}
+
+.newaddheader{
+    margin-left: 20px;
+}
+
+.newaddbtn{
+    margin-left: 30px;
+}
 h1{
     margin: 50px;
     text-align: center;
 }
+
 
 .mat-elevation-z8{
     margin: 20px;

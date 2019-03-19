@@ -13,7 +13,7 @@
 </div>
 
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8" >
 <mat-table [dataSource]="listData" matSort>
   <ng-container matColumnDef="Category_Name">
   <mat-header-cell *matHeaderCellDef mat-sort-header>Category Name</mat-header-cell>
@@ -23,11 +23,24 @@
     <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
     <mat-cell *matCellDef="let element">{{element.Quantity}}</mat-cell>
   </ng-container>
+  
+  <ng-container matColumnDef="Addition" >
+    <mat-header-cell class="newaddheader" *matHeaderCellDef mat-sort-header>Add New Items</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+        <button class="newaddbtn" *ngIf="getQuantity(row.$key) ==0" mat-icon-button  (click)="addto(row)"><mat-icon>add_to_queue</mat-icon></button>
+        <div class="quantity" *ngIf="getQuantity(row.$key) !=0">
+            <button class="adddeletebtn"mat-flat-button (click)="addto(row)">+</button>
+          {{getQuantity(row.$key)}}
+          <button class="adddeletebtn" mat-flat-button (click)="subtractfromcart(row)" >-</button>
+      </div>
+      </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row">
           <button mat-icon-button (click)="onEdit(row)"><mat-icon>launch</mat-icon></button>
           <button mat-icon-button color="warn" (click)="onDelete(row.$key)"><mat-icon>delete_outline</mat-icon></button>
+         
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="loading">
