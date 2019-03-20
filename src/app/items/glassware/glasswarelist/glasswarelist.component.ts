@@ -45,6 +45,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
             ...item.payload.val()
           };
         });
+        // console.log(array)
         this.listData=new MatTableDataSource(array);
         this.listData.sort=this.sort;
         this.listData.paginator=this.paginator;
@@ -53,11 +54,11 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
     );
      this.Additemsub=(await this.ItemAddService.getvoucher()).valueChanges().subscribe(cart=>{
-       console.log(cart)
+      //  console.log(cart)
        this.addcart=cart
      })
 
-     console.log( this.addcart);
+      console.log( this.addcart);
     
      ;
 
@@ -100,7 +101,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
   // New additions
   addto(glassware){
-    console.log(glassware);
+     console.log(glassware);
     this.ItemAddService.Addtovoucher(glassware);
   }
 
@@ -110,11 +111,13 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
   // Get addedQuantity
   getQuantity($key){
-    let k=$key;
-    // console.log(k);
-    if(!this.addcart) return 0;
-    let item=this.addcart.items[k]
-    console.log(item);
+    // let k=$key;
+   
+    if(!this.addcart)  return 0;
+    if(!this.addcart.items) return 0;
+ 
+    let item=this.addcart.items[$key]
+
     return item?item.Quantity : 0;
  
   }

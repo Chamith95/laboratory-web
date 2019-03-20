@@ -37,17 +37,23 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+
 
 import {ItemService} from './services/item.service';
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component';
 import { AdminNavComponent } from './admin-nav/admin-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatSidenavModule, MatListModule } from '@angular/material';
+import { MatSidenavModule, MatListModule, MatNativeDateModule } from '@angular/material';
 import { ItemAdditionService } from './services/item-addition.service';
+import { AddnewcartComponent } from './items/addnewcart/addnewcart.component';
 
 
 
-
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { AddhistoryComponent } from './items/addhistory/addhistory.component';
 
 
 @NgModule({
@@ -64,6 +70,8 @@ import { ItemAdditionService } from './services/item-addition.service';
     NewglasswareComponent,
     GlasswarelistComponent,
     AdminNavComponent,
+    AddnewcartComponent,
+    AddhistoryComponent,
 
    
 
@@ -91,9 +99,13 @@ import { ItemAdditionService } from './services/item-addition.service';
     LayoutModule,
     MatSidenavModule,
     MatListModule,
-    MatGridListModule
+    MatGridListModule,
+    MatBadgeModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FlexLayoutModule 
   ],
-  providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService],
+  providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule],
   bootstrap: [AppComponent],
   entryComponents:[NewglasswareComponent]
 })

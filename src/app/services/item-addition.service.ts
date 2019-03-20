@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import {Subject} from 'rxjs';
-import { first, take } from 'rxjs/operators';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import {Subject, Observable} from 'rxjs';
+import { first, take, map } from 'rxjs/operators';
+import { Addvoucher } from './addvoucher.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemAdditionService {
- 
 
+  vocucherlist: AngularFireList <any> 
+  addvoucher: AngularFireObject<any>;
 
+  
   constructor(private db:AngularFireDatabase) { 
+    this.vocucherlist = db.list('Addvouchers');
+
 
   }
 
@@ -27,6 +32,13 @@ export class ItemAdditionService {
 
   }
 
+  getvouchersync(){
+    let Addvoucherid=localStorage.getItem('Addvoucherid');
+    return this.db.object('/new-additions/' +Addvoucherid).valueChanges()
+  }
+
+
+
   private async getOrCreateAddVoucherId():Promise<string>{
     let Addvoucherid=localStorage.getItem('Addvoucherid');
     if(Addvoucherid)  return Addvoucherid;
@@ -42,33 +54,71 @@ export class ItemAdditionService {
 
   async Addtovoucher(item1){
     let AddvoucherId=await this.getOrCreateAddVoucherId();
-    let item$=this.getItem(AddvoucherId,item1.$key)
+    let item$=this.getItem(AddvoucherId,item1.$key )
     item$.valueChanges().pipe(take(1)).subscribe(item =>{
     //  console.log(item)
       // item$.update({ item: item, quantity:(item.quantity || 0) + 1 });
       const newObj: any = item;
       if(item!=null){
-        item$.update({item:{category_name:item1.category_name,Quantity:item1.Quantity},Quantity:(newObj.Quantity)+1});
+        item$.update(
+          {category_name:item1.category_name,
+          Quantity:(newObj.Quantity)+1});
       }else{
-        console.log(item)
-        item$.set({item:{category_name:item1.category_name,Quantity:item1.Quantity},Quantity:1});
+        //  console.log(item)
+         item$.set({category_name:item1.category_name,
+          Quantity:1});
       }
     })
   }
+
+  
 
   async subfromvoucher(item1){
     let AddvoucherId=await this.getOrCreateAddVoucherId();
     let item$=this.getItem(AddvoucherId,item1.$key)
     item$.valueChanges().pipe(take(1)).subscribe(item =>{
-    //  console.log(item)
+   
       // item$.update({ item: item, quantity:(item.quantity || 0) + 1 });
       const newObj: any = item;
       if(item!=null){
-        item$.update({item:{category_name:item1.category_name,Quantity:item1.Quantity},Quantity:(newObj.Quantity)-1});
+        item$.update(
+          {category_name:item1.category_name,
+          Quantity:(newObj.Quantity)-1});
       }else{
-        console.log(item)
-        item$.set({item:{category_name:item1.category_name,Quantity:item1.Quantity},Quantity:1});
+        //  console.log(item)
+         item$.set({category_name:item1.category_name,
+          Quantity:1});
       }
     })
   }
+
+  // Confirm submition
+  confirmaddition(vocuher:Addvoucher){
+    console.log(this.vocucherlist);
+    this.vocucherlist.push({
+      Voucher_Id: vocuher.Voucher_Id,
+      Recieved_from:vocuher.Recieved_from,
+      Date_Recieved:vocuher.Date_Recieved.toString(),
+      items:vocuher.items
+    });
+  let a={  Voucher_Id: vocuher.Voucher_Id,
+    Recieved_from:vocuher.Recieved_from,
+    Date_Recieved:vocuher.Date_Recieved.getUTCDate(),
+    items:vocuher.items
+  }
+  console.log(a)
+  }
+
+  async clearvouchercart(){
+      let vouId = await this.getOrCreateAddVoucherId();
+      this.db.object('/new-additions/' + vouId + '/items').remove();
+  }
+
+  getaddvouchers(){
+    this.vocucherlist=this.db.list('Addvouchers');
+    return this.vocucherlist.valueChanges();
+  }
+
+
+
 }

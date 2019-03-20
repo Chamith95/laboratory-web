@@ -15,6 +15,8 @@ import { VerifyEmailComponent } from './users/verify-email/verify-email.componen
 import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
 import { NewglasswareComponent } from './items/glassware/newglassware/newglassware.component';
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component';
+import {AddnewcartComponent} from  './items/addnewcart/addnewcart.component'
+import {AddhistoryComponent} from './items/addhistory/addhistory.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full'},
@@ -25,7 +27,10 @@ const routes: Routes = [
   { path: 'verify-email-address', component: VerifyEmailComponent, canActivate: [SecureInnerPagesGuard] },
   { path: 'dashboardmain', component: DashboardMainComponent},
   { path: 'glasswarecreation', component: NewglasswareComponent},
-  { path: 'Glasswarelist', component: GlasswarelistComponent}
+  { path: 'Glasswarelist', component: GlasswarelistComponent},
+  { path: 'Addnewcart' ,component:AddnewcartComponent},
+  { path: 'AddHistory' ,component:AddhistoryComponent}
+
 ];
 
 @NgModule({

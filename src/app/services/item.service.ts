@@ -8,8 +8,10 @@ import {AngularFireDatabase,AngularFireList} from 'angularfire2/database'
 export class ItemService {
 
   constructor(private firebase:AngularFireDatabase) {
+    console.log(this.glasswarelist);
   }
   glasswarelist: AngularFireList <any>;
+  
 
   
   form:FormGroup =new FormGroup({
@@ -25,6 +27,7 @@ export class ItemService {
   }
   
   insertGlassware(glassware){
+    console.log(this.glasswarelist);
     this.glasswarelist.push({
       category_name: glassware.category_name,
       Quantity: glassware.Quantity
