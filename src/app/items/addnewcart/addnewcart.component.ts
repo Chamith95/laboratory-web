@@ -28,7 +28,7 @@ export class AddnewcartComponent implements OnInit {
     let cart$=this.itemAddservice.getvouchersync()
             .subscribe(item =>{
               const newObj: any = item;
-                  console.log(newObj)
+                  
               for(let item in newObj.items){
                     let obj={$key:item,category_name: newObj.items[item].category_name,Quantity: newObj.items[item].Quantity}
                     this.cartitemArray.push(obj);
@@ -44,7 +44,7 @@ export class AddnewcartComponent implements OnInit {
                    
                    )
                    this.cartitemArrayWithoutkey=array;
-                    //  console.log(array)
+                      console.log(this.cartitemArray)
                    this.listData=new MatTableDataSource(this.cartitemArray);
                   //  return this.ELEMENT_DATA
             })
@@ -72,18 +72,18 @@ this.cartitemArray=[];
    this.itemAddservice.confirmaddition({
     Voucher_Id:form.value.voucherNo,
     Recieved_from:form.value.Recfrom,
-    Date_Recieved:form.value.createdate,
+    Date_Recieved:form.value.createdate.toDateString(),
     items:this.cartitemArrayWithoutkey,
       } );
    
- 
+  // let k=form.value.createdate.toDateString();
   // let a={ Voucher_Id:form.value.voucherNo,
   //    Recieved_from:form.value.Recfrom,
-  //    Date_Recieved:form.value.createdate,
+  //    Date_Recieved:form.value.createdate.toISOString().substr(0,form.value.createdate.toString().indexOf("T")),
   //    items:this.cartitemArray,
   // }
-  // console.log(a);
-  this.clearvoucart();
+  //  console.log(k);
+   this.clearvoucart();
   }
   clearvoucart(){
     this.itemAddservice.clearvouchercart();

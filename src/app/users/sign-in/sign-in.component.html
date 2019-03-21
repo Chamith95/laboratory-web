@@ -7,11 +7,15 @@
       <!-- <h3 class="mat-display-1">Sign In</h3> -->
       
       <mat-form-field class="example-full-width">
-        <input  matInput type="text" class="formControl" [(ngModel)]="username" placeholder="Username" #userName required>
+        <input  matInput type="text" class="formControl" [(ngModel)]="username" placeholder="Email" #userName required>
+        <mat-hint>Please enter your valid email.</mat-hint>
+        <mat-error>Invalid or missing email.</mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <input matInput type="password" class="formControl"[(ngModel)]="password" placeholder="Password" #userPassword required>
+        <mat-hint>Please enter your password.</mat-hint>
+        <mat-error>Missing password.</mat-error>
       </mat-form-field>
 
       <!-- (click)="authService.SignIn(userName.value, userPassword.value)" -->

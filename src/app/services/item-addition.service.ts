@@ -103,7 +103,7 @@ export class ItemAdditionService {
     });
   let a={  Voucher_Id: vocuher.Voucher_Id,
     Recieved_from:vocuher.Recieved_from,
-    Date_Recieved:vocuher.Date_Recieved.getUTCDate(),
+    Date_Recieved:vocuher.Date_Recieved,
     items:vocuher.items
   }
   console.log(a)

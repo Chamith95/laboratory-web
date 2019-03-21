@@ -1,30 +1,47 @@
 <h1>Additions</h1>
 
+<div class="searchdiv" fxLayout="row" fxLayoutAlign="center center">
+    <mat-form-field class="search-form-field">
+      <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+</div>
+
 <div id="tablecontainer">
-  <mat-table #table [dataSource]="listData"  class="mat-elevation-z8">
+  <mat-table #table [dataSource]="listData"  class="mat-elevation-z8" matSort >
       <!-- Position Column -->
+      <ng-container matColumnDef="VoucherID">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> VoucherID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.VoucherId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date Recieved </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Date_recieved}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="From" >
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Recieved From </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Recieved_from}} </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="Category">
-        <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.category_name}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Item </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Item_category}} </mat-cell>
       </ng-container>
     
+      <ng-container matColumnDef="Quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Quantity}} </mat-cell>
+      </ng-container>
       <!-- Name Column -->
       <!-- <ng-container matColumnDef="Quantity">
         <mat-header-cell *matHeaderCellDef>Add New Quantity </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Quantity}} </mat-cell>
       </ng-container> -->
-  
-      <ng-container matColumnDef="Addition" >
-        <mat-header-cell class="newaddheader" *matHeaderCellDef >Add New Items</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <button class="newaddbtn" *ngIf="getQuantity(row.$key) ==0" mat-icon-button  (click)="addto(row)"><mat-icon>add_to_queue</mat-icon></button>
-            <div class="quantity" >
-                <button class="adddeletebtn"mat-flat-button (click)="addto(element)">+</button>
-                {{element.Quantity}}
-              <button class="adddeletebtn" mat-flat-button (click)="subtractfromcart(element)" >-</button>
-          </div>
-          </mat-cell>
-      </ng-container>
+
     
   
     
@@ -32,6 +49,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       
     </mat-table>
+    <mat-paginator [pageSizeOptions]="[5,10,25,100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
   </div>
   
   
