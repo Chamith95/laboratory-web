@@ -3,6 +3,7 @@ import { ItemAdditionService } from 'src/app/services/item-addition.service';
 import { DataSource } from '@angular/cdk/table';
 import { ShowOnDirtyErrorStateMatcher, MatTableDataSource } from '@angular/material';
 import { NgForm } from '@angular/forms';
+import { IfStmt } from '@angular/compiler';
 
 
 
@@ -17,6 +18,8 @@ export class AddnewcartComponent implements OnInit {
   cartitemArray:any[]=[];
   cartitemArrayWithoutkey:any[]=[];
   listData:MatTableDataSource<any>;
+  originalquantities:any[]=[]
+  updatedQuantities:any[]=[]
 
  
 
@@ -44,24 +47,30 @@ export class AddnewcartComponent implements OnInit {
                    
                    )
                    this.cartitemArrayWithoutkey=array;
-                      console.log(this.cartitemArray)
                    this.listData=new MatTableDataSource(this.cartitemArray);
-                  //  return this.ELEMENT_DATA
+                  
             })
        
+
+            this.itemAddservice.getoriginalquantities().subscribe(item=>{
+              this.originalquantities=item;
+
+            })
 
           }
 
 
-
+// adding new or increasing the quantity of the cart
 addto(item){
-//  console.log(item);
 this.itemAddservice.Addtovoucher(item);
 this.cartitemArray=[];
  }
+
+// subtracting items from cart
 subtractfromcart(item){
 this.itemAddservice.subfromvoucher(item);
 this.cartitemArray=[];
+
 }
         
 
@@ -75,19 +84,39 @@ this.cartitemArray=[];
     Date_Recieved:form.value.createdate.toDateString(),
     items:this.cartitemArrayWithoutkey,
       } );
-   
-  // let k=form.value.createdate.toDateString();
-  // let a={ Voucher_Id:form.value.voucherNo,
-  //    Recieved_from:form.value.Recfrom,
-  //    Date_Recieved:form.value.createdate.toISOString().substr(0,form.value.createdate.toString().indexOf("T")),
-  //    items:this.cartitemArray,
-  // }
-  //  console.log(k);
+
+      for(let i=0;i<this.cartitemArray.length;i++){
+        for(let j=0;j<this.originalquantities.length;j++){
+          if(this.cartitemArray[i].category_name==this.originalquantities[j].category_name){
+            let updateditem={$key:this.cartitemArray[i].$key,
+              category_name:this.originalquantities[j].category_name,Quantity:(this.originalquantities[j].Quantity+this.cartitemArray[i].Quantity)}
+            console.log(updateditem);
+            this.updatedQuantities.push(updateditem);
+          }
+        }
+      }
+
+  
+  
+      
+     this.itemAddservice.updateoriginalQuantities(this.updatedQuantities)
+      console.log(this.updatedQuantities)
+ 
+  this.updatedQuantities=[];
+
    this.clearvoucart();
   }
   clearvoucart(){
     this.itemAddservice.clearvouchercart();
     this.cartitemArray=[];
+  }
+
+  test(){
+
+
+    //  console.log(this.cartitemArray);
+
+
   }
 
 }
