@@ -1,19 +1,33 @@
-
-<mat-card class="my-card">
-    <mat-card-title>Login</mat-card-title>
-<mat-card-content>
-
-    <div class="authBlock">
+<mat-card class="mat-card">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <div class="mat-card-content">
       <!-- <h3 class="mat-display-1">Sign In</h3> -->
-      
-      <mat-form-field class="example-full-width">
-        <input  matInput type="text" class="formControl" [(ngModel)]="username" placeholder="Email" #userName required>
+
+      <mat-form-field class="mat-form-field">
+        <input
+          matInput
+          type="text"
+          class="formControl"
+          [(ngModel)]="username"
+          placeholder="Email"
+          #userName
+          required
+        />
         <mat-hint>Please enter your valid email.</mat-hint>
         <mat-error>Invalid or missing email.</mat-error>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <input matInput type="password" class="formControl"[(ngModel)]="password" placeholder="Password" #userPassword required>
+      <mat-form-field class="mat-form-field">
+        <input
+          matInput
+          type="password"
+          class="formControl"
+          [(ngModel)]="password"
+          placeholder="Password"
+          #userPassword
+          required
+        />
         <mat-hint>Please enter your password.</mat-hint>
         <mat-error>Missing password.</mat-error>
       </mat-form-field>
@@ -21,34 +35,45 @@
       <!-- (click)="authService.SignIn(userName.value, userPassword.value)" -->
       <!-- Calling SignIn Api from AuthService -->
       <div class="formGroup">
-        <button type="button" mat-raised-button color="primary"  (click)="onSubmit()">Log in</button>
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="onSubmit()">
+          Log in
+        </button>
       </div>
 
       <div class="formGroup">
-        <span class="mat-h4"><span class="orInner">Or</span></span>
+        <span class="mat-h4"><span class="orInner">or</span></span>
       </div>
 
       <!-- Calling GoogleAuth Api from AuthService -->
-      <!-- <div class="formGroup">
-        <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-          <i class="g-signin2"></i>
+      <div class="formGroup" >
+        <button type="button" mat-raised-button class="btn googleBtn" (click)="authService.GoogleAuth()">
+          <i class="fab fa-google-plus-g"></i>
+          <img src='../../../assets/images/google.png' id="google-icon"/>
           Log in with Google
         </button>
-      </div> -->
+      </div>
 
       <div class="forgotPassword">
-        <span class="mat-h3" routerLink="/forgot-password">Forgot Password?</span>
+        <span class="mat-h3" routerLink="/forgot-password" class="alc"
+          ><u>Forgot Password</u>?</span
+        >
       </div>
     </div>
 
     <div class="redirectToLogin">
-      <span class="mat-h3">Don't have an account?<span class="redirect" mat-button routerLink="/register-user"> Sign Up</span></span>
+      <span class="mat-h3" >
+        Don't have an account?
+      <!-- <button type="button" mat-button> -->
+        <span class="redirect" mat-button routerLink="/register-user" class="alc"><u>Sign Up</u></span>
+      <!-- </button> -->
+    </span>
     </div>
-
-
-</mat-card-content>
+  </mat-card-content>
 </mat-card>
-
 
 <!-- <mat-card class="my-card">
    <mat-card-content>
@@ -67,4 +92,3 @@
       <button mat-raised-button (click)="login()" color="primary">LOGIN</button>
    </mat-card-actions>
 </mat-card> -->
-

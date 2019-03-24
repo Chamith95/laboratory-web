@@ -17,9 +17,7 @@ import { SignUpComponent } from './users/sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './users/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './users/verify-email/verify-email.component';
 import { AuthService } from './services/auth.service';
-import {AngularFireDatabaseModule} from 'angularfire2/database'
-
-
+import {AngularFireDatabaseModule} from 'angularfire2/database';
 
 // angular material
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -39,8 +37,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
+import { MatExpansionModule } from '@angular/material';
 
 import {ItemService} from './services/item.service';
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component';
@@ -49,8 +46,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule, MatListModule, MatNativeDateModule } from '@angular/material';
 import { ItemAdditionService } from './services/item-addition.service';
 import { AddnewcartComponent } from './items/addnewcart/addnewcart.component';
-
-
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddhistoryComponent } from './items/addhistory/addhistory.component';
@@ -72,10 +67,8 @@ import { AddhistoryComponent } from './items/addhistory/addhistory.component';
     AdminNavComponent,
     AddnewcartComponent,
     AddhistoryComponent,
-
-   
-
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -93,6 +86,7 @@ import { AddhistoryComponent } from './items/addhistory/addhistory.component';
     MatCardModule,
     MatTableModule,
     MatIconModule,
+    MatExpansionModule,
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
@@ -103,7 +97,7 @@ import { AddhistoryComponent } from './items/addhistory/addhistory.component';
     MatBadgeModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FlexLayoutModule 
+    FlexLayoutModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule],
   bootstrap: [AppComponent],
