@@ -12,22 +12,22 @@
 <div id="tablecontainer">
   <mat-table #table [dataSource]="listData"  class="mat-elevation-z8" matSort >
       <!-- Position Column -->
-      <ng-container matColumnDef="VoucherID">
+      <ng-container matColumnDef="VoucherId">
         <mat-header-cell *matHeaderCellDef mat-sort-header> VoucherID </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.VoucherId}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Date">
+      <ng-container matColumnDef="Date_recieved">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Date Recieved </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Date_recieved}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="From" >
+      <ng-container matColumnDef="Recieved_from" >
         <mat-header-cell *matHeaderCellDef mat-sort-header> Recieved From </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Recieved_from}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Category">
+      <ng-container matColumnDef="Item_category">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Item </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Item_category}} </mat-cell>
       </ng-container>
@@ -45,7 +45,7 @@
     
   
     
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       
     </mat-table>

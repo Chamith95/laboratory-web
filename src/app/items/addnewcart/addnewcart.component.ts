@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemAdditionService } from 'src/app/services/item-addition.service';
 import { DataSource } from '@angular/cdk/table';
-import { ShowOnDirtyErrorStateMatcher, MatTableDataSource } from '@angular/material';
+import { ShowOnDirtyErrorStateMatcher, MatTableDataSource, MatDialog } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { IfStmt } from '@angular/compiler';
+import { QuantitydialogComponent } from '../glassware/quantitydialog/quantitydialog.component';
 
 
 
@@ -20,12 +21,30 @@ export class AddnewcartComponent implements OnInit {
   listData:MatTableDataSource<any>;
   originalquantities:any[]=[]
   updatedQuantities:any[]=[]
+  dialogquantity:number;
 
  
 
-  constructor(private itemAddservice:ItemAdditionService) {
+  constructor(private itemAddservice:ItemAdditionService,private dialog:MatDialog) {
     
    }
+
+   openDialog(glassware): void {
+    const dialogRef = this.dialog.open(QuantitydialogComponent, {
+      width: '250px',
+      data: { Quantity: this.dialogquantity}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.dialogquantity = result;
+      if(this.dialogquantity){
+      this.itemAddservice.Addtocartfromdialog(glassware,this.dialogquantity)
+      }
+      this.dialogquantity=undefined;
+      this.cartitemArray=[];
+    });
+  }
 
   ngOnInit() {
     let cart$=this.itemAddservice.getvouchersync()

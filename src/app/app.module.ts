@@ -39,7 +39,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 import {ItemService} from './services/item.service';
@@ -54,6 +54,7 @@ import { AddnewcartComponent } from './items/addnewcart/addnewcart.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddhistoryComponent } from './items/addhistory/addhistory.component';
+import { QuantitydialogComponent } from './items/glassware/quantitydialog/quantitydialog.component';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { AddhistoryComponent } from './items/addhistory/addhistory.component';
     AdminNavComponent,
     AddnewcartComponent,
     AddhistoryComponent,
+    QuantitydialogComponent,
 
    
 
@@ -103,10 +105,11 @@ import { AddhistoryComponent } from './items/addhistory/addhistory.component';
     MatBadgeModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FlexLayoutModule 
+    FlexLayoutModule,
+    MatExpansionModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule],
   bootstrap: [AppComponent],
-  entryComponents:[NewglasswareComponent]
+  entryComponents:[NewglasswareComponent,QuantitydialogComponent]
 })
 export class AppModule { }

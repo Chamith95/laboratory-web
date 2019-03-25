@@ -11,12 +11,13 @@
     min-width: 1%;
 }
 
-.newaddheader{
-    margin-left: 20px;
-}
+
 
 .newaddbtn{
-    margin-left: 30px;
+    margin-left: 45px;
+}
+.newaddbtn1{
+    min-width: 50px;
 }
 h1{
     margin: 50px;

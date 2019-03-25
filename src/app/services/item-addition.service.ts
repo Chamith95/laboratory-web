@@ -69,6 +69,22 @@ export class ItemAdditionService {
     })
   }
 
+  async Addtocartfromdialog(item1,dQuantity){
+    let AddvoucherId=await this.getOrCreateAddVoucherId();
+    let item$=this.getItem(AddvoucherId,item1.$key )
+    item$.valueChanges().pipe(take(1)).subscribe(item =>{
+
+      const newObj: any = item;
+      if(item!=null){
+        item$.update(
+          {category_name:item1.category_name,
+          Quantity:dQuantity});
+      }else{
+         item$.set({category_name:item1.category_name,
+          Quantity:dQuantity});
+      }
+    })
+  }
   
 // subtracting or removing items form cart
   async subfromvoucher(item1){

@@ -8,3 +8,7 @@
 table {
     width: 100%;
   }
+
+  mat-header-row{
+      margin-left: 80px;
+  }

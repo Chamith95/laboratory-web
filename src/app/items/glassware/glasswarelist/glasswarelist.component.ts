@@ -9,6 +9,7 @@ import { NewglasswareComponent } from '../newglassware/newglassware.component';
 import { ItemAdditionService } from '../../../services/item-addition.service';
 import {Subscription} from 'rxjs';
 import { item } from 'src/app/services/item.model';
+import { QuantitydialogComponent } from '../quantitydialog/quantitydialog.component';
 
 @Component({
   selector: 'app-glasswarelist',
@@ -20,13 +21,14 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
   @Input('item') items: item;
   Additemsub:Subscription;
   addcart:any;
+  quantity:number;
 
   constructor(private service:ItemService ,private dialog:MatDialog,private ItemAddService:ItemAdditionService) { 
     
   }
 
   listData:MatTableDataSource<any>;
-  displayedColumns:string[]=['Category_Name','Quantity','Addition','actions'];
+  displayedColumns:string[]=['category_name','Quantity','Addition','actions'];
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -35,6 +37,21 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
   searchKey:string;
 
  
+  openDialog(glassware): void {
+    const dialogRef = this.dialog.open(QuantitydialogComponent, {
+      width: '250px',
+      data: { Quantity: this.quantity}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.quantity = result;
+      if(this.quantity){
+      this.ItemAddService.Addtocartfromdialog(glassware,this.quantity)
+      }
+      this.quantity=undefined;
+    });
+  }
 
  async ngOnInit() {
     this.service.getGlassware().subscribe(
@@ -100,6 +117,8 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
   }
 
   // New additions
+
+
   addto(glassware){
      console.log(glassware);
     this.ItemAddService.Addtovoucher(glassware);
