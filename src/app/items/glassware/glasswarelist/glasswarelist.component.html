@@ -30,7 +30,7 @@
         <button class="newaddbtn" *ngIf="getQuantity(row.$key) ==0" mat-icon-button  (click)="openDialog(row, 'add')"><mat-icon>add_to_queue</mat-icon></button>
         <div class="quantity" *ngIf="getQuantity(row.$key) !=0">
             <button class="adddeletebtn" mat-flat-button (click)="addto(row)">+</button>
-            <button class="newaddbtn1"   mat-flat-button  (click)="openDialog(row)"> {{getQuantity(row.$key)}}</button>
+            <button class="newaddbtn1"   mat-flat-button  (click)="openDialog(row,'add')"> {{getQuantity(row.$key)}}</button>
           <button class="adddeletebtn" mat-flat-button (click)="subtractfromcart(row)" >-</button>
       </div>
       </mat-cell>
@@ -42,7 +42,7 @@
         <button class="newaddbtn" *ngIf="getremovecartQuantity(row.$key) ==0" mat-icon-button  (click)="openDialog(row,'remove')" color="warn"><mat-icon>remove_from_queue</mat-icon></button>
         <div class="quantity" *ngIf="getremovecartQuantity(row.$key) !=0">
             <button class="adddeletebtn" mat-flat-button (click)="addtoRemovecart(row)">+</button>
-            <button class="newaddbtn1"   mat-flat-button  (click)="openDialog(row)">- {{getremovecartQuantity(row.$key)}}</button>
+            <button class="newaddbtn1"   mat-flat-button  (click)="openDialog(row,'remove')">- {{getremovecartQuantity(row.$key)}}</button>
           <button class="adddeletebtn" mat-flat-button (click)="subtractfromRemovecart(row)" >-</button>
       </div>
       </mat-cell>

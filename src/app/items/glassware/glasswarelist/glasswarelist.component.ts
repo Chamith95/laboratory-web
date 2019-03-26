@@ -22,6 +22,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
   @Input('item') items: item;
   Additemsub:Subscription;
   Removeitemsub:Subscription;
+  tablearray:Array<any>;
   addcart:any;
   removecart:any;
   quantity:number;
@@ -44,7 +45,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
 //  Quantity dialog
   openDialog(glassware,pos): void {
-    // console.log(pos);
+     console.log(glassware);
     const dialogRef = this.dialog.open(QuantitydialogComponent, {
       width: '250px',
       data: { Quantity: this.quantity}
@@ -60,12 +61,17 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
       this.quantity=undefined;
       }
       else if(pos=='remove'){
-        if(this.quantity){
+        if(this.quantity-glassware.Quantity>0){
+        return console.log("invalid quantity")
+        }
+        else if(this.quantity){
           this.itemRemovalService.AddtoRemovecartfromdialog(glassware,this.quantity)
           }
           this.quantity=undefined; 
     }
-    });
+    }
+    )
+    ;
   }
 
  async ngOnInit() {
@@ -77,6 +83,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
             ...item.payload.val()
           };
         });
+        this.tablearray=array;
         // console.log(array)
         this.listData=new MatTableDataSource(array);
         this.listData.sort=this.sort;
