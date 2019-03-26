@@ -16,8 +16,9 @@ export class ItemService {
   
   form:FormGroup =new FormGroup({
     $key:new FormControl(null),
-    category_name:new FormControl('',Validators.required),
-    Quantity:new FormControl('',Validators.required)
+    category:new FormControl(null),
+    item_name:new FormControl('',Validators.required),
+    Quantity:new FormControl(null)
   });
 
 
@@ -29,14 +30,16 @@ export class ItemService {
   insertGlassware(glassware){
     console.log(this.glasswarelist);
     this.glasswarelist.push({
-      category_name: glassware.category_name,
-      Quantity: glassware.Quantity
+      category:"Glassware",
+      item_name: glassware.item_name,
+      Quantity: 0
     });
   }
 
   updateGlassware(glassware){
     this.glasswarelist.update(glassware.$key,{
-      category_name: glassware.category_name,
+      category:glassware.category,
+      item_name: glassware.item_name,
       Quantity:glassware.Quantity
     })
   }

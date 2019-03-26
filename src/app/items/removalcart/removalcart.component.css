@@ -1,0 +1,14 @@
+.container{
+    width:100%;
+    text-align: center;
+}
+.mat-elevation-z8{
+    margin: 40px;
+}
+table {
+    width: 100%;
+  }
+
+  mat-header-row{
+      margin-left: 80px;
+  }

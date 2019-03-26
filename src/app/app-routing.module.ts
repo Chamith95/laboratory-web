@@ -17,6 +17,8 @@ import { NewglasswareComponent } from './items/glassware/newglassware/newglasswa
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component';
 import {AddnewcartComponent} from  './items/addnewcart/addnewcart.component'
 import {AddhistoryComponent} from './items/addhistory/addhistory.component'
+import { RemovalcartComponent } from './items/removalcart/removalcart.component';
+import { RemhistoryComponent } from './items/remhistory/remhistory.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full'},
@@ -29,7 +31,9 @@ const routes: Routes = [
   { path: 'glasswarecreation', component: NewglasswareComponent},
   { path: 'Glasswarelist', component: GlasswarelistComponent},
   { path: 'Addnewcart' ,component:AddnewcartComponent},
-  { path: 'AddHistory' ,component:AddhistoryComponent}
+  { path: 'AddHistory' ,component:AddhistoryComponent},
+  { path: 'Removalcart',component:RemovalcartComponent },
+  { path: 'RemovalHistory',component:RemhistoryComponent}
 
 ];
 

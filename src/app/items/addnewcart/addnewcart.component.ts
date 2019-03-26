@@ -52,13 +52,17 @@ export class AddnewcartComponent implements OnInit {
               const newObj: any = item;
                   
               for(let item in newObj.items){
-                    let obj={$key:item,category_name: newObj.items[item].category_name,Quantity: newObj.items[item].Quantity}
+                    let obj={$key:item,
+                      item_name: newObj.items[item].item_name,
+                      category: newObj.items[item].category,
+                      Quantity: newObj.items[item].Quantity}
                     this.cartitemArray.push(obj);
                    }
 
                    let array=this.cartitemArray.map(list=>{
                     return{
-                      category_name:list.category_name,
+                      item_name:list.item_name,
+                      category: list.category,
                       Quantity:list.Quantity,
                   };
              
@@ -106,9 +110,11 @@ this.cartitemArray=[];
 
       for(let i=0;i<this.cartitemArray.length;i++){
         for(let j=0;j<this.originalquantities.length;j++){
-          if(this.cartitemArray[i].category_name==this.originalquantities[j].category_name){
+          if(this.cartitemArray[i].item_name==this.originalquantities[j].item_name){
             let updateditem={$key:this.cartitemArray[i].$key,
-              category_name:this.originalquantities[j].category_name,Quantity:(this.originalquantities[j].Quantity+this.cartitemArray[i].Quantity)}
+              item_name:this.originalquantities[j].item_name,
+              category:this.originalquantities[j].category,
+              Quantity:(this.originalquantities[j].Quantity+this.cartitemArray[i].Quantity)}
             console.log(updateditem);
             this.updatedQuantities.push(updateditem);
           }

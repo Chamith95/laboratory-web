@@ -20,21 +20,22 @@ export class ItemAdditionService {
   }
 // Creating a new vouchercart if no voucher is present
   private newvoucher(){
-   return this.db.list('/new-additions').push({
+   return this.db.list('/new-additions-cart').push({
       dateTimeCreated:new Date().getTime()
     })
   }
+  
 // Getting vouchercart asynchronously
   async  getvoucher(){
     let voucherid= await this.getOrCreateAddVoucherId();
-    return this.db.object('/new-additions/' +voucherid)
+    return this.db.object('/new-additions-cart/' +voucherid)
 
   }
 
 // Getting voucherid synchronously
   getvouchersync(){
     let Addvoucherid=localStorage.getItem('Addvoucherid');
-    return this.db.object('/new-additions/' +Addvoucherid).valueChanges()
+    return this.db.object('/new-additions-cart/' +Addvoucherid).valueChanges()
   }
 
 
@@ -49,7 +50,7 @@ export class ItemAdditionService {
   }
 // Getting item
   private getItem(AddvoucherId:string,itemId:string){
-   return this.db.object('/new-additions/' +AddvoucherId +'/items/' +itemId );
+   return this.db.object('/new-additions-cart/' +AddvoucherId +'/items/' +itemId );
   }
 // Adding new item or increasing count
   async Addtovoucher(item1){
@@ -60,10 +61,12 @@ export class ItemAdditionService {
       const newObj: any = item;
       if(item!=null){
         item$.update(
-          {category_name:item1.category_name,
+          {item_name:item1.item_name,
+            category:item1.category,
           Quantity:(newObj.Quantity)+1});
       }else{
-         item$.set({category_name:item1.category_name,
+         item$.set({item_name:item1.item_name,
+          category:item1.category,
           Quantity:1});
       }
     })
@@ -77,10 +80,12 @@ export class ItemAdditionService {
       const newObj: any = item;
       if(item!=null){
         item$.update(
-          {category_name:item1.category_name,
+          {item_name:item1.item_name,
+            category:item1.category,
           Quantity:dQuantity});
       }else{
-         item$.set({category_name:item1.category_name,
+         item$.set({item_name:item1.item_name,
+          category:item1.category,
           Quantity:dQuantity});
       }
     })
@@ -94,16 +99,18 @@ export class ItemAdditionService {
    
       const newObj: any = item;
       if(newObj.Quantity==1){
-         this.db.object('/new-additions/' + AddvoucherId + '/items/' + item1.$key).remove();
+         this.db.object('/new-additions-cart/' + AddvoucherId + '/items/' + item1.$key).remove();
          return
       }
       if(item!=null){
         item$.update(
-          {category_name:item1.category_name,
+          {item_name:item1.item_name,
+            category:item1.category,
           Quantity:(newObj.Quantity)-1});
       }else{
  
-         item$.set({category_name:item1.category_name,
+         item$.set({item_name:item1.item_name,
+          category:item1.category,
           Quantity:1});
       }
     })
@@ -129,7 +136,7 @@ export class ItemAdditionService {
 // clearing the cart in database
   async clearvouchercart(){
       let vouId = await this.getOrCreateAddVoucherId();
-      this.db.object('/new-additions/' + vouId + '/items').remove();
+      this.db.object('/new-additions-cart/' + vouId + '/items').remove();
   }
 
   // Get submitted vouchers
@@ -144,7 +151,7 @@ export class ItemAdditionService {
     for(let i=0;i<data.length;i++){
       this.glasswarelist.update(
         data[i].$key,{
-        category_name: data[i].category_name,
+        item_name: data[i].item_name,
         Quantity:data[i].Quantity
       })
     }

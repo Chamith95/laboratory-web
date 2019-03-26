@@ -19,7 +19,7 @@ export class AddhistoryComponent implements OnInit {
   @ViewChild(MatSort) sort1: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns:string[]=['VoucherId','Date_recieved','Recieved_from','Item_category','Quantity'];
+  displayedColumns:string[]=['VoucherId','Date_recieved','Recieved_from','category','Item_name','Quantity'];
 
   ngOnInit() {
     this.itemaddservice.getaddvouchers().subscribe(item=>{
@@ -31,7 +31,8 @@ export class AddhistoryComponent implements OnInit {
           let array={VoucherId:newObj[i].Voucher_Id,
             Recieved_from:newObj[i].Recieved_from,
             Date_recieved:newObj[i].Date_Recieved,
-            Item_category:newObj[i].items[j].category_name,
+            Item_name:newObj[i].items[j].item_name,
+            category:newObj[i].items[j].category,
             Quantity:newObj[i].items[j].Quantity
           }
           this.datasourcelist.push(array)

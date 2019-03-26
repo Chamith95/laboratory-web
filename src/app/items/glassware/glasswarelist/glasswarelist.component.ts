@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild, Input, OnDestroy } from '@angular/core';
 
-import { ItemService } from 'src/app/services/item.service';
+import { ItemService } from 'src/app/services/glassware.service';
 import {MatTableDataSource,} from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -10,6 +10,7 @@ import { ItemAdditionService } from '../../../services/item-addition.service';
 import {Subscription} from 'rxjs';
 import { item } from 'src/app/services/item.model';
 import { QuantitydialogComponent } from '../quantitydialog/quantitydialog.component';
+import { ItemRemovalService } from 'src/app/services/item-removal.service';
 
 @Component({
   selector: 'app-glasswarelist',
@@ -20,15 +21,20 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
   @Input() newAdditions:any;
   @Input('item') items: item;
   Additemsub:Subscription;
+  Removeitemsub:Subscription;
   addcart:any;
+  removecart:any;
   quantity:number;
 
-  constructor(private service:ItemService ,private dialog:MatDialog,private ItemAddService:ItemAdditionService) { 
+  constructor(private service:ItemService ,
+    private dialog:MatDialog,
+    private ItemAddService:ItemAdditionService,
+    private itemRemovalService:ItemRemovalService) { 
     
   }
 
   listData:MatTableDataSource<any>;
-  displayedColumns:string[]=['category_name','Quantity','Addition','actions'];
+  displayedColumns:string[]=['item_name','Quantity','Addition','Removal','actions'];
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -36,20 +42,29 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
   searchKey:string;
 
- 
-  openDialog(glassware): void {
+//  Quantity dialog
+  openDialog(glassware,pos): void {
+    // console.log(pos);
     const dialogRef = this.dialog.open(QuantitydialogComponent, {
       width: '250px',
       data: { Quantity: this.quantity}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.quantity = result;
+        console.log(pos);
+        this.quantity = result;
+      if(pos=='add'){
       if(this.quantity){
       this.ItemAddService.Addtocartfromdialog(glassware,this.quantity)
       }
       this.quantity=undefined;
+      }
+      else if(pos=='remove'){
+        if(this.quantity){
+          this.itemRemovalService.AddtoRemovecartfromdialog(glassware,this.quantity)
+          }
+          this.quantity=undefined; 
+    }
     });
   }
 
@@ -70,6 +85,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
        
 
     );
+    // getting the adding cart
      this.Additemsub=(await this.ItemAddService.getvoucher()).valueChanges().subscribe(cart=>{
       //  console.log(cart)
        this.addcart=cart
@@ -77,7 +93,10 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
       console.log( this.addcart);
     
-     ;
+      this.Removeitemsub=(await this.itemRemovalService.getRemovecart()).subscribe(cart=>{
+        //  console.log(cart)
+         this.removecart=cart
+       })
 
   }
 
@@ -102,6 +121,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
   //Edit button 
   onEdit(row){
+    console.log(row);
     this.service.populateForm(row);
     const dialogConfig=new MatDialogConfig();
     dialogConfig.disableClose=false;
@@ -128,6 +148,11 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
     this.ItemAddService.subfromvoucher(glassware);
   }
 
+
+//   addToRemovecart(glassware){
+//     console.log(glassware);
+//    this.itemRemovalService.AddtoRemovecart(glassware);
+//  }
   // Get addedQuantity
   getQuantity($key){
     // let k=$key;
@@ -141,7 +166,32 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
  
   }
 
+  getremovecartQuantity($key){
+    // let k=$key;
+   
+    if(!this.removecart)  return 0;
+    if(!this.removecart.items) return 0;
+ 
+    let item=this.removecart.items[$key]
+
+    return item?item.Quantity : 0;
+ 
+  }
+
   ngOnDestroy(){
     this.Additemsub.unsubscribe();
+     this.Removeitemsub.unsubscribe();
   }
+
+  addtoRemovecart(item){
+    this.itemRemovalService.addtoRemovecart(item);
+  
+     }
+    
+    // subtracting items from cart
+    subtractfromRemovecart(item){
+    this.itemRemovalService.subfromRemovecart(item);
+
+  
+    }
 }

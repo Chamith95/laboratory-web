@@ -42,7 +42,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 
-import {ItemService} from './services/item.service';
+import {ItemService} from './services/glassware.service';
 import { GlasswarelistComponent } from './items/glassware/glasswarelist/glasswarelist.component';
 import { AdminNavComponent } from './admin-nav/admin-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -55,6 +55,8 @@ import { AddnewcartComponent } from './items/addnewcart/addnewcart.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddhistoryComponent } from './items/addhistory/addhistory.component';
 import { QuantitydialogComponent } from './items/glassware/quantitydialog/quantitydialog.component';
+import { RemovalcartComponent } from './items/removalcart/removalcart.component';
+import { RemhistoryComponent } from './items/remhistory/remhistory.component';
 
 
 @NgModule({
@@ -74,6 +76,8 @@ import { QuantitydialogComponent } from './items/glassware/quantitydialog/quanti
     AddnewcartComponent,
     AddhistoryComponent,
     QuantitydialogComponent,
+    RemovalcartComponent,
+    RemhistoryComponent,
 
    
 
