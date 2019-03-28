@@ -47,7 +47,7 @@
           <!-- <button class="newaddbtn" *ngIf="(element.Quantity==0)" mat-icon-button  (click)="openDialog(element)"><mat-icon>add_to_queue</mat-icon></button> -->
           <div class="quantity" *ngIf="element.Quantity!=0">
               <button class="adddeletebtn" mat-flat-button (click)="addtoRemovecart(element)">+</button>
-              <button class="newaddbtn1"   mat-flat-button  (click)="openDialog(element)">-{{element.Quantity}}</button>
+              <button class="newaddbtn1"   mat-flat-button  (click)="openDialog(element)">-{{element.Quantity}} {{element.measurement}}</button>
             <button class="adddeletebtn" mat-flat-button (click)="subtractfromRemovecart(element)" >-</button>
         </div>
           </mat-cell>

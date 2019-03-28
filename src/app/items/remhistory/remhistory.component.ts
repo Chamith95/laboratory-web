@@ -33,6 +33,7 @@ export class RemhistoryComponent implements OnInit {
           Date_Removed:newObj[i].Date_Removed,
           Item_name:newObj[i].items[j].item_name,
           category:newObj[i].items[j].category,
+          measurement:newObj[i].items[j].measurement,
           Quantity:newObj[i].items[j].Quantity
         }
         this.datasourcelist.push(array)

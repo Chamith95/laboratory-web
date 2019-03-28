@@ -142,13 +142,25 @@ export class ChemicallistComponent implements OnInit,OnDestroy {
  
   }
 
-getMeasurementUnit($key){
+getMeasurementUnitadd($key){
     // let k=$key;
    
     if(!this.addcart)  return 0;
     if(!this.addcart.items) return 0;
  
     let item=this.addcart.items[$key]
+console.log(item)
+    return item?item.measurement : 0;
+ 
+  }
+
+  getMeasurementUnitrem($key){
+    // let k=$key;
+   
+    if(!this.removecart)  return 0;
+    if(!this.removecart.items) return 0;
+ 
+    let item=this.removecart.items[$key]
 console.log(item)
     return item?item.measurement : 0;
  

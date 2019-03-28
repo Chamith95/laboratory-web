@@ -13,7 +13,8 @@ export class RemovalcartComponent implements OnInit {
   cartitemArray:any[]=[];
   cartitemArrayWithoutkey:any[]=[];
   listData:MatTableDataSource<any>;
-  originalquantities:any[]=[]
+  originalglasswarequantities:any[]=[]
+  originalchemicalquantities:any[]=[]
   updatedQuantities:any[]=[]
   dialogquantity:number;
   quantityvalidflag:boolean=true;
@@ -29,6 +30,7 @@ export class RemovalcartComponent implements OnInit {
             let obj={$key:item,
               item_name: newObj.items[item].item_name,
               category: newObj.items[item].category,
+              measurement:newObj.items[item].measurement,
               Quantity: newObj.items[item].Quantity}
             this.cartitemArray.push(obj);
            }
@@ -37,6 +39,7 @@ export class RemovalcartComponent implements OnInit {
             return{
               item_name:list.item_name,
               category: list.category,
+              measurement:list.measurement,
               Quantity:list.Quantity,
           };
      
@@ -49,10 +52,15 @@ export class RemovalcartComponent implements OnInit {
           
     })
 // Getting original qunatities
-    this.itemremovalservice.getoriginalquantities().subscribe(item=>{
-      this.originalquantities=item;
+            this.itemremovalservice.getoriginalglasswarequantities().subscribe(item=>{
+              this.originalglasswarequantities=item;
 
-    })
+            })
+
+            this.itemremovalservice.getoriginalchemicalquantities().subscribe(item=>{
+              this.originalchemicalquantities=item;
+
+            })
   }
 
   openDialog(glassware): void {
@@ -97,20 +105,36 @@ export class RemovalcartComponent implements OnInit {
          } );
    
          for(let i=0;i<this.cartitemArray.length;i++){
-           for(let j=0;j<this.originalquantities.length;j++){
-             if(this.cartitemArray[i].item_name==this.originalquantities[j].item_name){
-               let updateditem={$key:this.cartitemArray[i].$key,
-                 item_name:this.originalquantities[j].item_name,
-                 category:this.originalquantities[j].category,
-                 Quantity:(this.originalquantities[j].Quantity-this.cartitemArray[i].Quantity)}
-                if (this.originalquantities[j].Quantity-this.cartitemArray[i].Quantity<0){
-                  this.quantityvalidflag=false;
-                }
-               console.log(updateditem);
-               this.updatedQuantities.push(updateditem);
-             }
-           }
-         }
+          console.log(this.cartitemArray[i].category);
+          if(this.cartitemArray[i].category=="Glassware"){
+          for(let j=0;j<this.originalglasswarequantities.length;j++){
+            if(this.cartitemArray[i].item_name==this.originalglasswarequantities[j].item_name){
+              let updateditem={$key:this.cartitemArray[i].$key,
+                item_name:this.originalglasswarequantities[j].item_name,
+                category:this.originalglasswarequantities[j].category,
+                measurement:this.originalglasswarequantities[j].measurement,
+                Quantity:(this.originalglasswarequantities[j].Quantity-this.cartitemArray[i].Quantity)}
+              // console.log(updateditem);
+              this.updatedQuantities.push(updateditem);
+            }
+          }
+        }
+  
+        console.log(this.originalchemicalquantities)
+        if(this.cartitemArray[i].category=="Chemicals"){
+          for(let j=0;j<this.originalchemicalquantities.length;j++){
+            if(this.cartitemArray[i].item_name==this.originalchemicalquantities[j].item_name){
+              let updateditem={$key:this.cartitemArray[i].$key,
+                item_name:this.originalchemicalquantities[j].item_name,
+                category:this.originalchemicalquantities[j].category,
+                measurement:this.originalchemicalquantities[j].measurement,
+                Quantity:(this.originalchemicalquantities[j].Quantity-this.cartitemArray[i].Quantity)}
+              //  console.log(updateditem);
+              this.updatedQuantities.push(updateditem);
+            }
+          }
+        }
+        }
    
      
      

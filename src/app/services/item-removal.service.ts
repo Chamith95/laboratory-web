@@ -10,10 +10,12 @@ export class ItemRemovalService {
 
   removalcartlist: AngularFireList <any> 
   glasswarelist: AngularFireList <any>;
+  chemicalist: AngularFireList <any>;
 
   constructor(private db:AngularFireDatabase,private firebase:AngularFireDatabase) { 
     this.removalcartlist = db.list('RemoveVouchers');
     this.glasswarelist=this.firebase.list('glassware');
+    this.chemicalist=this.firebase.list('chemicals');
   }
 
   private newRemovalCart(){
@@ -47,10 +49,12 @@ export class ItemRemovalService {
         item$.update(
           {item_name:item1.item_name,
             category:item1.category,
+            measurement:item1.measurement,
           Quantity:dQuantity});
       }else{
          item$.set({item_name:item1.item_name,
           category:item1.category,
+          measurement:item1.measurement,
           Quantity:dQuantity});
       }
     })
@@ -71,10 +75,12 @@ export class ItemRemovalService {
         item$.update(
           {item_name:item1.item_name,
             category:item1.category,
+            measurement:item1.measurement,
           Quantity:(newObj.Quantity)+1});
       }else{
          item$.set({item_name:item1.item_name,
           category:item1.category,
+          measurement:item1.measurement,
           Quantity:1});
       }
     })
@@ -95,10 +101,12 @@ export class ItemRemovalService {
         item$.update(
           {item_name:item1.item_name,
             category:item1.category,
+            measurement:item1.measurement,
           Quantity:(newObj.Quantity)-1});
       }else{
          item$.set({item_name:item1.item_name,
           category:item1.category,
+          measurement:item1.measurement,
           Quantity:1});
       }
     })
@@ -128,12 +136,22 @@ confirmaddition(vocuher:remvoucher){
 
   updateoriginalQuantities(data){
     console.log(data[0].$key)
-    for(let i=0;i<data.length;i++){
+    for(let i=0;i<data.length;i++)
+    {
+      if(data[i].category=="Glassware"){
       this.glasswarelist.update(
         data[i].$key,{
         item_name: data[i].item_name,
         Quantity:data[i].Quantity
       })
+    }
+    if(data[i].category=="Chemicals"){
+      this.chemicalist.update(
+        data[i].$key,{
+        item_name: data[i].item_name,
+        Quantity:data[i].Quantity
+      })
+    }
     }
   }
 
@@ -141,4 +159,16 @@ confirmaddition(vocuher:remvoucher){
     this.removalcartlist=this.db.list('RemoveVouchers');
     return this.removalcartlist.valueChanges();
   }
+
+    // Getting original quantities in order to update
+    getoriginalglasswarequantities(){
+      this.glasswarelist=this.firebase.list('glassware');
+      return this.glasswarelist.valueChanges();
+    }
+  
+    getoriginalchemicalquantities(){
+      this.chemicalist=this.firebase.list('chemicals');
+      return this.chemicalist.valueChanges();
+    }
+  
 }

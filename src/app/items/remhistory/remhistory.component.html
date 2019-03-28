@@ -39,7 +39,7 @@
     
       <ng-container matColumnDef="Quantity">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Quantity}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.Quantity}} {{element.measurement}}</mat-cell>
       </ng-container>
       <!-- Name Column -->
       <!-- <ng-container matColumnDef="Quantity">
