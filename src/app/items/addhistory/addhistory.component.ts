@@ -33,7 +33,8 @@ export class AddhistoryComponent implements OnInit {
             Date_recieved:newObj[i].Date_Recieved,
             Item_name:newObj[i].items[j].item_name,
             category:newObj[i].items[j].category,
-            Quantity:newObj[i].items[j].Quantity
+            Quantity:newObj[i].items[j].Quantity,
+            measurement:newObj[i].items[j].measurement
           }
           this.datasourcelist.push(array)
          

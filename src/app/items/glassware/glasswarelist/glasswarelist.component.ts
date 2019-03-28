@@ -26,6 +26,9 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
   addcart:any;
   removecart:any;
   quantity:number;
+  listData:MatTableDataSource<any>;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private service:ItemService ,
     private dialog:MatDialog,
@@ -34,12 +37,10 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
     
   }
 
-  listData:MatTableDataSource<any>;
+  
   displayedColumns:string[]=['item_name','Quantity','Addition','Removal','actions'];
 
-  @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   searchKey:string;
 
@@ -93,7 +94,7 @@ export class GlasswarelistComponent implements OnInit,OnDestroy{
 
     );
     // getting the adding cart
-     this.Additemsub=(await this.ItemAddService.getvoucher()).valueChanges().subscribe(cart=>{
+    this.Additemsub=(await this.ItemAddService.getvoucher()).valueChanges().subscribe(cart=>{
       //  console.log(cart)
        this.addcart=cart
      })

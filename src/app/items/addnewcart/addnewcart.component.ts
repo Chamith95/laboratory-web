@@ -19,7 +19,8 @@ export class AddnewcartComponent implements OnInit {
   cartitemArray:any[]=[];
   cartitemArrayWithoutkey:any[]=[];
   listData:MatTableDataSource<any>;
-  originalquantities:any[]=[]
+  originalglasswarequantities:any[]=[]
+  originalchemicalquantities:any[]=[]
   updatedQuantities:any[]=[]
   dialogquantity:number;
 
@@ -28,6 +29,9 @@ export class AddnewcartComponent implements OnInit {
   constructor(private itemAddservice:ItemAdditionService,private dialog:MatDialog) {
     
    }
+
+   displayedColumns: string[] = ['item_name','category','Addition'];
+
 
    openDialog(glassware): void {
     const dialogRef = this.dialog.open(QuantitydialogComponent, {
@@ -55,6 +59,7 @@ export class AddnewcartComponent implements OnInit {
                     let obj={$key:item,
                       item_name: newObj.items[item].item_name,
                       category: newObj.items[item].category,
+                      measurement:newObj.items[item].measurement,
                       Quantity: newObj.items[item].Quantity}
                     this.cartitemArray.push(obj);
                    }
@@ -63,6 +68,7 @@ export class AddnewcartComponent implements OnInit {
                     return{
                       item_name:list.item_name,
                       category: list.category,
+                      measurement:list.measurement,
                       Quantity:list.Quantity,
                   };
              
@@ -75,11 +81,16 @@ export class AddnewcartComponent implements OnInit {
             })
        
 
-            this.itemAddservice.getoriginalquantities().subscribe(item=>{
-              this.originalquantities=item;
+            this.itemAddservice.getoriginalglasswarequantities().subscribe(item=>{
+              this.originalglasswarequantities=item;
 
             })
 
+            this.itemAddservice.getoriginalchemicalquantities().subscribe(item=>{
+              this.originalchemicalquantities=item;
+
+            })
+           
           }
 
 
@@ -98,7 +109,7 @@ this.cartitemArray=[];
         
 
 
-  displayedColumns: string[] = ['Category','Addition'];
+
 
   onSubmit(form: NgForm){
    this.itemAddservice.confirmaddition({
@@ -107,29 +118,48 @@ this.cartitemArray=[];
     Date_Recieved:form.value.createdate.toDateString(),
     items:this.cartitemArrayWithoutkey,
       } );
-
+  // console.log(this.cartitemArray);
       for(let i=0;i<this.cartitemArray.length;i++){
-        for(let j=0;j<this.originalquantities.length;j++){
-          if(this.cartitemArray[i].item_name==this.originalquantities[j].item_name){
+        console.log(this.cartitemArray[i].category);
+        if(this.cartitemArray[i].category=="Glassware"){
+        for(let j=0;j<this.originalglasswarequantities.length;j++){
+          if(this.cartitemArray[i].item_name==this.originalglasswarequantities[j].item_name){
             let updateditem={$key:this.cartitemArray[i].$key,
-              item_name:this.originalquantities[j].item_name,
-              category:this.originalquantities[j].category,
-              Quantity:(this.originalquantities[j].Quantity+this.cartitemArray[i].Quantity)}
-            console.log(updateditem);
+              item_name:this.originalglasswarequantities[j].item_name,
+              category:this.originalglasswarequantities[j].category,
+              measurement:this.originalglasswarequantities[j].measurement,
+              Quantity:(this.originalglasswarequantities[j].Quantity+this.cartitemArray[i].Quantity)}
+            // console.log(updateditem);
             this.updatedQuantities.push(updateditem);
           }
         }
+      }
+
+      console.log(this.originalchemicalquantities)
+      if(this.cartitemArray[i].category=="Chemicals"){
+        for(let j=0;j<this.originalchemicalquantities.length;j++){
+          if(this.cartitemArray[i].item_name==this.originalchemicalquantities[j].item_name){
+            let updateditem={$key:this.cartitemArray[i].$key,
+              item_name:this.originalchemicalquantities[j].item_name,
+              category:this.originalchemicalquantities[j].category,
+              measurement:this.originalchemicalquantities[j].measurement,
+              Quantity:(this.originalchemicalquantities[j].Quantity+this.cartitemArray[i].Quantity)}
+            //  console.log(updateditem);
+            this.updatedQuantities.push(updateditem);
+          }
+        }
+      }
       }
 
   
   
       
      this.itemAddservice.updateoriginalQuantities(this.updatedQuantities)
-      console.log(this.updatedQuantities)
+       console.log(this.updatedQuantities)
  
-  this.updatedQuantities=[];
+   this.updatedQuantities=[];
 
-   this.clearvoucart();
+    this.clearvoucart();
   }
   clearvoucart(){
     this.itemAddservice.clearvouchercart();

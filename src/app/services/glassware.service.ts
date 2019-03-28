@@ -18,7 +18,8 @@ export class ItemService {
     $key:new FormControl(null),
     category:new FormControl(null),
     item_name:new FormControl('',Validators.required),
-    Quantity:new FormControl(null)
+    Quantity:new FormControl(null),
+    measurement:new FormControl(null),
   });
 
 
@@ -32,7 +33,8 @@ export class ItemService {
     this.glasswarelist.push({
       category:"Glassware",
       item_name: glassware.item_name,
-      Quantity: 0
+      Quantity: 0,
+      measurement:"units",
     });
   }
 

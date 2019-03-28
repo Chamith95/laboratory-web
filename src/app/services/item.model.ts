@@ -3,4 +3,5 @@ export interface item {
     category:string;
     item_name:string;
     Quantity:string;
+    measurement:string;
   }

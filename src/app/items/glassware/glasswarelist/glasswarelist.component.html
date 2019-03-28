@@ -25,7 +25,7 @@
   </ng-container>
   
   <ng-container matColumnDef="Addition" >
-    <mat-header-cell class="newaddheader" *matHeaderCellDef >Add New Items to invoice</mat-header-cell>
+    <mat-header-cell class="newaddheader" *matHeaderCellDef >Add to pending New Arrivals</mat-header-cell>
     <mat-cell *matCellDef="let row" >
         <button class="newaddbtn" *ngIf="getQuantity(row.$key) ==0" mat-icon-button  (click)="openDialog(row, 'add')"><mat-icon>add_to_queue</mat-icon></button>
         <div class="quantity" *ngIf="getQuantity(row.$key) !=0">

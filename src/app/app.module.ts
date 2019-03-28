@@ -40,6 +40,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSelectModule} from '@angular/material/select';
 
 
 import {ItemService} from './services/glassware.service';
@@ -57,6 +58,9 @@ import { AddhistoryComponent } from './items/addhistory/addhistory.component';
 import { QuantitydialogComponent } from './items/glassware/quantitydialog/quantitydialog.component';
 import { RemovalcartComponent } from './items/removalcart/removalcart.component';
 import { RemhistoryComponent } from './items/remhistory/remhistory.component';
+import { ChemicallistComponent } from './items/chemicals/chemicallist/chemicallist.component';
+import { NewchemicalsdialogComponent } from './items/chemicals/newchemicalsdialog/newchemicalsdialog.component';
+import { ChemicalquantitydialogComponent } from './items/chemicals/chemicalquantitydialog/chemicalquantitydialog.component';
 
 
 @NgModule({
@@ -78,6 +82,9 @@ import { RemhistoryComponent } from './items/remhistory/remhistory.component';
     QuantitydialogComponent,
     RemovalcartComponent,
     RemhistoryComponent,
+    ChemicallistComponent,
+    NewchemicalsdialogComponent,
+    ChemicalquantitydialogComponent,
 
    
 
@@ -110,10 +117,14 @@ import { RemhistoryComponent } from './items/remhistory/remhistory.component';
     MatDatepickerModule,
     MatNativeDateModule,
     FlexLayoutModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSelectModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule],
   bootstrap: [AppComponent],
-  entryComponents:[NewglasswareComponent,QuantitydialogComponent]
+  entryComponents:[NewglasswareComponent,
+    NewchemicalsdialogComponent,
+    QuantitydialogComponent,
+    ChemicalquantitydialogComponent]
 })
 export class AppModule { }
