@@ -21,8 +21,9 @@ export class AdminNavComponent implements OnInit,OnDestroy {
       map(result => result.matches)
     );
 
+
   constructor(private breakpointObserver: BreakpointObserver,private authservice:AuthService,private itemremservice:ItemRemovalService) {
-    
+
   }
 
   async ngOnInit(){
@@ -46,4 +47,9 @@ export class AdminNavComponent implements OnInit,OnDestroy {
     this.authSubcription.unsubscribe();
   }
 
+}
+
+//expand list
+export class ExpansionOverviewExample {
+  panelOpenState = false;
 }
