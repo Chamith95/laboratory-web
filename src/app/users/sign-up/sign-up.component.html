@@ -1,22 +1,44 @@
-
-<mat-card class="my-card">
-    <mat-card-title>Signup</mat-card-title>
-<mat-card-content>
-
-    <div class="authBlock">
-   
-
+<mat-card class="mat-card">
+  <mat-card-title>Signup</mat-card-title>
+  <mat-card-content>
+    <div class="mat-card-content">
       <mat-form-field class="example-full-width">
-        <input matInput type="email" class="formControl"  [(ngModel)]="email" placeholder="Email Address" #userEmail required>
+        <input
+          matInput
+          type="email"
+          class="formControl"
+          [(ngModel)]="email"
+          placeholder="Email Address"
+          #userEmail
+          required
+        />
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
-        <input matInput type="password" class="formControl" [(ngModel)]="password" placeholder="Password" #userPwd required>
+        <input
+          matInput
+          type="password"
+          class="formControl"
+          [(ngModel)]="password"
+          placeholder="Password"
+          #userPwd
+          required
+        />
       </mat-form-field>
 
       <!-- (click)="authService.SignUp(userEmail.value, userPwd.value)" -->
       <div class="formGroup">
-        <button type="button" class="btn btnPrimary"  mat-raised-button color="primary" value="Sign Up" (click)="SubmitSignUp()">Sign Up</button>
+
+        <button
+          type="button"
+          class="btn btnPrimary"
+          mat-raised-button
+          color="primary"
+          value="Sign Up"
+          (click)="SubmitSignUp()"
+        >
+          Sign Up
+        </button>
       </div>
 
       <div class="formGroup">
@@ -24,12 +46,18 @@
       </div>
 
       <!-- Continue with Google -->
-      <!-- <div class="formGroup">
-        <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
+      <div class="formGroup">
+        <button
+          type="button"
+          mat-raised-button
+          class="btn googleBtn"
+          (click)="authService.GoogleAuth()"
+        >
           <i class="fab fa-google-plus-g"></i>
+          <img src="../../../assets/images/google.png" id="google-icon" />
           Continue with Google
         </button>
-      </div> -->
+      </div>
 
       <!-- Continue with Facebook -->
       <!-- <div class="formGroup">
@@ -41,5 +69,10 @@
     </div>
 
     <div class="redirectToLogin">
-      <span class="mat-h3">Already have an account? <span class="redirect" routerLink="/sign-in">Log In</span></span>
+      <span class="mat-h3"
+        >Already have an account?
+        <span class="redirect" routerLink="/sign-in" class="alc"><u>Log In</u></span></span
+      >
     </div>
+  </mat-card-content></mat-card
+>
