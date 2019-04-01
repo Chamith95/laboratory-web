@@ -12,3 +12,7 @@ table {
   mat-header-row{
       margin-left: 80px;
   }
+  
+.isempty{
+    margin-top: 100px
+}

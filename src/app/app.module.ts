@@ -41,6 +41,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
 
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -62,6 +63,7 @@ import { RemhistoryComponent } from './items/remhistory/remhistory.component';
 import { ChemicallistComponent } from './items/chemicals/chemicallist/chemicallist.component';
 import { NewchemicalsdialogComponent } from './items/chemicals/newchemicalsdialog/newchemicalsdialog.component';
 import { ChemicalquantitydialogComponent } from './items/chemicals/chemicalquantitydialog/chemicalquantitydialog.component';
+import { UiService } from './services/ui.service';
 
 
 @NgModule({
@@ -122,9 +124,10 @@ import { ChemicalquantitydialogComponent } from './items/chemicals/chemicalquant
     FlexLayoutModule,
     MatExpansionModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
-  providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule],
+  providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule,UiService],
   bootstrap: [AppComponent],
   entryComponents:[NewglasswareComponent,
     NewchemicalsdialogComponent,
