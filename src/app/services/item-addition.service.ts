@@ -15,7 +15,7 @@ export class ItemAdditionService {
   addvoucher: AngularFireObject<any>;
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
-  addcartnotempty = new Subject<boolean>();
+
 
 
 
@@ -25,13 +25,6 @@ export class ItemAdditionService {
     this.vocucherlist = db.list('Addvouchers');
     this.glasswarelist = this.firebase.list('glassware');
     this.chemicalist = this.firebase.list('chemicals');
-    this.getvouchersync().subscribe(item => {
-      const newObj: any = item;
-      console.log(newObj.items);
-      if (newObj.items) {
-        this.addcartnotempty.next(true);
-      }
-    })
 
   }
 
@@ -52,11 +45,7 @@ export class ItemAdditionService {
 
   }
 
-  // Getting voucherid synchronously
-  getvouchersync() {
-    let Addvoucherid = localStorage.getItem('Addvoucherid');
-    return this.db.object('/new-additions-cart/' + Addvoucherid).valueChanges()
-  }
+
 
 
   // Getting exisiting vouchercartid or creating one
@@ -98,6 +87,7 @@ export class ItemAdditionService {
     })
   }
 
+  // adding to cart from the quantity dialog box
   async Addtocartfromdialog(item1, dQuantity) {
     let AddvoucherId = await this.getOrCreateAddVoucherId();
     let item$ = this.getItem(AddvoucherId, item1.$key)

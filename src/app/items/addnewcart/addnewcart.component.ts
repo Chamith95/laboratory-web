@@ -59,7 +59,7 @@ export class AddnewcartComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let cart$ = this.itemAddservice.getvouchersync()
+    let cart$ =(await this.itemAddservice.getvoucher()).valueChanges()
       .subscribe(item => {
         const newObj: any = item;
 

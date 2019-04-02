@@ -50,7 +50,7 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
       }
     )
 // add item cart
-    this.Additemsub = (await this.ItemAddService.getvouchersync()).subscribe(cart => {
+    this.Additemsub = (await this.ItemAddService.getvoucher()).valueChanges().subscribe(cart => {
       //  console.log(cart)
       this.addcart = cart
     })
