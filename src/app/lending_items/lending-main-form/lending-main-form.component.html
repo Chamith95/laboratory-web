@@ -1,0 +1,53 @@
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Details of the lending</ng-template>
+    
+
+      <div class="step1form" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="100px">
+      <mat-form-field  class="teacheroptions">
+      <mat-label>Teachers</mat-label>
+      <mat-select formControlName="firstCtrl">
+        <mat-option *ngFor="let teacher of Teachers" [value]="teacher.name">
+          {{teacher.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <input matInput [matDatepicker]="picker" placeholder="Date" [(ngModel)]="planModel.start_time" disabled="true" [ngModelOptions]="{standalone: true}" name="createdate"
+        required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Time"  value=" {{today | date:'shortTime'}}"  disabled="true" required>
+    </mat-form-field>
+  </div>
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Pick items to lend</ng-template>
+      <!-- <mat-form-field>
+        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+      </mat-form-field> -->
+        <lending-form-step2></lending-form-step2>
+      <div class="stepper2buttons" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px">
+        <button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

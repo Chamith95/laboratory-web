@@ -20,6 +20,7 @@ import {AddhistoryComponent} from './items/addhistory/addhistory.component'
 import { RemovalcartComponent } from './items/removalcart/removalcart.component';
 import { RemhistoryComponent } from './items/remhistory/remhistory.component';
 import { ChemicallistComponent } from './items/chemicals/chemicallist/chemicallist.component';
+import { LendingMainFormComponent } from './lending_items/lending-main-form/lending-main-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full'},
@@ -35,7 +36,9 @@ const routes: Routes = [
   { path: 'AddHistory' ,component:AddhistoryComponent},
   { path: 'Removalcart',component:RemovalcartComponent },
   { path: 'RemovalHistory',component:RemhistoryComponent},
-  { path: 'Chemicallist',component:ChemicallistComponent}
+  { path: 'Chemicallist',component:ChemicallistComponent},
+  { path: 'lendingform',component:LendingMainFormComponent}
+
 
 ];
 

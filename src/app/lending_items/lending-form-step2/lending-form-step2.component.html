@@ -1,0 +1,45 @@
+
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Glassware">
+
+  <h1 class="mat-h1">Glassware</h1>
+    <div id="tablecontainer">
+      <mat-table #table [dataSource]="listData" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="item_name">
+          <mat-header-cell *matHeaderCellDef> Item Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.item_name}} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="AvailableQuantity">
+          <mat-header-cell *matHeaderCellDef> Available </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.Quantity}} {{  element.measurement}} </mat-cell>
+        </ng-container>
+
+  
+        <!-- <ng-container matColumnDef="lendquantity">
+          <mat-header-cell class="newaddheader" *matHeaderCellDef>lend Quantity/mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button class="newaddbtn" *ngIf="getQuantity(row.$key) ==0" mat-icon-button (click)="openDialog(row, 'add')">
+              <mat-icon>add_to_queue</mat-icon>
+            </button>
+            <div class="quantity" *ngIf="getQuantity(row.$key) !=0">
+              <button class="adddeletebtn" mat-flat-button (click)="addto(row)">+</button>
+              <button class="newaddbtn1" mat-flat-button (click)="openDialog(row,'add')">
+                {{getQuantity(row.$key)}}</button>
+              <button class="adddeletebtn" mat-flat-button (click)="subtractfromcart(row)">-</button>
+            </div>
+          </mat-cell>
+        </ng-container> -->
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+
+
+  </mat-tab>
+  <mat-tab label="Chemicals">Content 2</mat-tab>
+  <mat-tab label="Perishables">Content 3</mat-tab>
+  <mat-tab label="Permanent Equipment">Content 3</mat-tab>
+</mat-tab-group>

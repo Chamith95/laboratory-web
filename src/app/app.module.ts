@@ -39,6 +39,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -64,6 +65,10 @@ import { ChemicallistComponent } from './items/chemicals/chemicallist/chemicalli
 import { NewchemicalsdialogComponent } from './items/chemicals/newchemicalsdialog/newchemicalsdialog.component';
 import { ChemicalquantitydialogComponent } from './items/chemicals/chemicalquantitydialog/chemicalquantitydialog.component';
 import { UiService } from './services/ui.service';
+import { LendingMainFormComponent } from './lending_items/lending-main-form/lending-main-form.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import { LendingFormStep1Component } from './lending_items/lending-form-step2/lending-form-step2.component';
+
 
 
 @NgModule({
@@ -88,6 +93,9 @@ import { UiService } from './services/ui.service';
     ChemicallistComponent,
     NewchemicalsdialogComponent,
     ChemicalquantitydialogComponent,
+    LendingMainFormComponent,
+    LendingFormStep1Component,
+
 
    
 
@@ -125,7 +133,9 @@ import { UiService } from './services/ui.service';
     MatExpansionModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatStepperModule,
+    MatTabsModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule,UiService],
   bootstrap: [AppComponent],

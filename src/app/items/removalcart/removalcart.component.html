@@ -1,5 +1,5 @@
 <div class="container" fxlayout="column" fxLayoutAlign="center center">
-  <h1>Remove inventory</h1>
+  <h1 id="title" class="mat-display-2">Remove Inventory</h1>
 </div>
 <div class="notempty" *ngIf="iscartnotempty">
   <form class="addcartform" fxLayout="row" #f="ngForm" fxLayoutAlign="center center" fxLayoutGap="50px"
@@ -81,6 +81,6 @@
 
 
 <div class="isempty" *ngIf="iscartnotempty==false" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-  <h1 class="mat-display-2">No Items Available </h1>
+  <h1 class="mat-display-1">No Items Available </h1>
   <h1 class="mat-h2">Add items from equipments and come back</h1>
 </div>
