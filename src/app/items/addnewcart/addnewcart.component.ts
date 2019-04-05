@@ -4,6 +4,7 @@ import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { QuantitydialogComponent } from '../glassware/quantitydialog/quantitydialog.component';
 import { UiService } from 'src/app/services/ui.service';
+import { AvailableItemsService } from 'src/app/services/available-items.service';
 
 
 
@@ -21,7 +22,10 @@ export class AddnewcartComponent implements OnInit {
   listData: MatTableDataSource<any>;
   originalglasswarequantities: any[] = []
   originalchemicalquantities: any[] = []
+  availableglasswarequantities: any[] = []
+  availablechemicalquantities: any[] = []
   updatedQuantities: any[] = []
+  updatedavailableQuantities: any[] = []
   dialogquantity: number;
   dataavailableflag: boolean = false;
   startdate: Date;
@@ -31,7 +35,9 @@ export class AddnewcartComponent implements OnInit {
   planModel: any = { start_time: new Date() };
 
 
-  constructor(private itemAddservice: ItemAdditionService, private dialog: MatDialog,
+  constructor(private itemAddservice: ItemAdditionService, 
+    private dialog: MatDialog,
+    private availableitemsservice:AvailableItemsService,
     private uiservice: UiService,
     private snackBar: MatSnackBar) {
     this.startdate = new Date;
@@ -80,7 +86,7 @@ export class AddnewcartComponent implements OnInit {
           }
           this.cartitemArray.push(obj);
         }
-
+        console.log(this.cartitemArray);
         let array = this.cartitemArray.map(list => {
           return {
             item_name: list.item_name,
@@ -111,6 +117,14 @@ export class AddnewcartComponent implements OnInit {
 
     })
 
+// Getting available glassware quantities
+    this.availableitemsservice.getavailableglasswarequantities().subscribe(item =>{
+      this.availableglasswarequantities=item;
+    })
+// getting available chemical quantities
+    this.availableitemsservice.getavailablechemicalquantities().subscribe(item =>{
+      this.availablechemicalquantities=item;
+    })
   }
 
 
@@ -141,10 +155,10 @@ export class AddnewcartComponent implements OnInit {
     });
 
 
-    // mapping inorder to update original quantities
+    // mapping inorder to update original and available quantities
     for (let i = 0; i < this.cartitemArray.length; i++) {
-      console.log(this.cartitemArray[i].category);
       if (this.cartitemArray[i].category == "Glassware") {
+        // mapping original glassware quantities
         for (let j = 0; j < this.originalglasswarequantities.length; j++) {
           if (this.cartitemArray[i].item_name == this.originalglasswarequantities[j].item_name) {
             let updateditem = {
@@ -158,6 +172,42 @@ export class AddnewcartComponent implements OnInit {
             this.updatedQuantities.push(updateditem);
           }
         }
+        // mapping available quantities
+        if(this.availableglasswarequantities.length>0){
+          let flag=false;
+        for (let j = 0; j < this.availableglasswarequantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.availableglasswarequantities[j].item_name) {
+            flag=true;
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.availableglasswarequantities[j].item_name,
+              category: this.availableglasswarequantities[j].category,
+              measurement: this.availableglasswarequantities[j].measurement,
+              Quantity: (this.availableglasswarequantities[j].Quantity + this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }
+        if(flag==false){
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
+        }
+      }else{
+        let updatedavailbleitem = {
+          $key: this.cartitemArray[i].$key,
+          item_name: this.cartitemArray[i].item_name,
+          category: this.cartitemArray[i].category,
+          measurement: this.cartitemArray[i].measurement,
+          Quantity: (this.cartitemArray[i].Quantity)
+        }
+        this.updatedavailableQuantities.push(updatedavailbleitem);
+      }
       }
 
 
@@ -175,14 +225,51 @@ export class AddnewcartComponent implements OnInit {
             this.updatedQuantities.push(updateditem);
           }
         }
+
+        if(this.availablechemicalquantities.length>0){
+          let flag=false;
+        for (let j = 0; j < this.availablechemicalquantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.availablechemicalquantities[j].item_name) {
+            flag=true;
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.availablechemicalquantities[j].item_name,
+              category: this.availablechemicalquantities[j].category,
+              measurement: this.availablechemicalquantities[j].measurement,
+              Quantity: (this.availablechemicalquantities[j].Quantity + this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }
+        if(flag==false){
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
+        }
+      }else{
+        let updatedavailbleitem = {
+          $key: this.cartitemArray[i].$key,
+          item_name: this.cartitemArray[i].item_name,
+          category: this.cartitemArray[i].category,
+          measurement: this.cartitemArray[i].measurement,
+          Quantity: (this.cartitemArray[i].Quantity)
+        }
+        this.updatedavailableQuantities.push(updatedavailbleitem);
+      }
       }
     }
-    this.itemAddservice.updateoriginalQuantities(this.updatedQuantities)
-    console.log(this.updatedQuantities)
-
+     this.itemAddservice.updateoriginalQuantities(this.updatedQuantities)
+    // console.log(this.updatedQuantities)
+    // updating the availablequantities
+    this.availableitemsservice.updateavailableQuantities(this.updatedavailableQuantities);
     this.updatedQuantities = [];
-    this.uiservice.showSnackbar("Items Successfully added", null, 3000);
-    this.clearvoucart();
+   this.uiservice.showSnackbar("Items Successfully added", null, 3000);
+     this.clearvoucart();
   }
 
   // Clearing the cart

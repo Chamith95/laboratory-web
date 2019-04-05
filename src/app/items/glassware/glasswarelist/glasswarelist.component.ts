@@ -140,6 +140,7 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
 
   // Deletebutton
   onDelete($key, row) {
+
     if (confirm('Are you sure to delete this record ?')) {
       this.service.deleteGlassware($key, row)
     }

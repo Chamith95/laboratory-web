@@ -68,9 +68,14 @@ export class ItemService {
   }
 
   deleteGlassware($key: string, glassware) {
+    if(glassware.Quantity>0){
+      this.uiservice.showSnackbar(glassware.item_name + "Cannot be Deleted! make sure the quantity is zero", null, 3000);
+    }
+    else{
     this.glasswarelist.remove($key);
     // console.log(this.glasswarelist[$key]);
     this.uiservice.showSnackbar(glassware.item_name + " Succesfully Deleted ", null, 3000);
+    }
   }
 
   // populating for edit

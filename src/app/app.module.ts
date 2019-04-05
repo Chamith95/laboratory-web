@@ -68,6 +68,7 @@ import { UiService } from './services/ui.service';
 import { LendingMainFormComponent } from './lending_items/lending-main-form/lending-main-form.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { LendingFormStep1Component } from './lending_items/lending-form-step2/lending-form-step2.component';
+import { LendingquantitydialogComponent } from './lending_items/lendingquantitydialog/lendingquantitydialog.component';
 
 
 
@@ -95,6 +96,7 @@ import { LendingFormStep1Component } from './lending_items/lending-form-step2/le
     ChemicalquantitydialogComponent,
     LendingMainFormComponent,
     LendingFormStep1Component,
+    LendingquantitydialogComponent,
 
 
    
@@ -142,6 +144,7 @@ import { LendingFormStep1Component } from './lending_items/lending-form-step2/le
   entryComponents:[NewglasswareComponent,
     NewchemicalsdialogComponent,
     QuantitydialogComponent,
-    ChemicalquantitydialogComponent]
+    ChemicalquantitydialogComponent,
+    LendingquantitydialogComponent]
 })
 export class AppModule { }

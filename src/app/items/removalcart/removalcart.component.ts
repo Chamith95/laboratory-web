@@ -4,6 +4,7 @@ import { ItemRemovalService } from 'src/app/services/item-removal.service';
 import { QuantitydialogComponent } from '../glassware/quantitydialog/quantitydialog.component';
 import { NgForm } from '@angular/forms';
 import { UiService } from 'src/app/services/ui.service';
+import { AvailableItemsService } from 'src/app/services/available-items.service';
 
 @Component({
   selector: 'app-removalcart',
@@ -16,7 +17,10 @@ export class RemovalcartComponent implements OnInit {
   listData: MatTableDataSource<any>;
   originalglasswarequantities: any[] = []
   originalchemicalquantities: any[] = []
+  availableglasswarequantities: any[] = []
+  availablechemicalquantities: any[] = []
   updatedQuantities: any[] = []
+  updatedavailableQuantities: any[] = []
   dialogquantity: number;
   quantityvalidflag: boolean = true;
   iscartnotempty: boolean = false;
@@ -26,6 +30,7 @@ export class RemovalcartComponent implements OnInit {
 
 
   constructor(private itemremovalservice: ItemRemovalService, private dialog: MatDialog,
+    private availableitemsservice:AvailableItemsService,
     private uiservice: UiService) { }
 
   async ngOnInit() {
@@ -73,6 +78,15 @@ export class RemovalcartComponent implements OnInit {
     this.itemremovalservice.getoriginalglasswarequantities().subscribe(item => {
       this.originalglasswarequantities = item;
 
+    })
+
+    // Getting available glassware quantities
+    this.availableitemsservice.getavailableglasswarequantities().subscribe(item =>{
+      this.availableglasswarequantities=item;
+    })
+// getting available chemical quantities
+    this.availableitemsservice.getavailablechemicalquantities().subscribe(item =>{
+      this.availablechemicalquantities=item;
     })
 
     this.itemremovalservice.getoriginalchemicalquantities().subscribe(item => {
@@ -123,7 +137,6 @@ export class RemovalcartComponent implements OnInit {
     });
 
     for (let i = 0; i < this.cartitemArray.length; i++) {
-      console.log(this.cartitemArray[i].category);
       if (this.cartitemArray[i].category == "Glassware") {
         for (let j = 0; j < this.originalglasswarequantities.length; j++) {
           if (this.cartitemArray[i].item_name == this.originalglasswarequantities[j].item_name) {
@@ -137,6 +150,42 @@ export class RemovalcartComponent implements OnInit {
             // console.log(updateditem);
             this.updatedQuantities.push(updateditem);
           }
+        }
+          // mapping available quantities
+          if(this.availableglasswarequantities.length>0){
+            let flag=false;
+          for (let j = 0; j < this.availableglasswarequantities.length; j++) {
+            if (this.cartitemArray[i].item_name == this.availableglasswarequantities[j].item_name) {
+              flag=true;
+              let updatedavailbleitem = {
+                $key: this.cartitemArray[i].$key,
+                item_name: this.availableglasswarequantities[j].item_name,
+                category: this.availableglasswarequantities[j].category,
+                measurement: this.availableglasswarequantities[j].measurement,
+                Quantity: (this.availableglasswarequantities[j].Quantity - this.cartitemArray[i].Quantity)
+              }
+              this.updatedavailableQuantities.push(updatedavailbleitem);
+            }
+          }
+          if(flag==false){
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.cartitemArray[i].item_name,
+              category: this.cartitemArray[i].category,
+              measurement: this.cartitemArray[i].measurement,
+              Quantity: (this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }else{
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
         }
       }
 
@@ -155,13 +204,50 @@ export class RemovalcartComponent implements OnInit {
             this.updatedQuantities.push(updateditem);
           }
         }
+        if(this.availablechemicalquantities.length>0){
+          let flag=false;
+        for (let j = 0; j < this.availablechemicalquantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.availablechemicalquantities[j].item_name) {
+            flag=true;
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.availablechemicalquantities[j].item_name,
+              category: this.availablechemicalquantities[j].category,
+              measurement: this.availablechemicalquantities[j].measurement,
+              Quantity: (this.availablechemicalquantities[j].Quantity - this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }
+        if(flag==false){
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
+        }
+      }else{
+        let updatedavailbleitem = {
+          $key: this.cartitemArray[i].$key,
+          item_name: this.cartitemArray[i].item_name,
+          category: this.cartitemArray[i].category,
+          measurement: this.cartitemArray[i].measurement,
+          Quantity: (this.cartitemArray[i].Quantity)
+        }
+        this.updatedavailableQuantities.push(updatedavailbleitem);
       }
+      }
+      
     }
 
 
 
     if (this.quantityvalidflag == true) {
-      this.itemremovalservice.updateoriginalQuantities(this.updatedQuantities)
+      this.itemremovalservice.updateoriginalQuantities(this.updatedQuantities);
+      this.availableitemsservice.updateavailableQuantities(this.updatedavailableQuantities);
     }
     else {
       console.log("invalid removal")

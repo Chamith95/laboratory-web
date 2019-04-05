@@ -8,5 +8,25 @@ h1{
 }
 
 mat-header-cell{
+     margin-left: 20px; 
     text-align: center;
 }
+
+.adddeletebtn{
+    min-width: 1%;
+}
+
+
+
+.newaddbtn{
+    margin-left: 45px;
+}
+.newaddbtn1{
+    min-width: 80px;
+
+}
+
+.newaddheader{
+    margin-left: 60px;
+}
+

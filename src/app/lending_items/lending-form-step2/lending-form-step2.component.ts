@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { ItemService } from 'src/app/services/glassware.service';
+import { AvailableItemsService } from 'src/app/services/available-items.service';
+import { LendingServiceService } from 'src/app/services/lending-service.service';
+import { LendingquantitydialogComponent } from '../lendingquantitydialog/lendingquantitydialog.component';
+import { UiService } from 'src/app/services/ui.service';
 
 @Component({
   selector: 'lending-form-step2',
@@ -10,13 +14,20 @@ import { ItemService } from 'src/app/services/glassware.service';
 export class LendingFormStep1Component implements OnInit {
   listData: MatTableDataSource<any>;
   tablearray: Array<any>;
+  listDatachemicals: MatTableDataSource<any>;
+  tablearraychemicals: Array<any>;
+  lendingcart:any;
+  quantity: number;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private glasswareservice:ItemService) { }
+  constructor(private availableitemservice:AvailableItemsService,
+              private lendingitemservice:LendingServiceService,
+              private dialog: MatDialog,
+              private uiservice:UiService) { }
 
-  ngOnInit() {
-    this.glasswareservice.getGlassware().subscribe(
+  async ngOnInit() {
+    this.availableitemservice.getavailableGlasswaresnap().subscribe(
       list => {
         let array = list.map(item => {
           return {
@@ -25,17 +36,93 @@ export class LendingFormStep1Component implements OnInit {
           };
         });
         this.tablearray = array;
-         console.log(array)
+
         this.listData = new MatTableDataSource(array);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
       }
-
-
     );
+
+    this.availableitemservice.getavailablechemicalesnap().subscribe(
+      list => {
+        let array = list.map(item => {
+          return {
+            $key: item.key,
+            ...item.payload.val()
+          };
+        });
+        this.tablearraychemicals = array;
+
+        this.listDatachemicals = new MatTableDataSource(array);
+        this.listDatachemicals.sort = this.sort;
+        this.listDatachemicals.paginator = this.paginator;
+      }
+    );
+
+    (await this.lendingitemservice.getlendingcart()).valueChanges().subscribe(cart => {
+      //  console.log(cart)
+      this.lendingcart = cart;
+    })
   }
 
-  displayedColumns: string[] = ['item_name', 'AvailableQuantity'];
+  displayedColumns: string[] = ['item_name', 'AvailableQuantity','lendquantity'];
 
+  //  Quantity dialog
+  openDialog(item): void {
+
+    const dialogRef = this.dialog.open(LendingquantitydialogComponent, {
+      width: '250px',
+      data: { Quantity: this.quantity }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.quantity = result;
+ 
+        if (this.quantity <=item.Quantity) {
+          this.lendingitemservice.Addtocartfromdialog(item, this.quantity)
+        }
+        else{
+          this.uiservice.showSnackbar("Cant lend more than available",null,3000);
+        }
+        this.quantity = undefined;
+      }
+    )
+      ;
+  }
+
+ // Getting the quantities from lending cart
+ getQuantity($key) {
+  // let k=$key;
+
+  if (!this.lendingcart) return 0;
+  if (!this.lendingcart.items) return 0;
+
+  let item = this.lendingcart.items[$key]
+
+  return item ? item.Quantity : 0;
+
+}
+
+getMeasurementUnitlend($key) {
+  // let k=$key;
+
+  if (!this.lendingcart) return 0;
+  if (!this.lendingcart.items) return 0;
+
+  let item = this.lendingcart.items[$key]
+
+  return item ? item.measurement : 0;
+
+}
+
+  // New lendings
+  addto(item) {
+    console.log(item);
+    this.lendingitemservice.Addtolendingcart(item);
+  }
+
+  subtractfromcart(item) {
+    this.lendingitemservice.subfromlendingcart(item);
+  }
 
 }

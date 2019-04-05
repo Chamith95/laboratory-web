@@ -12,10 +12,10 @@
       <!-- <input ngModel matInput required  #FromInput="ngModel" name="Reason" placeholder="Reason for Removal"> -->
       <mat-label>Reason for Removal</mat-label>
       <mat-select ngModel #FromInput="ngModel" name="Reason" [(value)]="Reason" required>
-        <mat-option value="Education Department">Breakage</mat-option>
-        <mat-option value="Purchases">Missing</mat-option>
-        <mat-option value="Past Students Donation">Depleted</mat-option>
-        <mat-option value="Other Donation">Other </mat-option>
+        <mat-option value="Breakage">Breakage</mat-option>
+        <mat-option value="Missing">Missing</mat-option>
+        <mat-option value="Depleted">Depleted</mat-option>
+        <mat-option value="Other">Other </mat-option>
       </mat-select>
       <mat-error>This field is mandatory.</mat-error>
     </mat-form-field>

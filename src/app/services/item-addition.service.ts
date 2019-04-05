@@ -12,7 +12,6 @@ import { UiService } from './ui.service';
 export class ItemAdditionService {
 
   vocucherlist: AngularFireList<any>
-  addvoucher: AngularFireObject<any>;
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
 
