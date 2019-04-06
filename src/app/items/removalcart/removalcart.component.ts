@@ -45,18 +45,57 @@ export class RemovalcartComponent implements OnInit {
       } else {
         this.iscartnotempty = false;
       }
-
-
-      for (let item in newObj.items) {
-        let obj = {
-          $key: item,
-          item_name: newObj.items[item].item_name,
-          category: newObj.items[item].category,
-          measurement: newObj.items[item].measurement,
-          Quantity: newObj.items[item].Quantity
+      this.itemremovalservice.getoriginalglasswarequantities().subscribe(origalssitem=>{
+        for (let item in newObj.items) {
+          if(newObj.items[item].category=="Glassware"){
+          for(let j=0;j<origalssitem.length;j++){
+            if(newObj.items[item].item_name==origalssitem[j].item_name){
+          let obj = {
+            $key: item,
+            item_name: newObj.items[item].item_name,
+            category: newObj.items[item].category,
+            measurement: newObj.items[item].measurement,
+            OriginalQuantity:origalssitem[j].Quantity,
+            Quantity: newObj.items[item].Quantity
+          }
+          this.cartitemArray.push(obj);
         }
-        this.cartitemArray.push(obj);
-      }
+         
+        }}
+        }
+      })
+
+      this.itemremovalservice.getoriginalchemicalquantities().subscribe(orichemitem=>{
+        for (let item in newObj.items) {
+          if(newObj.items[item].category=="Chemicals"){
+          for(let j=0;j<orichemitem.length;j++){
+            if(newObj.items[item].item_name==orichemitem[j].item_name){
+          let obj = {
+            $key: item,
+            item_name: newObj.items[item].item_name,
+            category: newObj.items[item].category,
+            measurement: newObj.items[item].measurement,
+            OriginalQuantity:orichemitem[j].Quantity,
+            Quantity: newObj.items[item].Quantity
+          }
+          this.cartitemArray.push(obj);
+        }
+         
+        }}
+        }
+        this.listData = new MatTableDataSource(this.cartitemArray);
+      })
+
+      // for (let item in newObj.items) {
+      //   let obj = {
+      //     $key: item,
+      //     item_name: newObj.items[item].item_name,
+      //     category: newObj.items[item].category,
+      //     measurement: newObj.items[item].measurement,
+      //     Quantity: newObj.items[item].Quantity
+      //   }
+      //   this.cartitemArray.push(obj);
+      // }
 
       let array = this.cartitemArray.map(list => {
         return {
@@ -71,7 +110,7 @@ export class RemovalcartComponent implements OnInit {
       )
       this.cartitemArrayWithoutkey = array;
       console.log(this.cartitemArrayWithoutkey);
-      this.listData = new MatTableDataSource(this.cartitemArray);
+      // this.listData = new MatTableDataSource(this.cartitemArray);
 
     })
     // Getting original qunatities
@@ -95,7 +134,7 @@ export class RemovalcartComponent implements OnInit {
     })
   }
 
-  openDialog(glassware): void {
+  openDialog(item): void {
     const dialogRef = this.dialog.open(QuantitydialogComponent, {
       width: '250px',
       data: { Quantity: this.dialogquantity }
@@ -104,8 +143,10 @@ export class RemovalcartComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.dialogquantity = result;
-      if (this.dialogquantity) {
-        this.itemremovalservice.AddtoRemovecartfromdialog(glassware, this.dialogquantity)
+      if (this.dialogquantity <=item.OriginalQuantity) {
+        this.itemremovalservice.AddtoRemovecartfromdialog(item, this.dialogquantity)
+      }else{
+        this.uiservice.showSnackbar("Cannot remove more than available",null,3000);
       }
       this.dialogquantity = undefined;
       this.cartitemArray = [];
@@ -113,7 +154,7 @@ export class RemovalcartComponent implements OnInit {
   }
 
 
-  displayedColumns: string[] = ['Category', 'Addition'];
+  displayedColumns: string[] = ['item_name','Category','OriginalQuantity', 'Addition'];
 
 
   addtoRemovecart(item) {

@@ -33,11 +33,21 @@
   <div id="tablecontainer">
     <mat-table #table [dataSource]="listData" class="mat-elevation-z8">
       <!-- Position Column -->
-      <ng-container matColumnDef="Category">
-        <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+      <ng-container matColumnDef="item_name">
+        <mat-header-cell *matHeaderCellDef> Item Name </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.item_name}} </mat-cell>
       </ng-container>
 
+
+      <ng-container matColumnDef="Category">
+        <mat-header-cell class="categoryhead" *matHeaderCellDef> Category </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="OriginalQuantity">
+        <mat-header-cell *matHeaderCellDef> Present Quantity </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.OriginalQuantity}} </mat-cell>
+      </ng-container>
       <!-- Name Column -->
       <!-- <ng-container matColumnDef="Quantity">
         <mat-header-cell *matHeaderCellDef>Add New Quantity </mat-header-cell>

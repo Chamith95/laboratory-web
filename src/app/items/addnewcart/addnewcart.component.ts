@@ -44,7 +44,7 @@ export class AddnewcartComponent implements OnInit {
 
   }
 
-  displayedColumns: string[] = ['item_name', 'category', 'Addition'];
+  displayedColumns: string[] = ['item_name', 'category','OriginalQuantity','Addition'];
 
 
   openDialog(glassware): void {
@@ -76,16 +76,48 @@ export class AddnewcartComponent implements OnInit {
           this.iscartnotempty = false;
         }
 // getting and mapping cart items
-        for (let item in newObj.items) {
-          let obj = {
-            $key: item,
-            item_name: newObj.items[item].item_name,
-            category: newObj.items[item].category,
-            measurement: newObj.items[item].measurement,
-            Quantity: newObj.items[item].Quantity
+        this.itemAddservice.getoriginalglasswarequantities().subscribe(origalssitem=>{
+          for (let item in newObj.items) {
+            if(newObj.items[item].category=="Glassware"){
+            for(let j=0;j<origalssitem.length;j++){
+              if(newObj.items[item].item_name==origalssitem[j].item_name){
+            let obj = {
+              $key: item,
+              item_name: newObj.items[item].item_name,
+              category: newObj.items[item].category,
+              measurement: newObj.items[item].measurement,
+              OriginalQuantity:origalssitem[j].Quantity,
+              Quantity: newObj.items[item].Quantity
+            }
+            this.cartitemArray.push(obj);
           }
-          this.cartitemArray.push(obj);
-        }
+           
+          }}
+          }
+        })
+
+        this.itemAddservice.getoriginalchemicalquantities().subscribe(orichemitem=>{
+          for (let item in newObj.items) {
+            if(newObj.items[item].category=="Chemicals"){
+            for(let j=0;j<orichemitem.length;j++){
+              if(newObj.items[item].item_name==orichemitem[j].item_name){
+            let obj = {
+              $key: item,
+              item_name: newObj.items[item].item_name,
+              category: newObj.items[item].category,
+              measurement: newObj.items[item].measurement,
+              OriginalQuantity:orichemitem[j].Quantity,
+              Quantity: newObj.items[item].Quantity
+            }
+            this.cartitemArray.push(obj);
+          }
+           
+          }}
+          }
+          this.listData = new MatTableDataSource(this.cartitemArray);
+        })
+        
+
         console.log(this.cartitemArray);
         let array = this.cartitemArray.map(list => {
           return {
@@ -99,7 +131,7 @@ export class AddnewcartComponent implements OnInit {
 
         )
         this.cartitemArrayWithoutkey = array;
-        this.listData = new MatTableDataSource(this.cartitemArray);
+    
         if (this.cartitemArray.length > 0) {
           this.dataavailableflag = true;
         }

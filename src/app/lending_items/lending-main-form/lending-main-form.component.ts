@@ -111,20 +111,7 @@ export class LendingMainFormComponent implements OnInit {
                   Quantity: (this.lendingcartarray[i].Quantity)
                 }
                 this.updatedtablearry.push(updatedtableobject);
-             
-          //    let array = this.lendingcartarray.map(list => {
-          //      return {
-          //     $key:list.$key,
-          //     item_name: list.item_name,
-          //     category: list.category,
-          //     measurement: list.measurement,
-          //     availablequantity:item[j].Quantity,
-          //     Quantity: list.Quantity,
-          //   };
-          // })
-
-
-         
+                     
         }
       }
      
@@ -154,16 +141,7 @@ export class LendingMainFormComponent implements OnInit {
                 }
                 this.updatedtablearry.push(updatedtableobject);
              
-          //    let array = this.lendingcartarray.map(list => {
-          //      return {
-          //     $key:list.$key,
-          //     item_name: list.item_name,
-          //     category: list.category,
-          //     measurement: list.measurement,
-          //     availablequantity:item[j].Quantity,
-          //     Quantity: list.Quantity,
-          //   };
-          // })
+
 
           this.listData = new MatTableDataSource(this.updatedtablearry);
          

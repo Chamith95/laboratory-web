@@ -40,8 +40,13 @@
       </ng-container>
 
       <ng-container matColumnDef="category">
-        <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
+        <mat-header-cell class="categoryhead" *matHeaderCellDef> Category</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="OriginalQuantity">
+        <mat-header-cell class="presentquantity" *matHeaderCellDef> Present Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.OriginalQuantity}} {{element.measurement}} </mat-cell>
       </ng-container>
       <!-- Name Column -->
       <!-- <ng-container matColumnDef="Quantity">
