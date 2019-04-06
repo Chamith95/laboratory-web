@@ -10,3 +10,25 @@
     margin-top: 25px;
     margin-left: 20px;
 }
+
+.adddeletebtn{
+    min-width: 1%;
+}
+
+
+
+.newaddbtn{
+    margin-left: 45px;
+}
+.newaddbtn1{
+    min-width: 80px;
+
+}
+
+.newaddheader{
+    margin-left: 60px;
+}
+
+.availableheader{
+    margin-left: 40px;
+}

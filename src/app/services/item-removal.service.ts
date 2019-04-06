@@ -128,6 +128,12 @@ export class ItemRemovalService {
     })
   }
 
+  async removeitem($key: string, item) {
+    let Removalcartid = await this.getOrCreateRemovalCartId();
+    this.db.object('/new-removal-cart/' + Removalcartid + '/items/' + $key).remove();
+    // console.log(this.glasswarelist[$key]);
+  }
+
   // clearing the cart in database
   async clearRemovecart() {
     let Removalcartid = await this.getOrCreateRemovalCartId();

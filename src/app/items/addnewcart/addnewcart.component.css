@@ -11,6 +11,11 @@ table {
 
   mat-header-row{
       margin-left: 30px;
+      
+  }
+
+  mat-header-cell{
+      margin-right:-200px;
   }
 
 .isempty{
@@ -22,11 +27,11 @@ table {
 }
 
 .categoryhead{
-    margin-left: 40px;  
+    margin-left: 100px;  
 }
 
 .presentquantity{
-    margin-left: 40px;
+    margin-left: 80px;
 }
 
 .newaddbtn1{
@@ -34,6 +39,9 @@ table {
 }
 
 .newaddheader{
-    margin-left: 90px;
+    margin-left:150px;
 }
 
+.action{
+    margin-right:-200px;
+}

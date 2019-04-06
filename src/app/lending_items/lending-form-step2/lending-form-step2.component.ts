@@ -12,15 +12,18 @@ import { UiService } from 'src/app/services/ui.service';
   styleUrls: ['./lending-form-step2.component.css']
 })
 export class LendingFormStep1Component implements OnInit {
-  listData: MatTableDataSource<any>;
+  listDataGlass: MatTableDataSource<any>;
   tablearray: Array<any>;
   listDatachemicals: MatTableDataSource<any>;
   tablearraychemicals: Array<any>;
+  glasssearchKey: string="";
+  chemicalsearchKey: string="";
   lendingcart:any;
   quantity: number;
   @Output() QuantitySubmited=new EventEmitter();
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('paginatorglass') paginatorglass: MatPaginator;
+  @ViewChild('paginatorchem') paginatorchem: MatPaginator;
 
   constructor(private availableitemservice:AvailableItemsService,
               private lendingitemservice:LendingServiceService,
@@ -38,9 +41,9 @@ export class LendingFormStep1Component implements OnInit {
         });
         this.tablearray = array;
 
-        this.listData = new MatTableDataSource(array);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
+        this.listDataGlass = new MatTableDataSource(array);
+        this.listDataGlass.sort = this.sort;
+        this.listDataGlass.paginator = this.paginatorglass;
       }
     );
 
@@ -56,7 +59,7 @@ export class LendingFormStep1Component implements OnInit {
 
         this.listDatachemicals = new MatTableDataSource(array);
         this.listDatachemicals.sort = this.sort;
-        this.listDatachemicals.paginator = this.paginator;
+        this.listDatachemicals.paginator = this.paginatorchem;
       }
     );
 
@@ -128,5 +131,23 @@ getMeasurementUnitlend($key) {
     this.lendingitemservice.subfromlendingcart(item);
     this.QuantitySubmited.emit();
   }
+
+  // glassware filtering
+  applyFilterglass() {
+     this.listDataGlass.filter = this.glasssearchKey.trim().toLowerCase();
+  }
+  onSearchClearglass(){
+    this.glasssearchKey = "";
+    this.applyFilterglass();
+  }
+
+  // Chemical filtering
+  applyFilterchem() {
+    this.listDatachemicals.filter = this.chemicalsearchKey.trim().toLowerCase();
+ }
+ onSearchClearchem(){
+   this.chemicalsearchKey = "";
+   this.applyFilterchem();
+ }
 
 }

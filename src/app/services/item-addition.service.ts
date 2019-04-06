@@ -145,6 +145,12 @@ export class ItemAdditionService {
     })
   }
 
+ async removeitem($key: string, item) {
+    let AddvoucherId = await this.getOrCreateAddVoucherId();
+    this.db.object('/new-additions-cart/' + AddvoucherId + '/items/' + $key).remove();
+    // console.log(this.glasswarelist[$key]);
+  }
+
   // Confirm submition
   confirmaddition(vocuher: Addvoucher) {
     console.log(this.vocucherlist);

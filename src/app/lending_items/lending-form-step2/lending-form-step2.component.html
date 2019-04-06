@@ -2,9 +2,16 @@
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="Glassware">
 
+  <div class="topcontainer" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
   <h1 class="mat-h1">Glassware</h1>
-    <div id="tablecontainer">
-      <mat-table #table [dataSource]="listData" class="mat-elevation-z8">
+  <mat-form-field class="search-form-field">
+    <input matInput [(ngModel)]="glasssearchKey" placeholder="Filter" autocomplete="off" (keyup)="applyFilterglass()">
+    <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="glasssearchKey" (click)="onSearchClearglass()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+      <mat-table #table [dataSource]="listDataGlass" class="mat-elevation-z8">
         <!-- Position Column -->
         <ng-container matColumnDef="item_name">
           <mat-header-cell *matHeaderCellDef> Item Name </mat-header-cell>
@@ -35,13 +42,22 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-    </div>
+      <mat-paginator #paginatorglass [pageSizeOptions]="[5,10,25,100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+    
 
 
   </mat-tab>
   <mat-tab label="Chemicals">
 
-    <h1 class="mat-h1">Chemicals</h1>
+    <div class="topcontainer" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+      <h1 class="mat-h1">Chemicals</h1>
+      <mat-form-field class="search-form-field">
+        <input matInput [(ngModel)]="chemicalsearchKey" placeholder="Filter" autocomplete="off" (keyup)="applyFilterchem()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="chemicalsearchKey" (click)="onSearchClearchem()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
     <div id="tablecontainer">
       <mat-table #table [dataSource]="listDatachemicals" class="mat-elevation-z8">
         <!-- Position Column -->
@@ -74,6 +90,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
+      <mat-paginator #paginatorchem [pageSizeOptions]="[5,10,25,100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
     </div>
 
 

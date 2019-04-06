@@ -198,6 +198,14 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
     this.ItemRemovalService.subfromRemovecart(item);
   }
 
+  onRemove($key, row) {
+    if (confirm('Are you sure to reset this record ?')) {
+      this.ItemAddService.removeitem($key, row)
+      this.ItemRemovalService.removeitem($key,row)
+    }
+  }
+
+
   ngOnDestroy() {
     this.Additemsub.unsubscribe();
     this.Removeitemsub.unsubscribe();

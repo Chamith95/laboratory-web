@@ -158,6 +158,13 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
     this.ItemAddService.subfromvoucher(glassware);
   }
 
+  onRemove($key, row) {
+    if (confirm('Are you sure to reset this record ?')) {
+      this.ItemAddService.removeitem($key, row)
+      this.itemRemovalService.removeitem($key,row)
+    }
+  }
+
 
   //   addToRemovecart(glassware){
   //     console.log(glassware);

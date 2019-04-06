@@ -46,7 +46,7 @@
 
       <ng-container matColumnDef="OriginalQuantity">
         <mat-header-cell *matHeaderCellDef> Present Quantity </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.OriginalQuantity}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.OriginalQuantity}}  {{element.measurement}} </mat-cell>
       </ng-container>
       <!-- Name Column -->
       <!-- <ng-container matColumnDef="Quantity">

@@ -44,7 +44,7 @@ export class AddnewcartComponent implements OnInit {
 
   }
 
-  displayedColumns: string[] = ['item_name', 'category','OriginalQuantity','Addition'];
+  displayedColumns: string[] = ['item_name', 'category','OriginalQuantity','Addition','actions'];
 
 
   openDialog(glassware): void {
@@ -171,6 +171,13 @@ export class AddnewcartComponent implements OnInit {
     this.itemAddservice.subfromvoucher(item);
     this.cartitemArray = [];
 
+  }
+
+  onDelete($key, row) {
+    if (confirm('Are you sure to delete this record ?')) {
+      this.itemAddservice.removeitem($key, row)
+      this.cartitemArray = [];
+    }
   }
 
 
