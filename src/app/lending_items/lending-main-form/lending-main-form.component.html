@@ -35,7 +35,7 @@
       <!-- <mat-form-field>
         <input matInput placeholder="Address" formControlName="secondCtrl" required>
       </mat-form-field> -->
-        <lending-form-step2></lending-form-step2>
+        <lending-form-step2 (QuantitySubmited)="onQuantitysubmit()"></lending-form-step2>
       <div class="stepper2buttons" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px">
         <button mat-raised-button matStepperPrevious>Back</button>
         <button mat-raised-button color="primary" matStepperNext>Next</button>
@@ -76,7 +76,7 @@
           
                 <ng-container matColumnDef="AvailableQuantity">
                   <mat-header-cell *matHeaderCellDef> Available </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.Quantity}} {{  element.measurement}} </mat-cell>
+                  <mat-cell *matCellDef="let element"> {{element.availablequantity}} {{  element.measurement}} </mat-cell>
                 </ng-container>
         
           

@@ -75,6 +75,12 @@ export class AvailableItemsService {
     return this.chemicalRef.snapshotChanges();
   }
 
+  
+  getAvailablechemicalitems(){
+    this.chemicalRef = this.firebase.list('available_chemicals');
+    return this.chemicalRef.valueChanges();
+  }
+
 
   deleteavailableGlassware($key: string, glassware) {
     this.glasswareRef.remove($key);

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,EventEmitter,Output} from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { ItemService } from 'src/app/services/glassware.service';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
@@ -18,6 +18,7 @@ export class LendingFormStep1Component implements OnInit {
   tablearraychemicals: Array<any>;
   lendingcart:any;
   quantity: number;
+  @Output() QuantitySubmited=new EventEmitter();
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -85,6 +86,7 @@ export class LendingFormStep1Component implements OnInit {
           this.uiservice.showSnackbar("Cant lend more than available",null,3000);
         }
         this.quantity = undefined;
+        this.QuantitySubmited.emit();
       }
     )
       ;
@@ -119,10 +121,12 @@ getMeasurementUnitlend($key) {
   addto(item) {
     console.log(item);
     this.lendingitemservice.Addtolendingcart(item);
+    this.QuantitySubmited.emit();
   }
 
   subtractfromcart(item) {
     this.lendingitemservice.subfromlendingcart(item);
+    this.QuantitySubmited.emit();
   }
 
 }
