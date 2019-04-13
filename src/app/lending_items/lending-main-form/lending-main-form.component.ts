@@ -61,13 +61,16 @@ export class LendingMainFormComponent implements OnInit {
       const newObj: any = item;
       // console.log(item);
       //checking if cart is empty
-      if (newObj.items != undefined) {
+      if (newObj!= undefined) {
         this.iscartnotempty = true;
+       
       } else {
         this.iscartnotempty = false;
+        return
       }
 // getting and mapping cart items
       for (let item in newObj.items) {
+
         let obj = {
           $key: item,
           item_name: newObj.items[item].item_name,
@@ -91,7 +94,7 @@ export class LendingMainFormComponent implements OnInit {
 
       )
       this.lendingcartitemarraywithoutkey = array;
-      // console.log(this.lendingcartarray);
+   
 
       this.availableservice.getAvailableGlasswareitems().subscribe(item=>{
       
@@ -142,17 +145,18 @@ export class LendingMainFormComponent implements OnInit {
                 this.updatedtablearry.push(updatedtableobject);
              
 
-
-          this.listData = new MatTableDataSource(this.updatedtablearry);
+               
+         
          
         }
       }
      
         }
-        
+        this.listData = new MatTableDataSource(this.updatedtablearry);
         }
        
       })
+      
       
       
       if (this.lendingcartarray.length > 0) {
@@ -224,5 +228,6 @@ export class LendingMainFormComponent implements OnInit {
   onQuantitysubmit(){
     this.updatedtablearry = [];
     this.lendingcartarray=[]; 
+    this.listData=null;
   }
 }

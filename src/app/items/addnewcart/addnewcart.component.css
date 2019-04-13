@@ -9,14 +9,16 @@ table {
     width: 100%;
   }
 
-  mat-header-row{
-      margin-left: 30px;
-      
-  }
+.categoryhead{
+    margin-left:40px;
+}
 
-  mat-header-cell{
-      margin-right:-200px;
-  }
+.presentquantity{
+    margin-left:5px;
+}
+.newaddheader{
+    margin-left:80px;
+}
 
 .isempty{
     margin-top: 100px
@@ -26,22 +28,10 @@ table {
     min-width: 1%;
 }
 
-.categoryhead{
-    margin-left: 100px;  
-}
-
-.presentquantity{
-    margin-left: 80px;
-}
 
 .newaddbtn1{
     min-width: 80px;
 }
 
-.newaddheader{
-    margin-left:150px;
-}
 
-.action{
-    margin-right:-200px;
-}
+

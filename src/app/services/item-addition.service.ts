@@ -1,59 +1,67 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import { Subject, Observable } from 'rxjs';
 import { first, take, map } from 'rxjs/operators';
 import { Addvoucher } from './addvoucher.model';
 import { UiService } from './ui.service';
+import { AuthService } from './auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemAdditionService {
+export class ItemAdditionService  {
 
   vocucherlist: AngularFireList<any>
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
+  user:any;
+  uid:any;
+  items: Observable<any[]>;
+  voucherlist: AngularFireList<any>;
 
 
 
 
   constructor(private db: AngularFireDatabase,
+    private afauth:AngularFireAuth,
     private firebase: AngularFireDatabase,
     private uiService: UiService) {
     this.vocucherlist = db.list('Addvouchers');
     this.glasswarelist = this.firebase.list('glassware');
     this.chemicalist = this.firebase.list('chemicals');
 
-  }
 
+    this.user=JSON.parse(localStorage.getItem('user'));
+    this.uid=(this.user.uid);
+    if(!this.uid){
+    this.afauth.authState.subscribe(user => {
+      if (user) {
+        this.uid=user.uid
+      } else {
+        this.uid=null;
+      }
+    })
+  }
+}
 
   // Creating a new vouchercart if no voucher is present
   private newvoucher() {
-    return this.db.list('/new-additions-cart').push({
-      dateTimeCreated: new Date().getTime()
-    })
+    return this.db.object('/new-additions-cart/'+this.uid);
   }
 
   // Getting vouchercart asynchronously
   async  getvoucher() {
-    let voucherid = await this.getOrCreateAddVoucherId().catch(error => {
-      console.log(error);
-    });
+    let voucherid = this.getOrCreateAddVoucherId();
     return this.db.object('/new-additions-cart/' + voucherid)
 
   }
 
-
-
-
   // Getting exisiting vouchercartid or creating one
-  private async getOrCreateAddVoucherId(): Promise<string> {
-    let Addvoucherid = localStorage.getItem('Addvoucherid');
-    if (Addvoucherid) return Addvoucherid;
-    let result = await this.newvoucher();
-    localStorage.setItem('Addvoucherid', result.key);
-    return result.key;
+  private  getOrCreateAddVoucherId() {
+    let result =this.newvoucher();
+     return this.uid;
 
   }
   // Getting item
@@ -65,7 +73,7 @@ export class ItemAdditionService {
     let AddvoucherId = await this.getOrCreateAddVoucherId();
     let item$ = this.getItem(AddvoucherId, item1.$key)
     item$.valueChanges().pipe(take(1)).subscribe(item => {
-
+ 
       const newObj: any = item;
       if (item != null) {
         item$.update(

@@ -45,7 +45,7 @@
   <mat-step>
     <ng-template matStepLabel>Confirm</ng-template>
     <h1 class="mat-h1">Confirm lending</h1>
-    <div>
+    <div *ngIf="iscartnotempty==true">
         <div class="step1form" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="100px">
         <mat-form-field  class="teacheroptions">
             <mat-label>Teachers</mat-label>
@@ -105,10 +105,17 @@
               </mat-table>
             </div>
         <div class="stepper3buttons" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px">
+
       <button mat-raised-button matStepperPrevious>Back</button>
       <!-- <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button> -->
       <button mat-raised-button color="primary" >Done</button>
+
+ 
       </div>
     </div>
+    <div class="isempty" *ngIf="iscartnotempty==false" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <h1 class="mat-display-1">No Items Available </h1>
+        <h1 class="mat-h2">Add items from previous and come back</h1>
+      </div>
   </mat-step>
 </mat-horizontal-stepper>

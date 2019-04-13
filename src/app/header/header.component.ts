@@ -16,7 +16,8 @@ export class HeaderComponent implements OnInit,OnDestroy {
   addcartitemcount:number;
 
   constructor(public authService: AuthService,private route : ActivatedRoute,private addItemservice:ItemAdditionService) { 
-  
+
+
   }
 
  async ngOnInit() {
@@ -29,9 +30,11 @@ export class HeaderComponent implements OnInit,OnDestroy {
     const newObj: any = cart;
     // console.log(newObj.items)
      this.addcartitemcount=0;
+     if(cart){
    for(let itemid in newObj.items){
     this.addcartitemcount+=1;
    }
+  }
    });
 
   }

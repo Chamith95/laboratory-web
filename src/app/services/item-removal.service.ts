@@ -3,6 +3,7 @@ import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { take } from 'rxjs/operators';
 import { remvoucher } from './remvoucher.model';
 import { UiService } from './ui.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +13,37 @@ export class ItemRemovalService {
   removalcartlist: AngularFireList<any>
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
+  user:any;
+  uid:any;
 
   constructor(private db: AngularFireDatabase,
     private firebase: AngularFireDatabase,
+    private afauth:AngularFireAuth,
     private uiservice: UiService) {
     this.removalcartlist = db.list('RemoveVouchers');
     this.glasswarelist = this.firebase.list('glassware');
     this.chemicalist = this.firebase.list('chemicals');
+    this.user=JSON.parse(localStorage.getItem('user'));
+    this.uid=(this.user.uid);
+    if(!this.uid){
+    this.afauth.authState.subscribe(user => {
+      if (user) {
+        this.uid=user.uid
+      } else {
+        this.uid=null;
+      }
+    })
+  }
   }
 
   private newRemovalCart() {
-    return this.db.list('/new-removal-cart').push({
-      dateTimeCreated: new Date().getTime()
-    })
+    return this.db.object('/new-removal-cart/'+this.uid);
+
   }
 
-  private async getOrCreateRemovalCartId(): Promise<string> {
-    let Removalcartid = localStorage.getItem('Removalcartid');
-    if (Removalcartid) return Removalcartid;
-    let result = await this.newRemovalCart();
-    localStorage.setItem('Removalcartid', result.key);
-    return result.key;
+  private  getOrCreateRemovalCartId() {
+    let result =this.newRemovalCart();
+     return this.uid;
 
   }
 

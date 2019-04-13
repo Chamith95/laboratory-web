@@ -70,7 +70,7 @@ export class AddnewcartComponent implements OnInit {
         const newObj: any = item;
 
         //checking if cart is empty
-        if (newObj.items != undefined) {
+        if (newObj != undefined) {
           this.iscartnotempty = true;
         } else {
           this.iscartnotempty = false;

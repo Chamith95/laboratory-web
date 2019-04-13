@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { take } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -10,25 +11,36 @@ export class LendingServiceService {
   lendinglist: AngularFireList<any>
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
+  user:any;
+  uid:any;
 
-  constructor(private firebase: AngularFireDatabase) {
+  constructor(private firebase: AngularFireDatabase, private afauth:AngularFireAuth,) {
     this.lendinglist = firebase.list('lendings');
     this.glasswarelist = this.firebase.list('available_glassware');
     this.chemicalist = this.firebase.list('available_chemicals');
+    this.user=JSON.parse(localStorage.getItem('user'));
+    this.uid=(this.user.uid);
+    if(!this.uid){
+    this.afauth.authState.subscribe(user => {
+      if (user) {
+        this.uid=user.uid
+      } else {
+        this.uid=null;
+      }
+    })
+  }
    }
 
      // Creating a new vouchercart if no voucher is present
   private newlendingcart() {
-    return this.firebase.list('/new-lendings-cart').push({
-      dateTimeCreated: new Date().getTime()
-    })
+    return this.firebase.object('/new-lendings-cart/'+this.uid);
+
   }
 
   // Getting vouchercart asynchronously
   async  getlendingcart() {
-    let lendingcartid = await this.getorcreatelendingcartId().catch(error => {
-      console.log(error);
-    });
+    let lendingcartid = await this.getorcreatelendingcartId()
+    console.log(lendingcartid);
     return this.firebase.object('/new-lendings-cart/' + lendingcartid)
 
   }
@@ -37,12 +49,9 @@ export class LendingServiceService {
 
 
   // Getting exisiting vouchercartid or creating one
-  private async getorcreatelendingcartId(): Promise<string> {
-    let lendingcartid = localStorage.getItem('lendingcartid');
-    if (lendingcartid) return lendingcartid;
-    let result = await this.newlendingcart();
-    localStorage.setItem('lendingcartid', result.key);
-    return result.key;
+  private async getorcreatelendingcartId() {
+    let result =this.newlendingcart();
+     return this.uid;
 
   }
   // Getting item
@@ -109,6 +118,7 @@ export class LendingServiceService {
     item$.valueChanges().pipe(take(1)).subscribe(item => {
 
       const newObj: any = item;
+  
       if (newObj.Quantity == 1) {
         this.firebase.object('/new-lendings-cart/' + lendingcartid + '/items/' + item1.$key).remove();
         return

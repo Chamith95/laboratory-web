@@ -37,9 +37,11 @@ export class AdminNavComponent implements OnInit,OnDestroy {
      const newObj: any = cart;
      // console.log(newObj.items)
       this.remcartitemcount=0;
+      if(cart){
     for(let itemid in newObj.items){
      this.remcartitemcount+=1;
     }
+  }
     });
   }
 

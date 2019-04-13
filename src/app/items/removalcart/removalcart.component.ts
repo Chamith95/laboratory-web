@@ -40,7 +40,7 @@ export class RemovalcartComponent implements OnInit {
 
 
       //checking if cart is empty
-      if (newObj.items != undefined) {
+      if (newObj!= undefined) {
         this.iscartnotempty = true;
       } else {
         this.iscartnotempty = false;

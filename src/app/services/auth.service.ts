@@ -13,6 +13,7 @@ import { UiService } from './ui.service';
 
 export class AuthService {
   userData: any; // Save logged in user data
+  public userId:any
   authChange = new Subject<boolean>();
 
   constructor(
@@ -26,6 +27,7 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
       if (user) {
+        this.userId=user.uid
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
         this.authChange.next(true);
@@ -36,6 +38,19 @@ export class AuthService {
         this.authChange.next(false);
       }
     })
+  }
+
+  getuid(){
+    return this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userId==user.uid;
+      } else {
+        this.userId=null
+      }
+      console.log(this.userId);
+    })
+   
+ 
   }
 
   // Sign in with email/password
