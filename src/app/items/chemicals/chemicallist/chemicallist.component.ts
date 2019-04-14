@@ -6,6 +6,7 @@ import { ItemAdditionService } from 'src/app/services/item-addition.service';
 import { Subscription } from 'rxjs';
 import { ItemRemovalService } from 'src/app/services/item-removal.service';
 import { ChemicalquantitydialogComponent } from '../chemicalquantitydialog/chemicalquantitydialog.component';
+import { AvailableItemsService } from 'src/app/services/available-items.service';
 
 @Component({
   selector: 'app-chemicallist',
@@ -28,6 +29,7 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
   constructor(private chemservice: ChemicalsService,
     private dialog: MatDialog,
     private ItemAddService: ItemAdditionService,
+    private availableitemservice:AvailableItemsService,
     private ItemRemovalService: ItemRemovalService) { }
 
 
@@ -103,12 +105,22 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
   }
   // Edit button pressed
   onEdit(row) {
-    console.log(row);
+
     this.chemservice.populateForm(row);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
-    this.dialog.open(NewchemicalsdialogComponent, dialogConfig);
+    let dialogref=this.dialog.open(NewchemicalsdialogComponent, dialogConfig);
+    dialogref.componentInstance.updateEvent.subscribe(data=>{
+      if(data){
+        let item=data;
+  
+      this.ItemAddService.removeitem(row.$key,row);
+      this.ItemRemovalService.removeitem(row.$key,row);
+      this.availableitemservice.modifyname(row.$key,item,"Chemicals")
+
+      }
+      })
   }
 
 
@@ -116,6 +128,7 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
   onDelete($key, chemical) {
     if (confirm('Are you sure to delete this record ?')) {
       this.chemservice.deleteChemical($key, chemical)
+      this.availableitemservice.deleteavailablechemical($key, chemical);
     }
   }
   // Getting the quantities from add cart

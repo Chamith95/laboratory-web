@@ -12,6 +12,7 @@ import { item } from 'src/app/services/item.model';
 import { QuantitydialogComponent } from '../quantitydialog/quantitydialog.component';
 import { ItemRemovalService } from 'src/app/services/item-removal.service';
 import { UiService } from 'src/app/services/ui.service';
+import { AvailableItemsService } from 'src/app/services/available-items.service';
 
 @Component({
   selector: 'app-glasswarelist',
@@ -36,6 +37,7 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private ItemAddService: ItemAdditionService,
     private itemRemovalService: ItemRemovalService,
+    private availableitemservice:AvailableItemsService,
     private uiservice: UiService) {
 
   }
@@ -130,12 +132,24 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
 
   //Edit button 
   onEdit(row) {
-    console.log(row);
+  
     this.service.populateForm(row);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
-    this.dialog.open(NewglasswareComponent, dialogConfig);
+    let dialogref=this.dialog.open(NewglasswareComponent, dialogConfig);
+    dialogref.componentInstance.updateEvent.subscribe(data=>{
+      let flag=false;
+    if(data){
+      console.log(data);
+      let item=data;
+      flag=true;
+      this.ItemAddService.removeitem(row.$key,row);
+      this.itemRemovalService.removeitem(row.$key,row);
+      this.availableitemservice.modifyname(row.$key,data,"Glassware")
+    }
+    })
+  
   }
 
   // Deletebutton
@@ -143,6 +157,7 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
 
     if (confirm('Are you sure to delete this record ?')) {
       this.service.deleteGlassware($key, row)
+      this.availableitemservice.deleteavailableGlassware($key, row);
     }
   }
 

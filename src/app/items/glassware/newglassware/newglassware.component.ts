@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material'
 
 
 import { ItemService } from 'src/app/services/glassware.service';
 import { UiService } from 'src/app/services/ui.service';
+import { ItemAdditionService } from 'src/app/services/item-addition.service';
+import { ItemRemovalService } from 'src/app/services/item-removal.service';
+import { AvailableItemsService } from 'src/app/services/available-items.service';
 
 
 @Component({
@@ -14,7 +17,11 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class NewglasswareComponent implements OnInit {
   items: any;
+  updateEvent =new EventEmitter();
   constructor(private service: ItemService,
+    // private itemaddservice:ItemAdditionService,
+    // private itemremovals:ItemRemovalService,
+    // private availableitemservice:AvailableItemsService,
     public dialogRef: MatDialogRef<NewglasswareComponent>,
 
     private uiservice: UiService) { }
@@ -53,8 +60,10 @@ export class NewglasswareComponent implements OnInit {
         }
       
       }
-      else{
+      else {
         this.service.updateGlassware(this.service.form.value);
+        this.updateEvent.emit(this.service.form.value);
+        
       }
       this.service.form.reset();
       this.onClose();

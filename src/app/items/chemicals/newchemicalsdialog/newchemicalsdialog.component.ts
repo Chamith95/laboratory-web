@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { NewglasswareComponent } from '../../glassware/newglassware/newglassware.component';
 import { ChemicalsService } from 'src/app/services/chemicals.service';
@@ -12,6 +12,7 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class NewchemicalsdialogComponent implements OnInit {
   items: any;
+  updateEvent =new EventEmitter();
   constructor(private chemservice: ChemicalsService,
     private ItemAddService: ItemAdditionService,
     public dialogRef: MatDialogRef<NewchemicalsdialogComponent>,
@@ -51,13 +52,17 @@ export class NewchemicalsdialogComponent implements OnInit {
     }
 
     if (this.chemservice.form.valid && flag == true) {
-      if (!this.chemservice.form.get('$key').value)
+      if (!this.chemservice.form.get('$key').value){
         this.chemservice.insertChemical(this.chemservice.form.value);
-      else
+      }
+      else{
         this.chemservice.updateChemical(this.chemservice.form.value);;
+        this.updateEvent.emit(this.chemservice.form.value);
+      }
+    }
       this.chemservice.form.reset();
       this.onClose();
-    }
+    
   }
   // Dialog close
   onClose() {

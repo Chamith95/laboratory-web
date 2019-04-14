@@ -56,8 +56,15 @@ export class ChemicalsService {
   }
 
   deleteChemical($key: string, chemical) {
+    if(chemical.Quantity>0){
+      this.uiservice.showSnackbar(chemical.item_name + "Cannot be Deleted! make sure the quantity is zero", null, 3000);
+    }
+    else{
     this.chemicallist.remove($key);
+    // console.log(this.chemicallist[$key]);
     this.uiservice.showSnackbar(chemical.item_name + " Succesfully Deleted ", null, 3000);
+    }
+
   }
 
   // populating for edit

@@ -82,12 +82,33 @@ export class AvailableItemsService {
   }
 
 
-  deleteavailableGlassware($key: string, glassware) {
+  deleteavailableItem($key: string, glassware,category) {
+    if(glassware.Quantity>0){
+     return
+    }else{
     this.glasswareRef.remove($key);
+    }
     // console.log(this.glasswarelist[$key]);
   }
 
+  deleteavailableGlassware($key: string, glassware) {
+    if(glassware.Quantity>0){
+     return
+    }else{
+    this.glasswareRef.remove($key);
+    }
+    // console.log(this.glasswarelist[$key]);
+  }
 
+  deleteavailablechemical($key: string, chemical) {
+    console.log(chemical.Quantity)
+    if(chemical.Quantity>0){
+     return
+    }else{
+    this.chemicalRef.remove($key);
+    }
+    // console.log(this.glasswarelist[$key]);
+  }
   updateavailableQuantities(data) {
      console.log(data)
      console.log(this.availableitems);
@@ -112,6 +133,40 @@ export class AvailableItemsService {
       }
     }
    }
+
+  //  updating the name
+  modifyname($key,data,category){
+    if(data.Quantity==0){
+      return
+    }
+    let databaseref;
+    switch(category){
+      case "Glassware":{
+        databaseref= this.firebase.object('available_glassware/' +$key);
+        break;
+      }
+      case "Chemicals":{
+        databaseref= this.firebase.object('available_chemicals/' +$key);
+        break;
+      }
+      case "Perishables":{
+        databaseref= this.firebase.object('available_perishables/' +$key);
+        break;
+      }
+      case "Permanent Equpiment":{
+        databaseref= this.firebase.object('available_permanent_equipment/' +$key);
+        break;
+      }
+      default:{
+        break;
+      }
+    }
+    
+    if(databaseref){
+    databaseref.update({item_name:data.item_name})
+      databaseref.update({measurement:data.measurement})                  
+    }
+  }
   // Getting original quantities in order to update
   getavailableglasswarequantities() {
     this.glasswareRef = this.firebase.list('available_glassware');
