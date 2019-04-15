@@ -5,7 +5,7 @@
   <form class="addcartform" fxLayout="row" #f="ngForm" fxLayoutAlign="center center" fxLayoutGap="50px"
     (ngSubmit)="onSubmit(f)">
     <mat-form-field class="example-full-width">
-      <input ngModel matInput placeholder="Voucher No" required name="voucherNo" #vouInput="ngModel">
+      <input ngModel matInput placeholder="Voucher No" [ngModel]="vouid" disabled="true" required name="voucherNo" #vouInput="ngModel">
     </mat-form-field>
 
     <mat-form-field class="example-full-width">

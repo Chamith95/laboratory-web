@@ -29,6 +29,7 @@ export class AddnewcartComponent implements OnInit {
   dialogquantity: number;
   dataavailableflag: boolean = false;
   startdate: Date;
+  vouid;
 
   iscartnotempty: boolean = false;
 
@@ -65,6 +66,19 @@ export class AddnewcartComponent implements OnInit {
   }
 
   async ngOnInit() {
+    // getting last vou id and settong it
+    this.itemAddservice.getaddvouchers().subscribe(item=>{
+      let k
+      if(item){
+      k=+(item[item.length-1].Voucher_Id)+1;
+      }
+      else{
+        k=1001
+      }
+      this.vouid=k;
+
+    })
+   
     let cart$ =(await this.itemAddservice.getvoucher()).valueChanges()
       .subscribe(item => {
         const newObj: any = item;
@@ -76,6 +90,7 @@ export class AddnewcartComponent implements OnInit {
           this.iscartnotempty = false;
         }
 // getting and mapping cart items
+        if(newObj){
         this.itemAddservice.getoriginalglasswarequantities().subscribe(origalssitem=>{
           for (let item in newObj.items) {
             if(newObj.items[item].category=="Glassware"){
@@ -116,21 +131,12 @@ export class AddnewcartComponent implements OnInit {
           }
           this.listData = new MatTableDataSource(this.cartitemArray);
         })
+      }
         
 
-        console.log(this.cartitemArray);
-        let array = this.cartitemArray.map(list => {
-          return {
-            item_name: list.item_name,
-            category: list.category,
-            measurement: list.measurement,
-            Quantity: list.Quantity,
-          };
+    
 
-        }
-
-        )
-        this.cartitemArrayWithoutkey = array;
+        
     
         if (this.cartitemArray.length > 0) {
           this.dataavailableflag = true;
@@ -185,9 +191,24 @@ export class AddnewcartComponent implements OnInit {
 
 
   onSubmit(form: NgForm) {
+
+    let array = this.cartitemArray.map(list => {
+      return {
+        item_name: list.item_name,
+        category: list.category,
+        measurement: list.measurement,
+        Quantity: list.Quantity,
+      };
+
+    }
+    
+    )
+
+    this.cartitemArrayWithoutkey = array;
     // sending data to newadditions database
+    console.log(this.cartitemArrayWithoutkey);
     this.itemAddservice.confirmaddition({
-      Voucher_Id: form.value.voucherNo,
+      Voucher_Id: this.vouid,
       Recieved_from: form.value.Recfrom,
       Date_Recieved: form.value.createdate.toDateString(),
       items: this.cartitemArrayWithoutkey,

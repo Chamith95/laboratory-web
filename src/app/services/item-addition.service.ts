@@ -161,7 +161,7 @@ export class ItemAdditionService  {
 
   // Confirm submition
   confirmaddition(vocuher: Addvoucher) {
-    console.log(this.vocucherlist);
+    console.log(vocuher.items);
     this.vocucherlist.push({
       Voucher_Id: vocuher.Voucher_Id,
       Recieved_from: vocuher.Recieved_from,

@@ -151,11 +151,10 @@ export class ItemRemovalService {
     this.db.object('/new-removal-cart/' + Removalcartid + '/items').remove();
   }
 
-  confirmaddition(vocuher: remvoucher) {
+  confirmremoval(vocuher: remvoucher) {
     console.log(this.removalcartlist);
     this.removalcartlist.push({
       Voucher_Id: vocuher.Voucher_Id,
-      Reason: vocuher.Reason,
       Date_Removed: vocuher.Date_Removed.toString(),
       items: vocuher.items
     });

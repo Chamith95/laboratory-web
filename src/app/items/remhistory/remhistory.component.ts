@@ -27,10 +27,11 @@ export class RemhistoryComponent implements OnInit {
       const newObj: any = item;
       console.log(newObj)
       for (let i = 0; i < newObj.length; i++) {
+        if(newObj[i].items){
         for (let j = 0; j < newObj[i].items.length; j++) {
           let array = {
             VoucherId: newObj[i].Voucher_Id,
-            Reason: newObj[i].Reason,
+            Reason: newObj[i].items[j].Reason,
             Date_Removed: newObj[i].Date_Removed,
             Item_name: newObj[i].items[j].item_name,
             category: newObj[i].items[j].category,
@@ -40,6 +41,7 @@ export class RemhistoryComponent implements OnInit {
           this.datasourcelist.push(array)
 
         }
+      }
         // console.log(this.datasourcelist);
         this.listData = new MatTableDataSource(this.datasourcelist);
         this.listData.sort = this.sort1;

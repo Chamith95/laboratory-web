@@ -12,6 +12,7 @@ import { AvailableItemsService } from 'src/app/services/available-items.service'
   styleUrls: ['./removalcart.component.css']
 })
 export class RemovalcartComponent implements OnInit {
+  selected = 'Depleted';
   cartitemArray: any[] = [];
   cartitemArrayWithoutkey: any[] = [];
   listData: MatTableDataSource<any>;
@@ -24,6 +25,9 @@ export class RemovalcartComponent implements OnInit {
   dialogquantity: number;
   quantityvalidflag: boolean = true;
   iscartnotempty: boolean = false;
+  public reasons : any = {};
+  itemcount;
+  vouid;
 
   planModel: any = { start_time: new Date() };
 
@@ -31,12 +35,36 @@ export class RemovalcartComponent implements OnInit {
 
   constructor(private itemremovalservice: ItemRemovalService, private dialog: MatDialog,
     private availableitemsservice:AvailableItemsService,
-    private uiservice: UiService) { }
+    private uiservice: UiService) {}
 
-  async ngOnInit() {
+async ngOnInit() {
+
+    this.itemremovalservice.getRemvouchers().subscribe(item=>{
+      let k
+      if(item){
+      k=+(item[item.length-1].Voucher_Id)+1;
+      }
+      else{
+        k=1001
+      }
+      this.vouid=k;
+
+    })
+
     let cart$ = (await this.itemremovalservice.getRemovecart()).subscribe(item => {
       const newObj: any = item;
-      console.log(newObj);
+      let count=0;
+      if(newObj){
+      for(let item in newObj.items){
+        count+=1;
+      }
+    }
+      this.itemcount=count;
+
+
+ 
+
+
 
 
       //checking if cart is empty
@@ -45,6 +73,8 @@ export class RemovalcartComponent implements OnInit {
       } else {
         this.iscartnotempty = false;
       }
+
+      if(newObj){
       this.itemremovalservice.getoriginalglasswarequantities().subscribe(origalssitem=>{
         for (let item in newObj.items) {
           if(newObj.items[item].category=="Glassware"){
@@ -66,6 +96,7 @@ export class RemovalcartComponent implements OnInit {
       })
 
       this.itemremovalservice.getoriginalchemicalquantities().subscribe(orichemitem=>{
+
         for (let item in newObj.items) {
           if(newObj.items[item].category=="Chemicals"){
           for(let j=0;j<orichemitem.length;j++){
@@ -80,12 +111,14 @@ export class RemovalcartComponent implements OnInit {
           }
           this.cartitemArray.push(obj);
         }
+        
          
         }}
         }
         this.listData = new MatTableDataSource(this.cartitemArray);
       })
 
+    }
       // for (let item in newObj.items) {
       //   let obj = {
       //     $key: item,
@@ -97,19 +130,7 @@ export class RemovalcartComponent implements OnInit {
       //   this.cartitemArray.push(obj);
       // }
 
-      let array = this.cartitemArray.map(list => {
-        return {
-          item_name: list.item_name,
-          category: list.category,
-          measurement: list.measurement,
-          Quantity: list.Quantity,
-        };
 
-      }
-
-      )
-      this.cartitemArrayWithoutkey = array;
-      console.log(this.cartitemArrayWithoutkey);
       // this.listData = new MatTableDataSource(this.cartitemArray);
 
     })
@@ -154,7 +175,7 @@ export class RemovalcartComponent implements OnInit {
   }
 
 
-  displayedColumns: string[] = ['item_name','Category','OriginalQuantity', 'Addition'];
+  displayedColumns: string[] = ['item_name','Category','OriginalQuantity', 'Addition','Reason'];
 
 
   addtoRemovecart(item) {
@@ -170,8 +191,29 @@ export class RemovalcartComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.itemremovalservice.confirmaddition({
-      Voucher_Id: form.value.voucherNo,
+
+    
+    let array = this.cartitemArray.map(list => {
+      return {
+        item_name: list.item_name,
+        category: list.category,
+        measurement: list.measurement,
+        Quantity: list.Quantity,
+      };
+
+    }
+
+    )
+    this.cartitemArrayWithoutkey = array;
+
+    for(let i=0;i<this.itemcount;i++){
+      this.cartitemArrayWithoutkey[i].Reason=this.reasons[i];
+    }
+   
+    console.log(this.cartitemArrayWithoutkey);
+  
+    this.itemremovalservice.confirmremoval({
+      Voucher_Id: this.vouid,
       Reason: form.value.Reason,
       Date_Removed: form.value.createdate.toDateString(),
       items: this.cartitemArrayWithoutkey,
@@ -230,7 +272,7 @@ export class RemovalcartComponent implements OnInit {
         }
       }
 
-      console.log(this.originalchemicalquantities)
+  
       if (this.cartitemArray[i].category == "Chemicals") {
         for (let j = 0; j < this.originalchemicalquantities.length; j++) {
           if (this.cartitemArray[i].item_name == this.originalchemicalquantities[j].item_name) {
@@ -304,6 +346,7 @@ export class RemovalcartComponent implements OnInit {
 
   // Clearing the cart
   clearvoucart() {
+
     this.itemremovalservice.clearRemovecart();
     this.cartitemArray = [];
   }

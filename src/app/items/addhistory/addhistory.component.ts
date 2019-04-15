@@ -25,8 +25,9 @@ export class AddhistoryComponent implements OnInit {
     this.itemaddservice.getaddvouchers().subscribe(item=>{
         // console.log(item.length);
       const newObj: any = item;
-      console.log(newObj)
+  
       for(let i =0;i<newObj.length;i++){
+        if(newObj[i].items){
         for(let j=0;j<newObj[i].items.length;j++){
           let array={VoucherId:newObj[i].Voucher_Id,
             Recieved_from:newObj[i].Recieved_from,
@@ -39,6 +40,7 @@ export class AddhistoryComponent implements OnInit {
           this.datasourcelist.push(array)
          
         }
+      }
         // console.log(this.datasourcelist);
         this.listData=new MatTableDataSource(this.datasourcelist);
         this.listData.sort=this.sort1;
