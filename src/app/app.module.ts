@@ -69,6 +69,12 @@ import { LendingMainFormComponent } from './lending_items/lending-main-form/lend
 import {MatStepperModule} from '@angular/material/stepper';
 import { LendingFormStep1Component } from './lending_items/lending-form-step2/lending-form-step2.component';
 import { LendingquantitydialogComponent } from './lending_items/lendingquantitydialog/lendingquantitydialog.component';
+import { PerishablelistComponent } from './items/perishables/perishablelist/perishablelist.component';
+import { NewperishablesComponent } from './items/perishables/newperishables/newperishables.component';
+import { PeriqunatitydialogComponent } from './items/perishables/periqunatitydialog/periqunatitydialog.component';
+import { PermEquiplistComponent } from './items/permEquipment/perm-equiplist/perm-equiplist.component';
+import { NewpermEquipmentComponent } from './items/permEquipment/newperm-equipment/newperm-equipment.component';
+import { PermQuantitydialogComponent } from './items/permEquipment/perm-quantitydialog/perm-quantitydialog.component';
 
 
 
@@ -97,6 +103,12 @@ import { LendingquantitydialogComponent } from './lending_items/lendingquantityd
     LendingMainFormComponent,
     LendingFormStep1Component,
     LendingquantitydialogComponent,
+    PerishablelistComponent,
+    NewperishablesComponent,
+    PeriqunatitydialogComponent,
+    PermEquiplistComponent,
+    NewpermEquipmentComponent,
+    PermQuantitydialogComponent,
 
 
    
@@ -145,6 +157,10 @@ import { LendingquantitydialogComponent } from './lending_items/lendingquantityd
     NewchemicalsdialogComponent,
     QuantitydialogComponent,
     ChemicalquantitydialogComponent,
-    LendingquantitydialogComponent]
+    NewperishablesComponent,
+    LendingquantitydialogComponent,
+    PeriqunatitydialogComponent,
+    PermQuantitydialogComponent,
+    NewpermEquipmentComponent]
 })
 export class AppModule { }

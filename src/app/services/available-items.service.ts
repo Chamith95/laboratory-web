@@ -11,11 +11,16 @@ export class AvailableItemsService {
 
   glasswareRef: AngularFireList<any>;
   chemicalRef: AngularFireList<any>;
+  perishableRef: AngularFireList<any>;
+  permEuipRef: AngularFireList<any>;
   items: Observable<any[]>;
   availableitems;
+
   constructor(private firebase: AngularFireDatabase) {
     this.glasswareRef= firebase.list('available_glassware');
     this.chemicalRef= firebase.list('available_chemicals');
+    this.perishableRef= firebase.list('available_perishables');
+    this.permEuipRef= firebase.list('available_permanent_equipment');
     
         // Use snapshotChanges().map() to store the key
         this.items = this.glasswareRef.snapshotChanges().pipe(
@@ -38,15 +43,7 @@ export class AvailableItemsService {
   });
 
   // adding to available glassware
-  addtoAvailableGlassware(glassware) {
-    console.log(this.glasswareRef);
-    this.glasswareRef.push({
-      category: "Glassware",
-      item_name: glassware.item_name,
-      Quantity: 0,
-      measurement: "units",
-    });
-  }
+
 
   // updating available glassware
   // updateAvailableGlassware(glassware) {
@@ -75,10 +72,30 @@ export class AvailableItemsService {
     return this.chemicalRef.snapshotChanges();
   }
 
+  getavailablePerishableeSnap(){
+    this.perishableRef = this.firebase.list('available_perishables');
+    return this.perishableRef.snapshotChanges();
+  }
+
+  getavailablePermEquipSnap(){
+    this.permEuipRef = this.firebase.list('available_permanent_equipment');
+    return this.permEuipRef.snapshotChanges();
+  }
+
   
   getAvailablechemicalitems(){
     this.chemicalRef = this.firebase.list('available_chemicals');
     return this.chemicalRef.valueChanges();
+  }
+
+  getAvailablePerishableItems(){
+    this.perishableRef = this.firebase.list('available_perishables');
+    return this.perishableRef.valueChanges();
+  }
+
+  getAvailablePermEquipItems(){
+    this.permEuipRef = this.firebase.list('available_permanent_equipment');
+    return this.permEuipRef.valueChanges();
   }
 
 
@@ -97,7 +114,7 @@ export class AvailableItemsService {
     }else{
     this.glasswareRef.remove($key);
     }
-    // console.log(this.glasswarelist[$key]);
+  
   }
 
   deleteavailablechemical($key: string, chemical) {
@@ -107,8 +124,25 @@ export class AvailableItemsService {
     }else{
     this.chemicalRef.remove($key);
     }
-    // console.log(this.glasswarelist[$key]);
   }
+
+  deleteavailablePerishable($key: string, perishable) {
+    if(perishable.Quantity>0){
+     return
+    }else{
+    this.perishableRef.remove($key);
+    }
+  }
+
+  deleteavailablePermEquipment($key: string, permEuip) {
+    if(permEuip.Quantity>0){
+     return
+    }else{
+    this.permEuipRef.remove($key);
+    }
+  }
+
+
   updateavailableQuantities(data) {
      console.log(data)
      console.log(this.availableitems);
@@ -124,6 +158,24 @@ export class AvailableItemsService {
       }
       if (data[i].category == "Chemicals") {
         this.chemicalRef.set(
+          data[i].$key, {
+            item_name: data[i].item_name,
+            category:data[i].category,    
+            Quantity: data[i].Quantity,
+            measurement:data[i].measurement
+          })
+      }
+      if (data[i].category == "Perishables") {
+        this.perishableRef.set(
+          data[i].$key, {
+            item_name: data[i].item_name,
+            category:data[i].category,    
+            Quantity: data[i].Quantity,
+            measurement:data[i].measurement
+          })
+      }
+      if (data[i].category == "Permanent Equipment") {
+        this.permEuipRef.set(
           data[i].$key, {
             item_name: data[i].item_name,
             category:data[i].category,    

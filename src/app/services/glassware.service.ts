@@ -53,7 +53,8 @@ export class ItemService {
       measurement: "units",
     });
 
-    this.uiservice.showSnackbar(glassware.item_name + " Created", null, 3000);
+    //  this.uiservice.success(glassware.item_name + "Successfully Created");
+      this.uiservice.showSnackbar(glassware.item_name + " Created", null, 3000);
   }
 
   updateGlassware(glassware) {

@@ -18,8 +18,12 @@ export class RemovalcartComponent implements OnInit {
   listData: MatTableDataSource<any>;
   originalglasswarequantities: any[] = []
   originalchemicalquantities: any[] = []
+  originalperishablequantities: any[] = []
+  originalpermEquipmentquantities: any[] = []
   availableglasswarequantities: any[] = []
   availablechemicalquantities: any[] = []
+  availablePerishablequantities: any[] = []
+  availablePermEquipquantities: any[] = []
   updatedQuantities: any[] = []
   updatedavailableQuantities: any[] = []
   dialogquantity: number;
@@ -62,11 +66,6 @@ async ngOnInit() {
       this.itemcount=count;
 
 
- 
-
-
-
-
       //checking if cart is empty
       if (newObj!= undefined) {
         this.iscartnotempty = true;
@@ -86,6 +85,46 @@ async ngOnInit() {
             category: newObj.items[item].category,
             measurement: newObj.items[item].measurement,
             OriginalQuantity:origalssitem[j].Quantity,
+            Quantity: newObj.items[item].Quantity
+          }
+          this.cartitemArray.push(obj);
+        }
+         
+        }}
+        }
+      })
+
+      this.itemremovalservice.getoriginalPerishableQuantities().subscribe(originalPerishableItems=>{
+        for (let item in newObj.items) {
+          if(newObj.items[item].category=="Perishables"){
+          for(let j=0;j<originalPerishableItems.length;j++){
+            if(newObj.items[item].item_name==originalPerishableItems[j].item_name){
+          let obj = {
+            $key: item,
+            item_name: newObj.items[item].item_name,
+            category: newObj.items[item].category,
+            measurement: newObj.items[item].measurement,
+            OriginalQuantity:originalPerishableItems[j].Quantity,
+            Quantity: newObj.items[item].Quantity
+          }
+          this.cartitemArray.push(obj);
+        }
+         
+        }}
+        }
+      })
+
+      this.itemremovalservice.getoriginalpermEquipQuantities().subscribe(originalPermEquipItems=>{
+        for (let item in newObj.items) {
+          if(newObj.items[item].category=="Permanent Equipment"){
+          for(let j=0;j<originalPermEquipItems.length;j++){
+            if(newObj.items[item].item_name==originalPermEquipItems[j].item_name){
+          let obj = {
+            $key: item,
+            item_name: newObj.items[item].item_name,
+            category: newObj.items[item].category,
+            measurement: newObj.items[item].measurement,
+            OriginalQuantity:originalPermEquipItems[j].Quantity,
             Quantity: newObj.items[item].Quantity
           }
           this.cartitemArray.push(obj);
@@ -140,6 +179,22 @@ async ngOnInit() {
 
     })
 
+    this.itemremovalservice.getoriginalchemicalquantities().subscribe(item => {
+      this.originalchemicalquantities = item;
+
+    })
+
+    this.itemremovalservice.getoriginalPerishableQuantities().subscribe(item => {
+      this.originalperishablequantities = item;
+
+    })
+    this.itemremovalservice.getoriginalpermEquipQuantities().subscribe(item => {
+      this.originalpermEquipmentquantities = item;
+
+    })
+
+
+
     // Getting available glassware quantities
     this.availableitemsservice.getavailableglasswarequantities().subscribe(item =>{
       this.availableglasswarequantities=item;
@@ -149,10 +204,15 @@ async ngOnInit() {
       this.availablechemicalquantities=item;
     })
 
-    this.itemremovalservice.getoriginalchemicalquantities().subscribe(item => {
-      this.originalchemicalquantities = item;
-
+    this.availableitemsservice.getAvailablePerishableItems().subscribe(item =>{
+      this.availablePerishablequantities=item;
     })
+    
+    this.availableitemsservice.getAvailablePermEquipItems().subscribe(item =>{
+      this.availablePermEquipquantities=item;
+    })
+
+
   }
 
   openDialog(item): void {
@@ -324,6 +384,107 @@ async ngOnInit() {
       }
       }
       
+      if (this.cartitemArray[i].category == "Perishables") {
+        for (let j = 0; j < this.originalperishablequantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.originalperishablequantities[j].item_name) {
+            let updateditem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.originalperishablequantities[j].item_name,
+              category: this.originalperishablequantities[j].category,
+              measurement: this.originalperishablequantities[j].measurement,
+              Quantity: (this.originalperishablequantities[j].Quantity - this.cartitemArray[i].Quantity)
+            }
+            //  console.log(updateditem);
+            this.updatedQuantities.push(updateditem);
+          }
+        }
+        if(this.availablePerishablequantities.length>0){
+          let flag=false;
+        for (let j = 0; j < this.availablePerishablequantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.availablePerishablequantities[j].item_name) {
+            flag=true;
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.availablePerishablequantities[j].item_name,
+              category: this.availablePerishablequantities[j].category,
+              measurement: this.availablePerishablequantities[j].measurement,
+              Quantity: (this.availablePerishablequantities[j].Quantity - this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }
+        if(flag==false){
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
+        }
+      }else{
+        let updatedavailbleitem = {
+          $key: this.cartitemArray[i].$key,
+          item_name: this.cartitemArray[i].item_name,
+          category: this.cartitemArray[i].category,
+          measurement: this.cartitemArray[i].measurement,
+          Quantity: (this.cartitemArray[i].Quantity)
+        }
+        this.updatedavailableQuantities.push(updatedavailbleitem);
+      }
+      }
+
+      if (this.cartitemArray[i].category == "Permanent Equipment") {
+        for (let j = 0; j < this.originalpermEquipmentquantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.originalpermEquipmentquantities[j].item_name) {
+            let updateditem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.originalpermEquipmentquantities[j].item_name,
+              category: this.originalpermEquipmentquantities[j].category,
+              measurement: this.originalpermEquipmentquantities[j].measurement,
+              Quantity: (this.originalpermEquipmentquantities[j].Quantity - this.cartitemArray[i].Quantity)
+            }
+            //  console.log(updateditem);
+            this.updatedQuantities.push(updateditem);
+          }
+        }
+        if(this.availablePermEquipquantities.length>0){
+          let flag=false;
+        for (let j = 0; j < this.availablePermEquipquantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.availablePermEquipquantities[j].item_name) {
+            flag=true;
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.availablePermEquipquantities[j].item_name,
+              category: this.availablePermEquipquantities[j].category,
+              measurement: this.availablePermEquipquantities[j].measurement,
+              Quantity: (this.availablePermEquipquantities[j].Quantity - this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }
+        if(flag==false){
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
+        }
+      }else{
+        let updatedavailbleitem = {
+          $key: this.cartitemArray[i].$key,
+          item_name: this.cartitemArray[i].item_name,
+          category: this.cartitemArray[i].category,
+          measurement: this.cartitemArray[i].measurement,
+          Quantity: (this.cartitemArray[i].Quantity)
+        }
+        this.updatedavailableQuantities.push(updatedavailbleitem);
+      }
+      }
     }
 
 

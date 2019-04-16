@@ -1,25 +1,22 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-
-import { ItemService } from 'src/app/services/glassware.service';
-import { MatTableDataSource, } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog, MatDialogConfig } from '@angular/material'
-import { NewglasswareComponent } from '../newglassware/newglassware.component';
-import { ItemAdditionService } from '../../../services/item-addition.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { PermEquipmentService } from 'src/app/services/perm-equipment.service';
 import { item } from 'src/app/services/item.model';
-import { QuantitydialogComponent } from '../quantitydialog/quantitydialog.component';
+import { Subscription } from 'rxjs';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
+import { ItemAdditionService } from 'src/app/services/item-addition.service';
 import { ItemRemovalService } from 'src/app/services/item-removal.service';
-import { UiService } from 'src/app/services/ui.service';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
+import { UiService } from 'src/app/services/ui.service';
+import { PermQuantitydialogComponent } from '../perm-quantitydialog/perm-quantitydialog.component';
+import { NewpermEquipmentComponent } from '../newperm-equipment/newperm-equipment.component';
 
 @Component({
-  selector: 'app-glasswarelist',
-  templateUrl: './glasswarelist.component.html',
-  styleUrls: ['./glasswarelist.component.css']
+  selector: 'app-perm-equiplist',
+  templateUrl: './perm-equiplist.component.html',
+  styleUrls: ['./perm-equiplist.component.css']
 })
-export class GlasswarelistComponent implements OnInit, OnDestroy {
+export class PermEquiplistComponent implements OnInit {
+
   @Input() newAdditions: any;
   @Input('item') items: item;
   Additemsub: Subscription;
@@ -33,7 +30,7 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private service: ItemService,
+  constructor(private service: PermEquipmentService,
     private dialog: MatDialog,
     private ItemAddService: ItemAdditionService,
     private itemRemovalService: ItemRemovalService,
@@ -50,8 +47,8 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
 
 
   //  Quantity dialog
-  openDialog(glassware, pos): void {
-    const dialogRef = this.dialog.open(QuantitydialogComponent, {
+  openDialog(permEquipment, pos): void {
+    const dialogRef = this.dialog.open(PermQuantitydialogComponent, {
       width: '250px',
       data: { Quantity: this.quantity }
     });
@@ -60,17 +57,17 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
       this.quantity = result;
       if (pos == 'add') {
         if (this.quantity) {
-          this.ItemAddService.Addtocartfromdialog(glassware, this.quantity)
+          this.ItemAddService.Addtocartfromdialog(permEquipment, this.quantity)
 
         }
         this.quantity = undefined;
       }
       else if (pos == 'remove') {
-        if (this.quantity - glassware.Quantity > 0) {
+        if (this.quantity - permEquipment.Quantity > 0) {
           this.uiservice.showSnackbar("Invalid Quantity", null, 3000)
         }
         else if (this.quantity) {
-          this.itemRemovalService.AddtoRemovecartfromdialog(glassware, this.quantity)
+          this.itemRemovalService.AddtoRemovecartfromdialog(permEquipment, this.quantity)
         }
         this.quantity = undefined;
       }
@@ -79,7 +76,7 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.service.getGlassware().subscribe(
+    this.service.getpermenant_equipment().subscribe(
       list => {
         let array = list.map(item => {
           return {
@@ -126,7 +123,7 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
-    this.dialog.open(NewglasswareComponent, dialogConfig);
+    this.dialog.open(NewpermEquipmentComponent, dialogConfig);
   }
 
   //Edit button 
@@ -135,14 +132,14 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
-    let dialogref=this.dialog.open(NewglasswareComponent, dialogConfig);
+    let dialogref=this.dialog.open(NewpermEquipmentComponent, dialogConfig);
     dialogref.componentInstance.updateEvent.subscribe(data=>{
       let flag=false;
     if(data){
       flag=true;
       this.ItemAddService.removeitem(row.$key,row);
       this.itemRemovalService.removeitem(row.$key,row);
-      this.availableitemservice.modifyname(row.$key,data,"Glassware")
+      this.availableitemservice.modifyname(row.$key,data,"permEquipment")
     }
     })
   
@@ -151,20 +148,20 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
   // Deletebutton
   onDelete($key, row) {
     if (confirm('Are you sure to delete this record ?')) {
-      this.service.deleteGlassware($key, row)
+      this.service.deletepermenant_equipment($key, row)
       this.availableitemservice.deleteavailableGlassware($key, row);
     }
   }
 
 
   // New additions
-  addto(glassware) {
-    console.log(glassware);
-    this.ItemAddService.Addtovoucher(glassware);
+  addto(permEquipment) {
+    console.log(permEquipment);
+    this.ItemAddService.Addtovoucher(permEquipment);
   }
 
-  subtractfromcart(glassware) {
-    this.ItemAddService.subfromvoucher(glassware);
+  subtractfromcart(permEquipment) {
+    this.ItemAddService.subfromvoucher(permEquipment);
   }
 
   // cart reset

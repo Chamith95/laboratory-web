@@ -16,6 +16,8 @@ export class ItemAdditionService  {
   vocucherlist: AngularFireList<any>
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
+  perishablelist: AngularFireList<any>;
+  permEquiplist: AngularFireList<any>;
   user:any;
   uid:any;
   items: Observable<any[]>;
@@ -181,6 +183,15 @@ export class ItemAdditionService  {
     return this.chemicalist.valueChanges();
   }
 
+  getoriginalPerishableQuantities() {
+    this.perishablelist = this.firebase.list('perishables');
+    return this.perishablelist.valueChanges();
+  }
+
+  getoriginalpermEquipQuantities() {
+    this.permEquiplist = this.firebase.list('permenant_equipment');
+    return this.permEquiplist.valueChanges();
+  }
   // clearing the cart in database
   async clearvouchercart() {
     let vouId = await this.getOrCreateAddVoucherId();
@@ -206,6 +217,22 @@ export class ItemAdditionService  {
       }
       if (data[i].category == "Chemicals") {
         this.chemicalist.update(
+          data[i].$key, {
+            item_name: data[i].item_name,
+            Quantity: data[i].Quantity
+          })
+      }
+
+      if (data[i].category == "Perishables") {
+        this.perishablelist.update(
+          data[i].$key, {
+            item_name: data[i].item_name,
+            Quantity: data[i].Quantity
+          })
+      }
+
+      if (data[i].category == "Permanent Equipment") {
+        this.permEquiplist.update(
           data[i].$key, {
             item_name: data[i].item_name,
             Quantity: data[i].Quantity

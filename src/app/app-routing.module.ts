@@ -22,6 +22,8 @@ import { RemhistoryComponent } from './items/remhistory/remhistory.component';
 import { ChemicallistComponent } from './items/chemicals/chemicallist/chemicallist.component';
 import { LendingMainFormComponent } from './lending_items/lending-main-form/lending-main-form.component';
 import { CanActivate } from '@angular/router/src/utils/preactivation';
+import { PerishablelistComponent } from './items/perishables/perishablelist/perishablelist.component';
+import { PermEquiplistComponent } from './items/permEquipment/perm-equiplist/perm-equiplist.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full'},
@@ -38,6 +40,8 @@ const routes: Routes = [
   { path: 'Removalcart',component:RemovalcartComponent },
   { path: 'RemovalHistory',component:RemhistoryComponent},
   { path: 'Chemicallist',component:ChemicallistComponent},
+  { path: 'Perishablelist',component:PerishablelistComponent},
+  { path: 'PermEquiplist',component:PermEquiplistComponent},
   { path: 'lendingform',component:LendingMainFormComponent}
 
 

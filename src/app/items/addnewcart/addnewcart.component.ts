@@ -7,9 +7,6 @@ import { UiService } from 'src/app/services/ui.service';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
 
 
-
-
-
 @Component({
   selector: 'app-addnewcart',
   templateUrl: './addnewcart.component.html',
@@ -22,8 +19,12 @@ export class AddnewcartComponent implements OnInit {
   listData: MatTableDataSource<any>;
   originalglasswarequantities: any[] = []
   originalchemicalquantities: any[] = []
+  originalperishablequantities: any[] = []
+  originalpermEquipmentquantities: any[] = []
   availableglasswarequantities: any[] = []
   availablechemicalquantities: any[] = []
+  availablePerishablequantities: any[] = []
+  availablePermEquipquantities: any[] = []
   updatedQuantities: any[] = []
   updatedavailableQuantities: any[] = []
   dialogquantity: number;
@@ -91,17 +92,57 @@ export class AddnewcartComponent implements OnInit {
         }
 // getting and mapping cart items
         if(newObj){
-        this.itemAddservice.getoriginalglasswarequantities().subscribe(origalssitem=>{
+        this.itemAddservice.getoriginalglasswarequantities().subscribe(originalPerishableItems=>{
           for (let item in newObj.items) {
             if(newObj.items[item].category=="Glassware"){
-            for(let j=0;j<origalssitem.length;j++){
-              if(newObj.items[item].item_name==origalssitem[j].item_name){
+            for(let j=0;j<originalPerishableItems.length;j++){
+              if(newObj.items[item].item_name==originalPerishableItems[j].item_name){
             let obj = {
               $key: item,
               item_name: newObj.items[item].item_name,
               category: newObj.items[item].category,
               measurement: newObj.items[item].measurement,
-              OriginalQuantity:origalssitem[j].Quantity,
+              OriginalQuantity:originalPerishableItems[j].Quantity,
+              Quantity: newObj.items[item].Quantity
+            }
+            this.cartitemArray.push(obj);
+          }
+           
+          }}
+          }
+        })
+
+        this.itemAddservice.getoriginalPerishableQuantities().subscribe(originalPerishableItems=>{
+          for (let item in newObj.items) {
+            if(newObj.items[item].category=="Perishables"){
+            for(let j=0;j<originalPerishableItems.length;j++){
+              if(newObj.items[item].item_name==originalPerishableItems[j].item_name){
+            let obj = {
+              $key: item,
+              item_name: newObj.items[item].item_name,
+              category: newObj.items[item].category,
+              measurement: newObj.items[item].measurement,
+              OriginalQuantity:originalPerishableItems[j].Quantity,
+              Quantity: newObj.items[item].Quantity
+            }
+            this.cartitemArray.push(obj);
+          }
+           
+          }}
+          }
+        })
+
+        this.itemAddservice.getoriginalpermEquipQuantities().subscribe(originalPermEquipItems=>{
+          for (let item in newObj.items) {
+            if(newObj.items[item].category=="Permanent Equipment"){
+            for(let j=0;j<originalPermEquipItems.length;j++){
+              if(newObj.items[item].item_name==originalPermEquipItems[j].item_name){
+            let obj = {
+              $key: item,
+              item_name: newObj.items[item].item_name,
+              category: newObj.items[item].category,
+              measurement: newObj.items[item].measurement,
+              OriginalQuantity:originalPermEquipItems[j].Quantity,
               Quantity: newObj.items[item].Quantity
             }
             this.cartitemArray.push(obj);
@@ -129,7 +170,8 @@ export class AddnewcartComponent implements OnInit {
            
           }}
           }
-          this.listData = new MatTableDataSource(this.cartitemArray);
+        this.listData = new MatTableDataSource(this.cartitemArray);
+         
         })
       }
         
@@ -155,6 +197,15 @@ export class AddnewcartComponent implements OnInit {
 
     })
 
+    this.itemAddservice.getoriginalPerishableQuantities().subscribe(item => {
+      this.originalperishablequantities = item;
+
+    })
+    this.itemAddservice.getoriginalpermEquipQuantities().subscribe(item => {
+      this.originalpermEquipmentquantities = item;
+
+    })
+
 // Getting available glassware quantities
     this.availableitemsservice.getavailableglasswarequantities().subscribe(item =>{
       this.availableglasswarequantities=item;
@@ -162,6 +213,14 @@ export class AddnewcartComponent implements OnInit {
 // getting available chemical quantities
     this.availableitemsservice.getavailablechemicalquantities().subscribe(item =>{
       this.availablechemicalquantities=item;
+    })
+
+    this.availableitemsservice.getAvailablePerishableItems().subscribe(item =>{
+      this.availablePerishablequantities=item;
+    })
+    
+    this.availableitemsservice.getAvailablePermEquipItems().subscribe(item =>{
+      this.availablePermEquipquantities=item;
     })
   }
 
@@ -297,6 +356,110 @@ export class AddnewcartComponent implements OnInit {
               category: this.availablechemicalquantities[j].category,
               measurement: this.availablechemicalquantities[j].measurement,
               Quantity: (this.availablechemicalquantities[j].Quantity + this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }
+        if(flag==false){
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
+        }
+      }else{
+        let updatedavailbleitem = {
+          $key: this.cartitemArray[i].$key,
+          item_name: this.cartitemArray[i].item_name,
+          category: this.cartitemArray[i].category,
+          measurement: this.cartitemArray[i].measurement,
+          Quantity: (this.cartitemArray[i].Quantity)
+        }
+        this.updatedavailableQuantities.push(updatedavailbleitem);
+      }
+      }
+
+      if (this.cartitemArray[i].category == "Perishables") {
+        for (let j = 0; j < this.originalperishablequantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.originalperishablequantities[j].item_name) {
+            let updateditem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.originalperishablequantities[j].item_name,
+              category: this.originalperishablequantities[j].category,
+              measurement: this.originalperishablequantities[j].measurement,
+              Quantity: (this.originalperishablequantities[j].Quantity + this.cartitemArray[i].Quantity)
+            }
+
+            this.updatedQuantities.push(updateditem);
+          }
+        }
+
+        if(this.availablePerishablequantities.length>0){
+          let flag=false;
+        for (let j = 0; j < this.availablePerishablequantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.availablePerishablequantities[j].item_name) {
+            flag=true;
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.availablePerishablequantities[j].item_name,
+              category: this.availablePerishablequantities[j].category,
+              measurement: this.availablePerishablequantities[j].measurement,
+              Quantity: (this.availablePerishablequantities[j].Quantity + this.cartitemArray[i].Quantity)
+            }
+            this.updatedavailableQuantities.push(updatedavailbleitem);
+          }
+        }
+        if(flag==false){
+          let updatedavailbleitem = {
+            $key: this.cartitemArray[i].$key,
+            item_name: this.cartitemArray[i].item_name,
+            category: this.cartitemArray[i].category,
+            measurement: this.cartitemArray[i].measurement,
+            Quantity: (this.cartitemArray[i].Quantity)
+          }
+          this.updatedavailableQuantities.push(updatedavailbleitem);
+        }
+      }else{
+        let updatedavailbleitem = {
+          $key: this.cartitemArray[i].$key,
+          item_name: this.cartitemArray[i].item_name,
+          category: this.cartitemArray[i].category,
+          measurement: this.cartitemArray[i].measurement,
+          Quantity: (this.cartitemArray[i].Quantity)
+        }
+        this.updatedavailableQuantities.push(updatedavailbleitem);
+      }
+      }
+
+      if (this.cartitemArray[i].category == "Permanent Equipment") {
+        for (let j = 0; j < this.originalpermEquipmentquantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.originalpermEquipmentquantities[j].item_name) {
+            let updateditem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.originalpermEquipmentquantities[j].item_name,
+              category: this.originalpermEquipmentquantities[j].category,
+              measurement: this.originalpermEquipmentquantities[j].measurement,
+              Quantity: (this.originalpermEquipmentquantities[j].Quantity + this.cartitemArray[i].Quantity)
+            }
+
+            this.updatedQuantities.push(updateditem);
+          }
+        }
+
+        if(this.availablePermEquipquantities.length>0){
+          let flag=false;
+        for (let j = 0; j < this.availablePermEquipquantities.length; j++) {
+          if (this.cartitemArray[i].item_name == this.availablePermEquipquantities[j].item_name) {
+            flag=true;
+            let updatedavailbleitem = {
+              $key: this.cartitemArray[i].$key,
+              item_name: this.availablePermEquipquantities[j].item_name,
+              category: this.availablePermEquipquantities[j].category,
+              measurement: this.availablePermEquipquantities[j].measurement,
+              Quantity: (this.availablePermEquipquantities[j].Quantity + this.cartitemArray[i].Quantity)
             }
             this.updatedavailableQuantities.push(updatedavailbleitem);
           }
