@@ -31,36 +31,25 @@ export class LendingServiceService {
   }
    }
 
-     // Creating a new vouchercart if no voucher is present
-  private newlendingcart() {
-    return this.firebase.object('/new-lendings-cart/'+this.uid);
 
-  }
 
-  // Getting vouchercart asynchronously
-  async  getlendingcart() {
-    let lendingcartid = await this.getorcreatelendingcartId()
-    console.log(lendingcartid);
-    return this.firebase.object('/new-lendings-cart/' + lendingcartid)
 
+  getlendingsync(){
+    return this.firebase.object('/new-lendings-cart/' + this.uid).valueChanges()
   }
 
 
 
 
-  // Getting exisiting vouchercartid or creating one
-  private async getorcreatelendingcartId() {
-    let result =this.newlendingcart();
-     return this.uid;
 
-  }
+
   // Getting item
   private getItem(lendingcartid: string, itemId: string) {
     return this.firebase.object('/new-lendings-cart/' + lendingcartid + '/items/' + itemId);
   }
   // Adding new item or increasing count
   async Addtolendingcart(item1) {
-    let lendingcartid = await this.getorcreatelendingcartId();
+    let lendingcartid = this.uid;
     let item$ = this.getItem(lendingcartid, item1.$key)
     item$.valueChanges().pipe(take(1)).subscribe(item => {
 
@@ -86,7 +75,7 @@ export class LendingServiceService {
 
   // adding to cart from the quantity dialog box
   async Addtocartfromdialog(item1, dQuantity) {
-    let lendingcartid = await this.getorcreatelendingcartId();
+    let lendingcartid = this.uid;
     let item$ = this.getItem(lendingcartid, item1.$key)
     item$.valueChanges().pipe(take(1)).subscribe(item => {
 
@@ -113,7 +102,7 @@ export class LendingServiceService {
 
   // subtracting or removing items form cart
   async subfromlendingcart(item1) {
-    let lendingcartid = await this.getorcreatelendingcartId();
+    let lendingcartid =this.uid;
     let item$ = this.getItem(lendingcartid, item1.$key)
     item$.valueChanges().pipe(take(1)).subscribe(item => {
 

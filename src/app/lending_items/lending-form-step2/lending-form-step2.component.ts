@@ -13,17 +13,31 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class LendingFormStep1Component implements OnInit {
   listDataGlass: MatTableDataSource<any>;
+
   tablearray: Array<any>;
-  listDatachemicals: MatTableDataSource<any>;
   tablearraychemicals: Array<any>;
+  tablearrayPerishables: Array<any>;
+  tablearrayPermEquip: Array<any>;
+
+  listDatachemicals: MatTableDataSource<any>;
+  listDataperishables: MatTableDataSource<any>;
+  listDatapermEquipment: MatTableDataSource<any>;
+
   glasssearchKey: string="";
   chemicalsearchKey: string="";
+  perishablesearchKey: string="";
+  permequipmentsearchKey: string="";
+
   lendingcart:any;
   quantity: number;
+
   @Output() QuantitySubmited=new EventEmitter();
   @ViewChild(MatSort) sort: MatSort;
+
   @ViewChild('paginatorglass') paginatorglass: MatPaginator;
   @ViewChild('paginatorchem') paginatorchem: MatPaginator;
+  @ViewChild('paginatorPerishable') paginatorPerishable: MatPaginator;
+  @ViewChild('paginatorPermEquip') paginatorPermEquip: MatPaginator;
 
   constructor(private availableitemservice:AvailableItemsService,
               private lendingitemservice:LendingServiceService,
@@ -63,7 +77,39 @@ export class LendingFormStep1Component implements OnInit {
       }
     );
 
-    (await this.lendingitemservice.getlendingcart()).valueChanges().subscribe(cart => {
+    this.availableitemservice.getavailablePerishableeSnap().subscribe(
+      list => {
+        let array = list.map(item => {
+          return {
+            $key: item.key,
+            ...item.payload.val()
+          };
+        });
+        this.tablearrayPerishables = array;
+
+        this.listDataperishables = new MatTableDataSource(array);
+        this.listDataperishables.sort = this.sort;
+        this.listDataperishables.paginator = this.paginatorPerishable;
+      }
+    );
+
+    this.availableitemservice.getavailablePermEquipSnap().subscribe(
+      list => {
+        let array = list.map(item => {
+          return {
+            $key: item.key,
+            ...item.payload.val()
+          };
+        });
+        this.tablearrayPermEquip = array;
+
+        this.listDatapermEquipment = new MatTableDataSource(array);
+        this.listDatapermEquipment.sort = this.sort;
+        this.listDatapermEquipment.paginator = this.paginatorPermEquip;
+      }
+    );
+
+     this.lendingitemservice.getlendingsync().subscribe(cart => {
       //  console.log(cart)
       this.lendingcart = cart;
     })
@@ -149,5 +195,22 @@ getMeasurementUnitlend($key) {
    this.chemicalsearchKey = "";
    this.applyFilterchem();
  }
+
+ applyFilterPerishables() {
+  this.listDataperishables.filter = this.perishablesearchKey.trim().toLowerCase();
+}
+onSearchClearPerishables(){
+ this.perishablesearchKey = "";
+ this.applyFilterglass();
+}
+
+applyFilterPermEquipment() {
+  this.listDatapermEquipment.filter = this.permequipmentsearchKey.trim().toLowerCase();
+}
+onSearchClearPermEquipment(){
+ this.permequipmentsearchKey = "";
+ this.applyFilterglass();
+}
+
 
 }

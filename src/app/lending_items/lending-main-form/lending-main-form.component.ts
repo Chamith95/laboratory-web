@@ -27,6 +27,9 @@ export class LendingMainFormComponent implements OnInit {
   quantity: number;
 
   availableglassware:any[]=[];
+  availableChemical:any[]=[];
+  availablePerishables:any[]=[];
+  availablePermEquipment:any[]=[];
   lendingcartitemarraywithoutkey:any[]=[];
   listData: MatTableDataSource<any>;
   dataavailableflag:boolean;
@@ -54,7 +57,7 @@ export class LendingMainFormComponent implements OnInit {
 
 
 
-    let cart$ =(await this.itemlendingservice.getlendingcart()).valueChanges()
+    let cart$ = this.itemlendingservice.getlendingsync()
     .subscribe(item => {
  
       // console.log(this.updatedtablearry);
@@ -117,9 +120,58 @@ export class LendingMainFormComponent implements OnInit {
                      
         }
       }
-     
         }
-        
+        }
+       
+      })
+
+      this.availableservice.getAvailablePerishableItems().subscribe(item=>{
+      
+        // console.log(this.lendingcartarray)
+        for(let i=0;i<this.lendingcartarray.length;i++){
+     
+        if(this.lendingcartarray[i].category=="Perishables"){
+            for(let j=0;j<item.length;j++){
+              if(this.lendingcartarray[i].item_name==item[j].item_name){
+                let updatedtableobject = {
+                  $key: this.lendingcartarray[i].$key,
+                  item_name: item[j].item_name,
+                  category: item[j].category,
+                  measurement: item[j].measurement,
+                  availablequantity:item[j].Quantity,
+                  Quantity: (this.lendingcartarray[i].Quantity)
+                }
+                this.updatedtablearry.push(updatedtableobject);
+                     
+        }
+      }
+        }
+        }
+       
+      })
+
+      this.availableservice.getAvailablePermEquipItems().subscribe(item=>{
+      
+        this.availableglassware=item;
+        // console.log(this.lendingcartarray)
+        for(let i=0;i<this.lendingcartarray.length;i++){
+     
+        if(this.lendingcartarray[i].category=="Permanent Equipment"){
+            for(let j=0;j<item.length;j++){
+              if(this.lendingcartarray[i].item_name==item[j].item_name){
+                let updatedtableobject = {
+                  $key: this.lendingcartarray[i].$key,
+                  item_name: item[j].item_name,
+                  category: item[j].category,
+                  measurement: item[j].measurement,
+                  availablequantity:item[j].Quantity,
+                  Quantity: (this.lendingcartarray[i].Quantity)
+                }
+                this.updatedtablearry.push(updatedtableobject);
+                     
+        }
+      }
+        }
         }
        
       })
@@ -142,21 +194,23 @@ export class LendingMainFormComponent implements OnInit {
                   availablequantity:item[j].Quantity,
                   Quantity: (this.lendingcartarray[i].Quantity)
                 }
-                this.updatedtablearry.push(updatedtableobject);
-             
-
-               
-         
+                this.updatedtablearry.push(updatedtableobject); 
          
         }
       }
      
         }
-        this.listData = new MatTableDataSource(this.updatedtablearry);
         }
-       
-      })
+        console.log(this.updatedtablearry);
+        this.listData = new MatTableDataSource(this.updatedtablearry);
       
+      })
+
+      this.itemlendingservice.getlendingsync().subscribe(item=>{
+        console.log(item)
+        console.log(this.updatedtablearry);
+      })
+      console.log(this.updatedtablearry);
       
       
       if (this.lendingcartarray.length > 0) {
@@ -226,8 +280,16 @@ export class LendingMainFormComponent implements OnInit {
   }
 
   onQuantitysubmit(){
+    console.log("submitted")
     this.updatedtablearry = [];
     this.lendingcartarray=[]; 
     this.listData=null;
+  }
+
+  onQuantitysubmit2(){
+    console.log("submitted2")
+    this.updatedtablearry = [];
+    this.lendingcartarray=[]; 
+
   }
 }
