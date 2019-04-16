@@ -94,6 +94,7 @@ export class ItemRemovalService {
     item$.valueChanges().pipe(take(1)).subscribe(item => {
 
       const newObj: any = item;
+   
       if (item != null) {
         item$.update(
           {

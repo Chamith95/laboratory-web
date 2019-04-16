@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ItemRemovalService } from 'src/app/services/item-removal.service';
 import { ChemicalquantitydialogComponent } from '../chemicalquantitydialog/chemicalquantitydialog.component';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
+import { UiService } from 'src/app/services/ui.service';
 
 @Component({
   selector: 'app-chemicallist',
@@ -29,6 +30,7 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
   constructor(private chemservice: ChemicalsService,
     private dialog: MatDialog,
     private ItemAddService: ItemAdditionService,
+    private uiservice:UiService,
     private availableitemservice:AvailableItemsService,
     private ItemRemovalService: ItemRemovalService) { }
 
@@ -85,7 +87,7 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
       }
       else if (pos == 'remove') {
         if (this.quantity - chemical.Quantity > 0) {
-          return console.log("invalid quantity")
+          this.uiservice.showSnackbar("Invalid Quantity", null, 3000)
         }
         else if (this.quantity) {
           this.ItemRemovalService.AddtoRemovecartfromdialog(chemical, this.quantity)
@@ -191,8 +193,13 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
   }
 
   addtoRemovecart(item) {
-    this.ItemRemovalService.addtoRemovecart(item);
 
+    if(this.removecart.items[item.$key].Quantity-item.Quantity==0){
+      this.uiservice.showSnackbar("Invalid Quantity", null, 3000)
+      return
+    }
+
+    this.ItemRemovalService.addtoRemovecart(item);
   }
 
   // New additions
@@ -208,6 +215,7 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
 
   // add remove items from remove cart
   subtractfromRemovecart(item) {
+
     this.ItemRemovalService.subfromRemovecart(item);
   }
 

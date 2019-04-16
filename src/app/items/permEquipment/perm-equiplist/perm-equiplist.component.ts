@@ -199,6 +199,11 @@ export class PermEquiplistComponent implements OnInit {
 
 // Adding to remove cart
   addtoRemovecart(item) {
+    if(this.removecart.items[item.$key].Quantity-item.Quantity==0){
+      this.uiservice.showSnackbar("Invalid Quantity", null, 3000)
+      return
+    }
+
     this.itemRemovalService.addtoRemovecart(item);
 
   }
