@@ -36,7 +36,9 @@ export class ItemAdditionService  {
 
 
     this.user=JSON.parse(localStorage.getItem('user'));
+    if(this.user){
     this.uid=(this.user.uid);
+    }
     if(!this.uid){
     this.afauth.authState.subscribe(user => {
       if (user) {

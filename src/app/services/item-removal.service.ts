@@ -28,7 +28,9 @@ export class ItemRemovalService {
     this.permEquiplist = this.firebase.list('permenant_equipment');
     this.perishablelist = this.firebase.list('perishables');
     this.user=JSON.parse(localStorage.getItem('user'));
-    this.uid=(this.user.uid);
+    if(this.user){
+      this.uid=(this.user.uid);
+      }
     if(!this.uid){
     this.afauth.authState.subscribe(user => {
       if (user) {

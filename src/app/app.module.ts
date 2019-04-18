@@ -44,7 +44,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
-
+import { ChartsModule as Ng2Charts } from 'ng2-charts';
 
 
 import {ItemService} from './services/glassware.service';
@@ -75,6 +75,7 @@ import { PeriqunatitydialogComponent } from './items/perishables/periqunatitydia
 import { PermEquiplistComponent } from './items/permEquipment/perm-equiplist/perm-equiplist.component';
 import { NewpermEquipmentComponent } from './items/permEquipment/newperm-equipment/newperm-equipment.component';
 import { PermQuantitydialogComponent } from './items/permEquipment/perm-quantitydialog/perm-quantitydialog.component';
+import { CategoryCardComponent } from './dashboard/category-card/category-card.component';
 
 
 
@@ -109,6 +110,7 @@ import { PermQuantitydialogComponent } from './items/permEquipment/perm-quantity
     PermEquiplistComponent,
     NewpermEquipmentComponent,
     PermQuantitydialogComponent,
+    CategoryCardComponent,
 
 
    
@@ -143,13 +145,14 @@ import { PermQuantitydialogComponent } from './items/permEquipment/perm-quantity
     MatBadgeModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FlexLayoutModule,
+    FlexLayoutModule.withConfig({addFlexToParent: false}),
     MatExpansionModule,
     MatSelectModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatStepperModule,
-    MatTabsModule
+    MatTabsModule,
+    Ng2Charts
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule,UiService],
   bootstrap: [AppComponent],

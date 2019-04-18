@@ -1,0 +1,18 @@
+<mat-card class="example-card" [ngClass]="catClass">
+    <mat-card-header>
+        <mat-card-title>{{category}}</mat-card-title>
+    </mat-card-header>
+    <div fxLayout="row" fxLayoutAlign="start start">
+
+        <div [ngClass]="catClass" class="example-header-image"></div>
+     
+        <mat-card-content>
+            <div class="card-conetnt" fxLayout="column" fxLayoutAlign="center end">
+            <h1 class="mat-display-1">{{count}}</h1>
+            <p class="mat-h4">
+               No Of Categories
+            </p>
+        </div>
+        </mat-card-content>
+    </div>
+</mat-card>

@@ -1,2 +1,101 @@
-<h1>Dashboard</h1>
-<app-profile></app-profile>
+<!-- <h2 class="mat-display-1">Dashboard</h2> -->
+
+<div class="mb-20" fxLayout="row" fxLayout.lt-md="column"  fxLayoutGap="20px">
+        <div fxFlex>
+                <app-category-card [catClass]="'glassware'"  [category]="'Glassware'" [count]="glasswareCount"></app-category-card>
+        </div>
+        <div fxFlex>
+                <app-category-card [catClass]="'chemicals'" [category]="'Chemicals'" [count]="ChemicalsCount"></app-category-card>
+        </div>
+        <div fxFlex>
+                <app-category-card [catClass]="'perishables'" [category]="'Perishables'" [count]="perishablesCount"></app-category-card>
+        </div>
+        <div fxFlex=30>
+                <app-category-card  [catClass]="'permEquip'" [category]="'Permanent Equipment'" [count]="PermEquipCount"></app-category-card>
+        </div>
+    </div>
+
+
+    <div class="piechartcard" class="mb-20" fxLayout="row" fxLayout.lt-md="column"  fxLayoutGap="20px">
+     <div fxFlex=70>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Additions And Removals</mat-card-title>
+            </mat-card-header>
+            <mat-card-content  >
+                <canvas id="myChart" baseChart  [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                    [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+            </mat-card-content>
+        </mat-card>
+    </div>           
+        <div fxFlex=30>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Equipments</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <canvas baseChart [data]="doughnutChartData" [colors]="DougnutChartColors" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    </div>
+<!-- <div class="card_container" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="100px">
+<mat-card class="example-card">
+<mat-card-header>
+    <mat-card-title>Glassware</mat-card-title>
+</mat-card-header>
+<div fxLayout="row" fxLayoutAlign="start start">
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-content >
+            <p>
+               content
+            </p>
+        </mat-card-content>
+        </div>
+</mat-card>
+
+<mat-card class="example-card">
+        <mat-card-header>
+            <mat-card-title>Glassware</mat-card-title>
+        </mat-card-header>
+        <div fxLayout="row" fxLayoutAlign="start start">
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-content >
+                    <p>
+                       content
+                    </p>
+                </mat-card-content>
+                </div>
+        </mat-card>
+
+<mat-card class="example-card">
+<mat-card-header>
+    <mat-card-title>Glassware</mat-card-title>
+</mat-card-header>
+<div fxLayout="row" fxLayoutAlign="start start">
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-content >
+            <p>
+               content
+            </p>
+        </mat-card-content>
+        </div>
+</mat-card>
+
+<mat-card class="example-card">
+<mat-card-header>
+    <mat-card-title>Glassware</mat-card-title>
+</mat-card-header>
+<div fxLayout="row" fxLayoutAlign="start start">
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-content >
+            <p>
+               content
+            </p>
+        </mat-card-content>
+        </div>
+</mat-card>
+
+
+</div> -->
