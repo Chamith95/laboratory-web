@@ -214,14 +214,16 @@ export class ItemAdditionService  {
         this.glasswarelist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
       if (data[i].category == "Chemicals") {
         this.chemicalist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
 
@@ -229,7 +231,8 @@ export class ItemAdditionService  {
         this.perishablelist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
 

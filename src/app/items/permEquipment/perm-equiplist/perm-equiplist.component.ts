@@ -40,7 +40,7 @@ export class PermEquiplistComponent implements OnInit {
   }
 
 
-  displayedColumns: string[] = ['item_name', 'Quantity', 'Addition', 'Removal', 'actions'];
+  displayedColumns: string[] = ['item_name', 'Quantity','recomended', 'Addition', 'Removal', 'actions'];
 
 
 

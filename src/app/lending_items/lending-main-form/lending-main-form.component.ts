@@ -5,6 +5,10 @@ import { MatTableDataSource, MatDialog } from '@angular/material';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
 import { UiService } from 'src/app/services/ui.service';
 import { LendingquantitydialogComponent } from '../lendingquantitydialog/lendingquantitydialog.component';
+import { ItemService } from 'src/app/services/glassware.service';
+import { ChemicalsService } from 'src/app/services/chemicals.service';
+import { PerishablesService } from 'src/app/services/perishables.service';
+import { PermEquipmentService } from 'src/app/services/perm-equipment.service';
 
 export interface Teacher {
   name: string;
@@ -40,6 +44,10 @@ export class LendingMainFormComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private itemlendingservice:LendingServiceService,
     private availableservice:AvailableItemsService,
+    private glasswareService:ItemService,
+    private chemicalService:ChemicalsService,
+    private pershablesService:PerishablesService,
+    private permEquipService:PermEquipmentService,
     private dialog: MatDialog,
     private uiservice:UiService) {}
 
@@ -62,7 +70,7 @@ export class LendingMainFormComponent implements OnInit {
  
       // console.log(this.updatedtablearry);
       const newObj: any = item;
-      // console.log(item);
+       console.log(item);
       //checking if cart is empty
       if (newObj!= undefined) {
         this.iscartnotempty = true;
@@ -99,7 +107,7 @@ export class LendingMainFormComponent implements OnInit {
       this.lendingcartitemarraywithoutkey = array;
    
 
-      this.availableservice.getAvailableGlasswareitems().subscribe(item=>{
+      this.glasswareService.getGlasswareitems().subscribe(item=>{
       
         this.availableglassware=item;
         // console.log(this.lendingcartarray)
@@ -125,7 +133,7 @@ export class LendingMainFormComponent implements OnInit {
        
       })
 
-      this.availableservice.getAvailablePerishableItems().subscribe(item=>{
+      this.pershablesService.getperishablesitems().subscribe(item=>{
       
         // console.log(this.lendingcartarray)
         for(let i=0;i<this.lendingcartarray.length;i++){
@@ -150,7 +158,7 @@ export class LendingMainFormComponent implements OnInit {
        
       })
 
-      this.availableservice.getAvailablePermEquipItems().subscribe(item=>{
+      this.permEquipService.getpermenant_equipmentitems().subscribe(item=>{
       
         this.availableglassware=item;
         // console.log(this.lendingcartarray)
@@ -177,7 +185,7 @@ export class LendingMainFormComponent implements OnInit {
       })
       // console.log(this.updatedtablearry);
 
-      this.availableservice.getAvailablechemicalitems().subscribe(item=>{
+      this.chemicalService.getChemicalItems().subscribe(item=>{
         this.availableglassware=item;
         // console.log(this.lendingcartarray)
         for(let i=0;i<this.lendingcartarray.length;i++){
@@ -207,10 +215,10 @@ export class LendingMainFormComponent implements OnInit {
       })
 
       this.itemlendingservice.getlendingsync().subscribe(item=>{
-        console.log(item)
-        console.log(this.updatedtablearry);
+
+
       })
-      console.log(this.updatedtablearry);
+
       
       
       if (this.lendingcartarray.length > 0) {

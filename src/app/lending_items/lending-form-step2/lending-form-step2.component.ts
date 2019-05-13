@@ -5,6 +5,9 @@ import { AvailableItemsService } from 'src/app/services/available-items.service'
 import { LendingServiceService } from 'src/app/services/lending-service.service';
 import { LendingquantitydialogComponent } from '../lendingquantitydialog/lendingquantitydialog.component';
 import { UiService } from 'src/app/services/ui.service';
+import { ChemicalsService } from 'src/app/services/chemicals.service';
+import { PerishablesService } from 'src/app/services/perishables.service';
+import { PermEquipmentService } from 'src/app/services/perm-equipment.service';
 
 @Component({
   selector: 'lending-form-step2',
@@ -40,12 +43,16 @@ export class LendingFormStep1Component implements OnInit {
   @ViewChild('paginatorPermEquip') paginatorPermEquip: MatPaginator;
 
   constructor(private availableitemservice:AvailableItemsService,
+              private glasswareService:ItemService,
+              private chemicalService:ChemicalsService,
+              private pershablesService:PerishablesService,
+              private permEquipService:PermEquipmentService,
               private lendingitemservice:LendingServiceService,
               private dialog: MatDialog,
               private uiservice:UiService) { }
 
   async ngOnInit() {
-    this.availableitemservice.getavailableGlasswaresnap().subscribe(
+    this.glasswareService.getGlassware().subscribe(
       list => {
         let array = list.map(item => {
           return {
@@ -61,7 +68,7 @@ export class LendingFormStep1Component implements OnInit {
       }
     );
 
-    this.availableitemservice.getavailablechemicalesnap().subscribe(
+    this.chemicalService.getChemical().subscribe(
       list => {
         let array = list.map(item => {
           return {
@@ -77,7 +84,7 @@ export class LendingFormStep1Component implements OnInit {
       }
     );
 
-    this.availableitemservice.getavailablePerishableeSnap().subscribe(
+    this.pershablesService.getperishables().subscribe(
       list => {
         let array = list.map(item => {
           return {
@@ -93,7 +100,7 @@ export class LendingFormStep1Component implements OnInit {
       }
     );
 
-    this.availableitemservice.getavailablePermEquipSnap().subscribe(
+    this.permEquipService.getpermenant_equipment().subscribe(
       list => {
         let array = list.map(item => {
           return {
@@ -168,7 +175,7 @@ getMeasurementUnitlend($key) {
 
   // New lendings
   addto(item) {
-    console.log(item);
+
     this.lendingitemservice.Addtolendingcart(item);
     this.QuantitySubmited.emit();
   }

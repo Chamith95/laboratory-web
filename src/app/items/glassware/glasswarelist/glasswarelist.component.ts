@@ -43,7 +43,7 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
   }
 
 
-  displayedColumns: string[] = ['item_name', 'Quantity', 'Addition', 'Removal', 'actions'];
+  displayedColumns: string[] = ['item_name', 'Quantity','recomended', 'Addition', 'Removal', 'actions'];
 
 
 

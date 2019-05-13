@@ -187,21 +187,24 @@ export class ItemRemovalService {
         this.chemicalist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
       if (data[i].category == "Perishables") {
         this.perishablelist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
       if (data[i].category == "Permanent Equipment") {
         this.permEquiplist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
 

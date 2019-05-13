@@ -35,7 +35,7 @@ export class ChemicallistComponent implements OnInit, OnDestroy {
     private ItemRemovalService: ItemRemovalService) { }
 
 
-  displayedColumns: string[] = ['item_name', 'Quantity', 'Addition', 'Removal', 'actions'];
+  displayedColumns: string[] = ['item_name', 'Quantity','recomended', 'Addition', 'Removal', 'actions'];
 
   async ngOnInit() {
     this.chemservice.getChemical().subscribe(

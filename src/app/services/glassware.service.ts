@@ -30,6 +30,8 @@ export class ItemService {
     item_name: new FormControl('', Validators.required),
     Quantity: new FormControl(null),
     measurement: new FormControl(null),
+    recomended:new FormControl(null),
+    available:new FormControl(null)
   });
 
 
@@ -51,6 +53,8 @@ export class ItemService {
       item_name: glassware.item_name,
       Quantity: 0,
       measurement: "units",
+      recomended:glassware.recomended,
+      available:0,
     });
 
     //  this.uiservice.success(glassware.item_name + "Successfully Created");
@@ -61,7 +65,9 @@ export class ItemService {
     this.glasswarelist.update(glassware.$key, {
       category: glassware.category,
       item_name: glassware.item_name,
-      Quantity: glassware.Quantity
+      Quantity: glassware.Quantity,
+      recomended:glassware.recomended,
+      available:glassware.available,
     })
 
     this.uiservice.showSnackbar("Updated to " + glassware.item_name, null, 3000);

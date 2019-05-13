@@ -67,6 +67,7 @@ import { ChemicalquantitydialogComponent } from './items/chemicals/chemicalquant
 import { UiService } from './services/ui.service';
 import { LendingMainFormComponent } from './lending_items/lending-main-form/lending-main-form.component';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatMenuModule} from '@angular/material/menu';
 import { LendingFormStep1Component } from './lending_items/lending-form-step2/lending-form-step2.component';
 import { LendingquantitydialogComponent } from './lending_items/lendingquantitydialog/lendingquantitydialog.component';
 import { PerishablelistComponent } from './items/perishables/perishablelist/perishablelist.component';
@@ -76,6 +77,7 @@ import { PermEquiplistComponent } from './items/permEquipment/perm-equiplist/per
 import { NewpermEquipmentComponent } from './items/permEquipment/newperm-equipment/newperm-equipment.component';
 import { PermQuantitydialogComponent } from './items/permEquipment/perm-quantitydialog/perm-quantitydialog.component';
 import { CategoryCardComponent } from './dashboard/category-card/category-card.component';
+import { TeachersComponent } from './teachers/teachers.component';
 
 
 
@@ -111,6 +113,7 @@ import { CategoryCardComponent } from './dashboard/category-card/category-card.c
     NewpermEquipmentComponent,
     PermQuantitydialogComponent,
     CategoryCardComponent,
+    TeachersComponent,
 
 
    
@@ -152,7 +155,8 @@ import { CategoryCardComponent } from './dashboard/category-card/category-card.c
     MatProgressSpinnerModule,
     MatStepperModule,
     MatTabsModule,
-    Ng2Charts
+    Ng2Charts,
+    MatMenuModule
   ],
   providers: [AuthService,{ provide: FirestoreSettingsToken, useValue: {} },ItemService,ItemAdditionService,MatDatepickerModule,UiService],
   bootstrap: [AppComponent],

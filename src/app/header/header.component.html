@@ -17,8 +17,35 @@
        
         <div *ngIf="IsSignedIn">
             <a mat-icon-button    matBadge="{{addcartitemcount}}" matBadgeHidden="{{addcartitemcount==0}}" matBadgePosition="before"  matBadgeColor="accent" routerLinkActive="mat-accent" routerLink="Addnewcart"><mat-icon>add_box</mat-icon></a>
-            <a mat-button (click)="authService.SignOut()" routerLinkActive="mat-accent">Log out</a>
-            <a mat-button routerLink="profile" routerLinkActive="mat-accent">Profile</a>
+            <!-- <a mat-button (click)="authService.SignOut()" routerLinkActive="mat-accent">Log out</a>
+            <a mat-button routerLink="profile" routerLinkActive="mat-accent">Profile</a> -->
+            <button class="hidden-sm" mat-icon-button [matMenuTriggerFor]="notification">
+              <mat-icon>notification_important</mat-icon>
+          </button>
+          <mat-menu #notification="matMenu">
+              <button mat-menu-item routerLink="TeachersMain">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ 'Teachers'}}</span>
+              </button>
+              <button mat-menu-item (click)="authService.SignOut()" >
+                  <mat-icon>exit_to_app</mat-icon>
+                  <span>{{ 'Logout' }}</span>
+              </button>
+          </mat-menu>
+
+            <button class="hidden-sm" mat-icon-button [matMenuTriggerFor]="profile">
+              <mat-icon>account_circle</mat-icon>
+          </button>
+          <mat-menu #profile="matMenu">
+              <button mat-menu-item routerLink="profile">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ 'Profile'}}</span>
+              </button>
+              <button mat-menu-item (click)="authService.SignOut()" >
+                  <mat-icon>exit_to_app</mat-icon>
+                  <span>{{ 'Logout' }}</span>
+              </button>
+          </mat-menu>
           </div>
          
       </li>

@@ -30,6 +30,8 @@ export class PerishablesService {
     item_name: new FormControl('', Validators.required),
     Quantity: new FormControl(null),
     measurement: new FormControl(null),
+    recomended:new FormControl(null),
+    available:new FormControl(null)
   });
 
 
@@ -50,6 +52,8 @@ export class PerishablesService {
       item_name: perishables.item_name,
       Quantity: 0,
       measurement: "units",
+      recomended:perishables.recomended,
+      available:0,
     });
 
     //  this.uiservice.success(perishables.item_name + "Successfully Created");
@@ -60,7 +64,9 @@ export class PerishablesService {
     this.perishablelist.update(perishables.$key, {
       category: perishables.category,
       item_name: perishables.item_name,
-      Quantity: perishables.Quantity
+      Quantity: perishables.Quantity,
+      recomended:perishables.recomended,
+      available:perishables.available,
     })
 
     this.uiservice.showSnackbar("Updated to " + perishables.item_name, null, 3000);

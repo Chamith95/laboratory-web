@@ -31,6 +31,8 @@ export class PermEquipmentService {
     item_name: new FormControl('', Validators.required),
     Quantity: new FormControl(null),
     measurement: new FormControl(null),
+    recomended:new FormControl(null),
+    available:new FormControl(null)
   });
 
 
@@ -51,6 +53,8 @@ export class PermEquipmentService {
       item_name: permenant_equipment.item_name,
       Quantity: 0,
       measurement: "units",
+      recomended:permenant_equipment.recomended,
+      available:0,
     });
 
     //  this.uiservice.success(permenant_equipment.item_name + "Successfully Created");
@@ -61,7 +65,9 @@ export class PermEquipmentService {
     this.permEquiplist.update(permenant_equipment.$key, {
       category: permenant_equipment.category,
       item_name: permenant_equipment.item_name,
-      Quantity: permenant_equipment.Quantity
+      Quantity: permenant_equipment.Quantity,
+      recomended:permenant_equipment.recomended,
+      available:permenant_equipment.available,
     })
 
     this.uiservice.showSnackbar("Updated to " + permenant_equipment.item_name, null, 3000);

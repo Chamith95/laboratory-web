@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import {Subscription} from 'rxjs';
 import { ItemRemovalService } from '../services/item-removal.service';
+import { ItemAdditionService } from '../services/item-addition.service';
 
 @Component({
   selector: 'app-admin-nav',
@@ -15,6 +16,7 @@ export class AdminNavComponent implements OnInit,OnDestroy {
   navisAuth:boolean;
   authSubcription:Subscription;
   remcartitemcount:number;
+  addcartitemcount:number;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -22,7 +24,10 @@ export class AdminNavComponent implements OnInit,OnDestroy {
     );
 
 
-  constructor(private breakpointObserver: BreakpointObserver,private authservice:AuthService,private itemremservice:ItemRemovalService) {
+  constructor(private breakpointObserver: BreakpointObserver,
+    private authservice:AuthService,
+    private itemremservice:ItemRemovalService,
+    private addItemservice:ItemAdditionService) {
 
   }
 
@@ -32,8 +37,8 @@ export class AdminNavComponent implements OnInit,OnDestroy {
       console.log(status)
     })
 
-    let cart$=await this.itemremservice.getRemovecart()
-    cart$.subscribe(cart=>{
+    let cart1$=await this.itemremservice.getRemovecart()
+    cart1$.subscribe(cart=>{
      const newObj: any = cart;
      // console.log(newObj.items)
       this.remcartitemcount=0;
@@ -43,6 +48,18 @@ export class AdminNavComponent implements OnInit,OnDestroy {
     }
   }
     });
+
+    let cart$=await this.addItemservice.getvoucher()
+    cart$.valueChanges().subscribe(cart=>{
+     const newObj: any = cart;
+     // console.log(newObj.items)
+      this.addcartitemcount=0;
+      if(cart){
+    for(let itemid in newObj.items){
+     this.addcartitemcount+=1;
+    }
+  }
+   });
   }
 
   ngOnDestroy(){

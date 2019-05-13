@@ -21,7 +21,12 @@
       </ng-container>
       <ng-container matColumnDef="Quantity">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.Quantity}}</mat-cell>
+        <mat-cell *matCellDef="let element">{{element.Quantity}} {{element.measurement}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="recomended">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Recomended</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.recomended}} {{element.measurement}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Addition">

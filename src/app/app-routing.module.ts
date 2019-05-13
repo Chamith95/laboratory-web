@@ -24,6 +24,7 @@ import { LendingMainFormComponent } from './lending_items/lending-main-form/lend
 import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { PerishablelistComponent } from './items/perishables/perishablelist/perishablelist.component';
 import { PermEquiplistComponent } from './items/permEquipment/perm-equiplist/perm-equiplist.component';
+import { TeachersComponent } from './teachers/teachers.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full'},
@@ -42,7 +43,8 @@ const routes: Routes = [
   { path: 'Chemicallist',component:ChemicallistComponent},
   { path: 'Perishablelist',component:PerishablelistComponent},
   { path: 'PermEquiplist',component:PermEquiplistComponent},
-  { path: 'lendingform',component:LendingMainFormComponent}
+  { path: 'lendingform',component:LendingMainFormComponent},
+  { path: 'TeachersMain',component:TeachersComponent}
 
 
 ];

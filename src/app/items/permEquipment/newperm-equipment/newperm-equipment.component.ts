@@ -38,7 +38,7 @@ export class NewpermEquipmentComponent implements OnInit {
     for (let i = 0; i < this.items.length; i++) {
       let k = this.service.form.value.item_name.toString().replace(/\s/g, "").toLowerCase();
       let y = this.items[i].item_name.toString().replace(/\s/g, "").toLowerCase();
-      if (k == y) {
+      if (k == y && (this.service.form.value.recomended==this.items[i].recomended)) {
         flag = false;
         this.uiservice.showSnackbar(this.items[i].item_name + " Already exists", null, 3000);
       }

@@ -24,12 +24,19 @@ export class ChemicalsService {
     item_name: new FormControl('', Validators.required),
     Quantity: new FormControl(null),
     measurement: new FormControl(null),
+    recomended:new FormControl(null),
+    available:new FormControl(null)
   });
 
 
   getChemical() {
     this.chemicallist = this.firebase.list('chemicals');
     return this.chemicallist.snapshotChanges();
+  }
+
+  getChemicalItems() {
+    this.chemicallist = this.firebase.list('chemicals');
+    return this.chemicallist.valueChanges();
   }
 
   insertChemical(chemical) {
@@ -39,6 +46,8 @@ export class ChemicalsService {
       item_name: chemical.item_name,
       Quantity: 0,
       measurement: chemical.measurement,
+      recomended:chemical.recomended,
+      available:0,
     });
 
     this.uiservice.showSnackbar(chemical.item_name + " Created", null, 3000);
@@ -50,6 +59,8 @@ export class ChemicalsService {
       item_name: chemical.item_name,
       Quantity: chemical.Quantity,
       measurement: chemical.measurement,
+      recomended:chemical.recomended,
+      available:chemical.available,
     })
 
     this.uiservice.showSnackbar("Updated to " + chemical.item_name, null, 3000);

@@ -29,6 +29,13 @@
           </mat-select>
           <mat-error>This field is mandatory.</mat-error>
         </mat-form-field>
+
+
+        <mat-form-field>
+          <input formControlName="recomended" matInput type="number" placeholder="Recomended Quantitiy" required autocomplete="off" min="0" 
+          oninput="validity.valid||(value='');" >
+          <mat-error>This field is mandatory.</mat-error>
+        </mat-form-field>
         <!-- <mat-form-field>
           <input formControlName="Quantity" type="number" matInput placeholder="Quantity">
           <mat-error>This field is mandatory.</mat-error>

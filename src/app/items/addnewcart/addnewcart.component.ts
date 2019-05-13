@@ -70,7 +70,8 @@ export class AddnewcartComponent implements OnInit {
     // getting last vou id and settong it
     this.itemAddservice.getaddvouchers().subscribe(item=>{
       let k
-      if(item){
+      console.log(item)
+      if(item.length>0){
       k=+(item[item.length-1].Voucher_Id)+1;
       }
       else{
@@ -92,18 +93,20 @@ export class AddnewcartComponent implements OnInit {
         }
 // getting and mapping cart items
         if(newObj){
-        this.itemAddservice.getoriginalglasswarequantities().subscribe(originalPerishableItems=>{
+        this.itemAddservice.getoriginalglasswarequantities().subscribe(originalglasswareitems=>{
           for (let item in newObj.items) {
             if(newObj.items[item].category=="Glassware"){
-            for(let j=0;j<originalPerishableItems.length;j++){
-              if(newObj.items[item].item_name==originalPerishableItems[j].item_name){
+            for(let j=0;j<originalglasswareitems.length;j++){
+              if(newObj.items[item].item_name==originalglasswareitems[j].item_name){
             let obj = {
               $key: item,
-              item_name: newObj.items[item].item_name,
-              category: newObj.items[item].category,
-              measurement: newObj.items[item].measurement,
-              OriginalQuantity:originalPerishableItems[j].Quantity,
-              Quantity: newObj.items[item].Quantity
+              item_name: originalglasswareitems[j].item_name,
+              category: originalglasswareitems[j].category,
+              measurement: originalglasswareitems[j].measurement,
+              OriginalQuantity:originalglasswareitems[j].Quantity,
+              Quantity: newObj.items[item].Quantity,
+              available: originalglasswareitems[j].available,
+              recomended: originalglasswareitems[j].recomended
             }
             this.cartitemArray.push(obj);
           }
@@ -112,18 +115,20 @@ export class AddnewcartComponent implements OnInit {
           }
         })
 
-        this.itemAddservice.getoriginalPerishableQuantities().subscribe(originalPerishableItems=>{
+        this.itemAddservice.getoriginalPerishableQuantities().subscribe(originalperishableItems=>{
           for (let item in newObj.items) {
             if(newObj.items[item].category=="Perishables"){
-            for(let j=0;j<originalPerishableItems.length;j++){
-              if(newObj.items[item].item_name==originalPerishableItems[j].item_name){
+            for(let j=0;j<originalperishableItems.length;j++){
+              if(newObj.items[item].item_name==originalperishableItems[j].item_name){
             let obj = {
               $key: item,
-              item_name: newObj.items[item].item_name,
-              category: newObj.items[item].category,
-              measurement: newObj.items[item].measurement,
-              OriginalQuantity:originalPerishableItems[j].Quantity,
-              Quantity: newObj.items[item].Quantity
+              item_name: originalperishableItems[j].item_name,
+              category: originalperishableItems[j].category,
+              measurement:originalperishableItems[j].measurement,
+              OriginalQuantity:originalperishableItems[j].Quantity,
+              Quantity: newObj.items[item].Quantity,
+              available: originalperishableItems[j].available,
+              recomended:originalperishableItems[j].recomended
             }
             this.cartitemArray.push(obj);
           }
@@ -139,11 +144,14 @@ export class AddnewcartComponent implements OnInit {
               if(newObj.items[item].item_name==originalPermEquipItems[j].item_name){
             let obj = {
               $key: item,
-              item_name: newObj.items[item].item_name,
-              category: newObj.items[item].category,
-              measurement: newObj.items[item].measurement,
+              item_name: originalPermEquipItems[j].item_name,
+              category: originalPermEquipItems[j].category,
+              measurement: originalPermEquipItems[j].measurement,
               OriginalQuantity:originalPermEquipItems[j].Quantity,
-              Quantity: newObj.items[item].Quantity
+              Quantity: newObj.items[item].Quantity,
+              available: originalPermEquipItems[j].available,
+              recomended:originalPermEquipItems[j].recomended
+
             }
             this.cartitemArray.push(obj);
           }
@@ -159,17 +167,20 @@ export class AddnewcartComponent implements OnInit {
               if(newObj.items[item].item_name==orichemitem[j].item_name){
             let obj = {
               $key: item,
-              item_name: newObj.items[item].item_name,
-              category: newObj.items[item].category,
-              measurement: newObj.items[item].measurement,
+              item_name: orichemitem[j].item_name,
+              category: orichemitem[j].category,
+              measurement: orichemitem[j].measurement,
               OriginalQuantity:orichemitem[j].Quantity,
-              Quantity: newObj.items[item].Quantity
+              Quantity: newObj.items[item].Quantity,
+              available: orichemitem[j].available,
+              recomended:orichemitem[j].recomended,
             }
             this.cartitemArray.push(obj);
           }
            
           }}
           }
+          console.log(this.cartitemArray);
         this.listData = new MatTableDataSource(this.cartitemArray);
          
         })
@@ -285,48 +296,16 @@ export class AddnewcartComponent implements OnInit {
               item_name: this.originalglasswarequantities[j].item_name,
               category: this.originalglasswarequantities[j].category,
               measurement: this.originalglasswarequantities[j].measurement,
-              Quantity: (this.originalglasswarequantities[j].Quantity + this.cartitemArray[i].Quantity)
+              Quantity: (this.originalglasswarequantities[j].Quantity + this.cartitemArray[i].Quantity),
+              available: (this.originalglasswarequantities[j].available + this.cartitemArray[i].Quantity),
+              recomended: this.originalglasswarequantities[j].recomended
             }
 
             this.updatedQuantities.push(updateditem);
           }
         }
         // mapping available quantities
-        if(this.availableglasswarequantities.length>0){
-          let flag=false;
-        for (let j = 0; j < this.availableglasswarequantities.length; j++) {
-          if (this.cartitemArray[i].item_name == this.availableglasswarequantities[j].item_name) {
-            flag=true;
-            let updatedavailbleitem = {
-              $key: this.cartitemArray[i].$key,
-              item_name: this.availableglasswarequantities[j].item_name,
-              category: this.availableglasswarequantities[j].category,
-              measurement: this.availableglasswarequantities[j].measurement,
-              Quantity: (this.availableglasswarequantities[j].Quantity + this.cartitemArray[i].Quantity)
-            }
-            this.updatedavailableQuantities.push(updatedavailbleitem);
-          }
-        }
-        if(flag==false){
-          let updatedavailbleitem = {
-            $key: this.cartitemArray[i].$key,
-            item_name: this.cartitemArray[i].item_name,
-            category: this.cartitemArray[i].category,
-            measurement: this.cartitemArray[i].measurement,
-            Quantity: (this.cartitemArray[i].Quantity)
-          }
-          this.updatedavailableQuantities.push(updatedavailbleitem);
-        }
-      }else{
-        let updatedavailbleitem = {
-          $key: this.cartitemArray[i].$key,
-          item_name: this.cartitemArray[i].item_name,
-          category: this.cartitemArray[i].category,
-          measurement: this.cartitemArray[i].measurement,
-          Quantity: (this.cartitemArray[i].Quantity)
-        }
-        this.updatedavailableQuantities.push(updatedavailbleitem);
-      }
+
       }
 
 
@@ -338,48 +317,16 @@ export class AddnewcartComponent implements OnInit {
               item_name: this.originalchemicalquantities[j].item_name,
               category: this.originalchemicalquantities[j].category,
               measurement: this.originalchemicalquantities[j].measurement,
-              Quantity: (this.originalchemicalquantities[j].Quantity + this.cartitemArray[i].Quantity)
+              Quantity: (this.originalchemicalquantities[j].Quantity + this.cartitemArray[i].Quantity),
+              available: (this.originalchemicalquantities[j].available + this.cartitemArray[i].Quantity),
+              recomended: this.originalchemicalquantities[j].recomended
             }
 
             this.updatedQuantities.push(updateditem);
           }
         }
 
-        if(this.availablechemicalquantities.length>0){
-          let flag=false;
-        for (let j = 0; j < this.availablechemicalquantities.length; j++) {
-          if (this.cartitemArray[i].item_name == this.availablechemicalquantities[j].item_name) {
-            flag=true;
-            let updatedavailbleitem = {
-              $key: this.cartitemArray[i].$key,
-              item_name: this.availablechemicalquantities[j].item_name,
-              category: this.availablechemicalquantities[j].category,
-              measurement: this.availablechemicalquantities[j].measurement,
-              Quantity: (this.availablechemicalquantities[j].Quantity + this.cartitemArray[i].Quantity)
-            }
-            this.updatedavailableQuantities.push(updatedavailbleitem);
-          }
-        }
-        if(flag==false){
-          let updatedavailbleitem = {
-            $key: this.cartitemArray[i].$key,
-            item_name: this.cartitemArray[i].item_name,
-            category: this.cartitemArray[i].category,
-            measurement: this.cartitemArray[i].measurement,
-            Quantity: (this.cartitemArray[i].Quantity)
-          }
-          this.updatedavailableQuantities.push(updatedavailbleitem);
-        }
-      }else{
-        let updatedavailbleitem = {
-          $key: this.cartitemArray[i].$key,
-          item_name: this.cartitemArray[i].item_name,
-          category: this.cartitemArray[i].category,
-          measurement: this.cartitemArray[i].measurement,
-          Quantity: (this.cartitemArray[i].Quantity)
-        }
-        this.updatedavailableQuantities.push(updatedavailbleitem);
-      }
+
       }
 
       if (this.cartitemArray[i].category == "Perishables") {
@@ -390,48 +337,16 @@ export class AddnewcartComponent implements OnInit {
               item_name: this.originalperishablequantities[j].item_name,
               category: this.originalperishablequantities[j].category,
               measurement: this.originalperishablequantities[j].measurement,
-              Quantity: (this.originalperishablequantities[j].Quantity + this.cartitemArray[i].Quantity)
+              Quantity: (this.originalperishablequantities[j].Quantity + this.cartitemArray[i].Quantity),
+              available: (this.originalperishablequantities[j].available + this.cartitemArray[i].Quantity),
+              recomended: this.originalperishablequantities[j].recomended
             }
 
             this.updatedQuantities.push(updateditem);
           }
         }
 
-        if(this.availablePerishablequantities.length>0){
-          let flag=false;
-        for (let j = 0; j < this.availablePerishablequantities.length; j++) {
-          if (this.cartitemArray[i].item_name == this.availablePerishablequantities[j].item_name) {
-            flag=true;
-            let updatedavailbleitem = {
-              $key: this.cartitemArray[i].$key,
-              item_name: this.availablePerishablequantities[j].item_name,
-              category: this.availablePerishablequantities[j].category,
-              measurement: this.availablePerishablequantities[j].measurement,
-              Quantity: (this.availablePerishablequantities[j].Quantity + this.cartitemArray[i].Quantity)
-            }
-            this.updatedavailableQuantities.push(updatedavailbleitem);
-          }
-        }
-        if(flag==false){
-          let updatedavailbleitem = {
-            $key: this.cartitemArray[i].$key,
-            item_name: this.cartitemArray[i].item_name,
-            category: this.cartitemArray[i].category,
-            measurement: this.cartitemArray[i].measurement,
-            Quantity: (this.cartitemArray[i].Quantity)
-          }
-          this.updatedavailableQuantities.push(updatedavailbleitem);
-        }
-      }else{
-        let updatedavailbleitem = {
-          $key: this.cartitemArray[i].$key,
-          item_name: this.cartitemArray[i].item_name,
-          category: this.cartitemArray[i].category,
-          measurement: this.cartitemArray[i].measurement,
-          Quantity: (this.cartitemArray[i].Quantity)
-        }
-        this.updatedavailableQuantities.push(updatedavailbleitem);
-      }
+ 
       }
 
       if (this.cartitemArray[i].category == "Permanent Equipment") {
@@ -442,54 +357,24 @@ export class AddnewcartComponent implements OnInit {
               item_name: this.originalpermEquipmentquantities[j].item_name,
               category: this.originalpermEquipmentquantities[j].category,
               measurement: this.originalpermEquipmentquantities[j].measurement,
-              Quantity: (this.originalpermEquipmentquantities[j].Quantity + this.cartitemArray[i].Quantity)
+              Quantity: (this.originalpermEquipmentquantities[j].Quantity + this.cartitemArray[i].Quantity),
+              available: (this.originalpermEquipmentquantities[j].available + this.cartitemArray[i].Quantity),
+              recomended: this.originalpermEquipmentquantities[j].recomended
             }
 
             this.updatedQuantities.push(updateditem);
           }
         }
 
-        if(this.availablePermEquipquantities.length>0){
-          let flag=false;
-        for (let j = 0; j < this.availablePermEquipquantities.length; j++) {
-          if (this.cartitemArray[i].item_name == this.availablePermEquipquantities[j].item_name) {
-            flag=true;
-            let updatedavailbleitem = {
-              $key: this.cartitemArray[i].$key,
-              item_name: this.availablePermEquipquantities[j].item_name,
-              category: this.availablePermEquipquantities[j].category,
-              measurement: this.availablePermEquipquantities[j].measurement,
-              Quantity: (this.availablePermEquipquantities[j].Quantity + this.cartitemArray[i].Quantity)
-            }
-            this.updatedavailableQuantities.push(updatedavailbleitem);
-          }
-        }
-        if(flag==false){
-          let updatedavailbleitem = {
-            $key: this.cartitemArray[i].$key,
-            item_name: this.cartitemArray[i].item_name,
-            category: this.cartitemArray[i].category,
-            measurement: this.cartitemArray[i].measurement,
-            Quantity: (this.cartitemArray[i].Quantity)
-          }
-          this.updatedavailableQuantities.push(updatedavailbleitem);
-        }
-      }else{
-        let updatedavailbleitem = {
-          $key: this.cartitemArray[i].$key,
-          item_name: this.cartitemArray[i].item_name,
-          category: this.cartitemArray[i].category,
-          measurement: this.cartitemArray[i].measurement,
-          Quantity: (this.cartitemArray[i].Quantity)
-        }
-        this.updatedavailableQuantities.push(updatedavailbleitem);
-      }
+  
       }
     }
+
+    console.log(this.updatedQuantities);
      this.itemAddservice.updateoriginalQuantities(this.updatedQuantities)
     // console.log(this.updatedQuantities)
     // updating the availablequantities
-    this.availableitemsservice.updateavailableQuantities(this.updatedavailableQuantities);
+    // this.availableitemsservice.updateavailableQuantities(this.updatedavailableQuantities);
     this.updatedQuantities = [];
    this.uiservice.showSnackbar("Items Successfully added", null, 3000);
      this.clearvoucart();
