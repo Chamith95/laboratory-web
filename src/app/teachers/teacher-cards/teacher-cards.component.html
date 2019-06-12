@@ -1,0 +1,49 @@
+<mat-card class="example-card">
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+    <div fxFlex=60>
+<mat-card-header>
+  <!-- <div mat-card-avatar class="example-header-image"></div> -->
+  <mat-card-title>{{teacher.name}}</mat-card-title>
+   <mat-card-subtitle>{{teacher.approved}}</mat-card-subtitle> 
+    </mat-card-header>
+     </div>
+     <div fxFlex=40 >
+<img mat-card-image  src="../../assets/images/person1.png" alt="Photo of a Shiba Inu">
+</div>
+</div>
+<mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-list>
+    <mat-list-item>
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="150px">
+        <div>
+          email
+        </div>
+        <div fxFlex>
+          {{teacher.email}}
+        </div>
+      </div>
+      </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="150px">
+            <div>
+              Phone No
+            </div>
+            <div>
+              {{teacher.phoneNo}}
+            </div>
+          </div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <!-- <mat-list-item>Item 3</mat-list-item> -->
+  </mat-list>
+  
+</mat-card-content>
+<mat-card-actions>
+  <div fxLayout="row" fxLayoutAlign="end">
+  <button *ngIf="teacher.approved =='Un Approved'"   (click)="onApprove(teacher.id)" mat-raised-button color="primary" >Approve</button>
+  <button *ngIf="teacher.approved =='Approved'" (click)="onUnApprove(teacher.id)"  mat-flat-button color="warn">UnApprove</button>
+</div>
+</mat-card-actions>
+</mat-card>

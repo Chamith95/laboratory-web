@@ -1,1 +1,15 @@
 <h1 class="mat-display-1">Teachers</h1>
+<!-- <mat-tab-group mat-align-tabs="center" class="example-stretched-tabs ">
+    <mat-tab label="Aproved"> -->
+            <div class="container">
+                <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+                <teacher-cards *ngFor="let teacher of teachers" [teacher]="teacher">
+                  </teacher-cards>
+                </div>
+        </div>
+
+
+
+    <!-- </mat-tab> -->
+    <!-- <mat-tab label="Un Approved">Un Aproved</mat-tab>
+  </mat-tab-group> -->

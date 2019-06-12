@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TeacherService } from '../services/teacher.service';
 
 @Component({
   selector: 'app-teachers',
@@ -7,9 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeachersComponent implements OnInit {
 
-  constructor() { }
+  teachers: any = [];
+  teachersUnchanged:any=[];
+
+  constructor(private teacherService:TeacherService) { }
 
   ngOnInit() {
+    this.teacherService.getteaches().subscribe(teachers=>{
+        this.teachersUnchanged = teachers;
+      this.teachers = this.teachersUnchanged.map(item => ({
+        id:item.id,
+        name: item.username,
+        email: item.email,
+        phoneNo: item.phoneNumber, 
+        approved: item.approve=="no" ? "Un Approved":"Approved",
+      }))
+      console.log(this.teachers);
+      // console.log(this.event2);
+    })
   }
+
+
 
 }

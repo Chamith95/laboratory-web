@@ -1,3 +1,13 @@
 h1{
     margin:30px;
 }
+
+.example-stretched-tabs {
+    max-width: 100%;
+  }
+
+.container{
+    margin:10px;
+    max-width:400px;
+}
+

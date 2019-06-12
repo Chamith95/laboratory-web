@@ -78,6 +78,7 @@ import { NewpermEquipmentComponent } from './items/permEquipment/newperm-equipme
 import { PermQuantitydialogComponent } from './items/permEquipment/perm-quantitydialog/perm-quantitydialog.component';
 import { CategoryCardComponent } from './dashboard/category-card/category-card.component';
 import { TeachersComponent } from './teachers/teachers.component';
+import { TeacherCardsComponent } from './teachers/teacher-cards/teacher-cards.component';
 
 
 
@@ -114,6 +115,7 @@ import { TeachersComponent } from './teachers/teachers.component';
     PermQuantitydialogComponent,
     CategoryCardComponent,
     TeachersComponent,
+    TeacherCardsComponent,
 
 
    

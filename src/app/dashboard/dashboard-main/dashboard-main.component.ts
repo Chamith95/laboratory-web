@@ -22,6 +22,8 @@ export class DashboardMainComponent implements OnInit {
     PermEquipCount:number;
     additonArray=[];
     removalArray=[];
+    safeitemsArray=[];
+    notsafeitemsArray=[]
 
 
     public doughnutChartLabels: string[] = ['Glassware', 'Chemicals', 'Perishables','Permanent Equipment'];
@@ -29,7 +31,7 @@ export class DashboardMainComponent implements OnInit {
     public doughnutChartType: string;
     public DougnutChartColors = [
       {
-        backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)','rgb(253,224,152)'],
+        backgroundColor: ['rgb(255,177,193)', 'rgba(178,255,178)', 'rgba(178,178,255)','rgb(253,224,152)'],
       },
     ];
 
@@ -54,6 +56,25 @@ export class DashboardMainComponent implements OnInit {
 
       ];
 
+      // summary chart
+      public SummaryBarOptions: any = {
+        scaleShowVerticalLines: false,
+        responsive: true,
+        scales: { yAxes: [{ ticks: { beginAtZero: true, stepSize: 20,min: 0,max: 100,callback: function(value) {return value + "%"}},scaleLabel: {display: true,labelString: "Percentage"},stacked:true }],
+                  xAxes: [{ ticks: { beginAtZero: true },stacked:true }] }  
+
+    };
+    public SummaryBarLabels: string[] = ['Glassware', 'Chemicals', 'Perishables', 'Permanent Equipment'];
+    public SummaryBarType: string;
+    public SummaryBarLegend: boolean;
+
+    public SummaryBarData: any[] =[
+      {data: [65, 59, 80, 81], label: 'Series A', stack: '1'},
+
+
+
+
+    ];
    
 
 
@@ -79,30 +100,43 @@ export class DashboardMainComponent implements OnInit {
     this.doughnutChartType = 'doughnut';
     this.barChartType = 'bar';
     this.barChartLegend = true;
+    this.SummaryBarType = 'bar';
+    this.SummaryBarLegend = true;
     // Getting original glassware
     this.origlassservice.getGlasswareitems().subscribe(items=>{
+      this.SummaryBarData.pop();
         this.glasswareCount=items.length;
         this.doughnutChartData.push(items.length);
+        this.getQuantitySummary(items)
+
  
 
 
     })
 
-    this.oriChemservice.getChemical().subscribe(items=>{
+    this.oriChemservice.getChemicalItems().subscribe(items=>{
       this.ChemicalsCount=items.length;
       this.doughnutChartData.push(items.length);
+      this.getQuantitySummary(items)
    
   })
 
   this.oriPeriservice.getperishablesitems().subscribe(items=>{
     this.perishablesCount=items.length;
     this.doughnutChartData.push(items.length);
+    this.getQuantitySummary(items)
 
 })
 
 this.oriPermEquipservice.getpermenant_equipmentitems().subscribe(items=>{
   this.PermEquipCount=items.length;
   this.doughnutChartData.push(items.length);
+  this.getQuantitySummary(items)
+
+  console.log(this.safeitemsArray);
+
+  this.SummaryBarData.push({ data:  this.safeitemsArray, label: 'Above Recomended Categories %', backgroundColor: 'rgba(0,255,0,0.3)',stack: '1',borderWidth:2})
+  this.SummaryBarData.push({ data:  this.notsafeitemsArray, label: 'Below Recomended Categories %', backgroundColor: 'rgba(255,177,193)',stack: '1',borderWidth:2 })
 })
 
 // Getting Additions And Removals
@@ -137,7 +171,7 @@ this.itemAddService.getaddvouchers().subscribe(item=>{
 
   this.additonArray=[ GlasswareAdditions, ChemicalAdditions, PerishableAdditions, PermeanetEquipAdditions]
   console.log({ data: this.additonArray, label: 'Additions' })
-  this.barChartData.push({ data:  this.additonArray, label: 'Additions', backgroundColor: 'rgba(255,0,0,0.3)' })
+  this.barChartData.push({ data:  this.additonArray, label: 'Additions', backgroundColor: 'rgb(134,199,243)',borderWidth:2 })
 })
 
 
@@ -170,7 +204,7 @@ this.itemRemovalService.getRemvouchers().subscribe(item=>{
 
 
   this.removalArray=[ GlasswareRemovals, ChemicalRemovals, PerishableRemovals, PermeanetEquipRemovals]
-  this.barChartData.push({ data:  this.removalArray, label: 'Removals' , backgroundColor: 'rgb(134,199,243)' })
+  this.barChartData.push({ data:  this.removalArray, label: 'Removals' , backgroundColor: 'rgb(255,177,193)',borderWidth:2 })
   console.log(this.removalArray);
   // this.barChartData.push({ data: this.removalArray, label: 'Removals' })
   this.barChartData2=this.barChartData
@@ -189,6 +223,27 @@ this.itemRemovalService.getRemvouchers().subscribe(item=>{
 
     public chartHovered(e: any): void {
         // console.log(e);
+    }
+
+// getting data for quantity summary
+    public getQuantitySummary(items){
+      let total=items.length
+      let safe=0;
+      let notsafe=0;
+      let totalsafe=0;
+      let totalnotsafe=0
+      for(let i in items){
+        if(items[i].recomended<items[i].Quantity){
+          totalsafe+=items[i].Quantity
+          safe+=1
+        }
+        else{
+          notsafe+=1
+          totalnotsafe+=items[i].Quantity
+        }
+      }
+      this.safeitemsArray.push((safe/(total))*100)
+      this.notsafeitemsArray.push((notsafe/(total))*100)
     }
 }
 
