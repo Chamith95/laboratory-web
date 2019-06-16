@@ -11,13 +11,18 @@ export class LendingServiceService {
   lendinglist: AngularFireList<any>
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
+  perishablelist: AngularFireList<any>;
+  permEquiplist: AngularFireList<any>;
   user:any;
   uid:any;
 
   constructor(private firebase: AngularFireDatabase, private afauth:AngularFireAuth,) {
     this.lendinglist = firebase.list('lendings');
-    this.glasswarelist = this.firebase.list('available_glassware');
-    this.chemicalist = this.firebase.list('available_chemicals');
+    this.glasswarelist = this.firebase.list('glassware');
+    this.chemicalist = this.firebase.list('chemicals');
+    this.permEquiplist = this.firebase.list('permenant_equipment');
+    this.perishablelist = this.firebase.list('perishables');
+    
     this.user=JSON.parse(localStorage.getItem('user'));
     this.uid=(this.user.uid);
     if(!this.uid){
@@ -132,6 +137,52 @@ export class LendingServiceService {
     })
   }
 
+  submitlending(lendVoucher){
+    console.log(lendVoucher);
+    this.lendinglist.push({
+      teacherId:lendVoucher.teacherId,
+      date:lendVoucher.date,
+      time:lendVoucher.time,
+      timestamp:lendVoucher.timestamp,
+      duration:lendVoucher.duration,
+      status:"UnResolved",
+      items:lendVoucher.items
+    })
+
+  }
+
+
+  updateavailableQuantities(data) {
+    console.log(data)
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].category == "Glassware") {
+        this.glasswarelist.update(
+          data[i].$key, {
+            available: data[i].available
+          })
+      }
+      if (data[i].category == "Chemicals") {
+        this.chemicalist.update(
+          data[i].$key, {
+            available: data[i].available
+          })
+      }
+
+      if (data[i].category == "Perishables") {
+        this.perishablelist.update(
+          data[i].$key, {
+            available: data[i].available
+          })
+      }
+
+      if (data[i].category == "Permanent Equipment") {
+        this.permEquiplist.update(
+          data[i].$key, {
+            available: data[i].available
+          })
+      }
+    }
+  }
 
 
 

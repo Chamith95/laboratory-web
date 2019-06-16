@@ -374,7 +374,6 @@ async ngOnInit() {
 
     if (this.quantityvalidflag == true) {
       this.itemremovalservice.updateoriginalQuantities(this.updatedQuantities);
-      this.availableitemsservice.updateavailableQuantities(this.updatedavailableQuantities);
     }
     else {
       console.log("invalid removal")

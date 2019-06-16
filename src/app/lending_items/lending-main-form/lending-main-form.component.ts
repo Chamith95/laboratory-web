@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';
 import { LendingServiceService } from 'src/app/services/lending-service.service';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
@@ -11,6 +11,7 @@ import { PerishablesService } from 'src/app/services/perishables.service';
 import { PermEquipmentService } from 'src/app/services/perm-equipment.service';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { identifierModuleUrl } from '@angular/compiler';
+import { min } from 'rxjs/operators';
 
 export interface Teacher {
   id:String,
@@ -66,13 +67,14 @@ export class LendingMainFormComponent implements OnInit {
 
   async ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['',]
     });
     this.thirdFormGroup = this._formBuilder.group({
-      thirdCtrl: ['',]
+      firstCtrl: ['', Validators.required],
+      duration: ['', [Validators.required,Validators.min(1),Validators.max(12)]]
     });
 
 
@@ -304,7 +306,7 @@ export class LendingMainFormComponent implements OnInit {
 
   displayedColumns: string[] = ['item_name', 'AvailableQuantity', 'lendquantity'];
 
-   today: number = Date.now();
+   today: any = Date.now();
 
 
   addto(item) {
@@ -334,5 +336,42 @@ export class LendingMainFormComponent implements OnInit {
     this.updatedtablearry = [];
     this.lendingcartarray=[]; 
 
+  }
+
+  OnSubmit(){
+
+    let array = this.lendingcartitemarraywithoutkey.map(list => {
+      return {
+        item_name: list.item_name,
+        category: list.category,
+        measurement: list.measurement,
+        Quantity: list.Quantity,
+      };
+
+    });
+    let datenow = this.planModel.start_time;
+
+    let date = datenow.getDate();
+    let month = datenow.getMonth(); //Be careful! January is 0 not 1
+    let year = datenow.getFullYear();
+    
+    let dateString = date + "/" +(month + 1) + "/" + year;
+
+    
+
+    let today = new Date();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    
+   let newlending={
+     teacherId:this.selectedTeacher.id,
+     date:dateString,
+     timestamp:this.today,
+     time:time,
+     duration:this.thirdFormGroup.get('duration').value,
+     items:array
+ 
+   } 
+   console.log(newlending);
+   this.itemlendingservice.submitlending(newlending);
   }
 }

@@ -180,7 +180,8 @@ export class ItemRemovalService {
         this.glasswarelist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
       if (data[i].category == "Chemicals") {

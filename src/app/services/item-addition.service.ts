@@ -33,6 +33,8 @@ export class ItemAdditionService  {
     this.vocucherlist = db.list('Addvouchers');
     this.glasswarelist = this.firebase.list('glassware');
     this.chemicalist = this.firebase.list('chemicals');
+    this.permEquiplist = this.firebase.list('permenant_equipment');
+    this.perishablelist = this.firebase.list('perishables');
 
 
     this.user=JSON.parse(localStorage.getItem('user'));
@@ -240,7 +242,8 @@ export class ItemAdditionService  {
         this.permEquiplist.update(
           data[i].$key, {
             item_name: data[i].item_name,
-            Quantity: data[i].Quantity
+            Quantity: data[i].Quantity,
+            available: data[i].available
           })
       }
     }
