@@ -7,8 +7,8 @@
       <div class="step1form" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="100px">
       <mat-form-field  class="teacheroptions">
       <mat-label>Teachers</mat-label>
-      <mat-select formControlName="firstCtrl" [(value)]="selectedteacher">
-        <mat-option *ngFor="let teacher of Teachers" [value]="teacher.name">
+      <mat-select formControlName="firstCtrl" [(ngModel)]="selectedTeacherOption" (selectionChange)="changeClient($event.value)">
+        <mat-option *ngFor="let teacher of Teachers; index as i" [value]="teacher.id">
           {{teacher.name}}
         </mat-option>
       </mat-select>
@@ -27,6 +27,55 @@
       <div>
         <button mat-raised-button color="primary" matStepperNext>Next</button>
       </div>
+
+      <mat-card class="example-card" *ngIf="selectedTeacher!=null">
+        <div fxLayout="row" fxLayoutAlign="space-between start">
+        <div fxFlex=60>
+    <mat-card-header>
+      <!-- <div mat-card-avatar class="example-header-image"></div> -->
+      <mat-card-title>{{selectedTeacher.name}}</mat-card-title>
+       <mat-card-subtitle>{{selectedTeacher.approved}}</mat-card-subtitle> 
+        </mat-card-header>
+         </div>
+         <div fxFlex=40 >
+    <img mat-card-image  src="../../assets/images/person1.png" alt="Photo of a Shiba Inu">
+    </div>
+    </div>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-list>
+        <mat-list-item>
+          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="150px">
+            <div>
+              email
+            </div>
+            <div fxFlex>
+              {{selectedTeacher.name}}
+            </div>
+          </div>
+          </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="150px">
+                <div>
+                  Phone No
+                </div>
+                <div>
+                  {{selectedTeacher.phoneNo}}
+                </div>
+              </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <!-- <mat-list-item>Item 3</mat-list-item> -->
+      </mat-list>
+      
+    </mat-card-content>
+    <mat-card-actions>
+      <div fxLayout="row" fxLayoutAlign="end">
+    </div>
+    </mat-card-actions>
+    </mat-card>
+
     </form>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">
@@ -42,15 +91,16 @@
       </div>
     </form>
   </mat-step>
-  <mat-step>
+  <mat-step  [stepControl]="firstFormGroup">
     <ng-template matStepLabel>Confirm</ng-template>
     <h1 class="mat-h1">Confirm lending</h1>
+    <form [formGroup]="firstFormGroup">
     <div *ngIf="iscartnotempty==true">
         <div class="step1form" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="100px">
         <mat-form-field  class="teacheroptions">
             <mat-label>Teachers</mat-label>
-            <mat-select  [(ngModel)]="selectedteacher">
-              <mat-option *ngFor="let teacher of Teachers" [value]="teacher.name">
+            <mat-select formControlName="firstCtrl" [(ngModel)]="selectedTeacherOption" (selectionChange)="changeClient($event.value)">
+              <mat-option *ngFor="let teacher of Teachers" [value]="teacher.id">
                 {{teacher.name}}
               </mat-option>
             </mat-select>
@@ -117,5 +167,6 @@
         <h1 class="mat-display-1">No Items Available </h1>
         <h1 class="mat-h2">Add items from previous and come back</h1>
       </div>
+      </form>
   </mat-step>
 </mat-horizontal-stepper>

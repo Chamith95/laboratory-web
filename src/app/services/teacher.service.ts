@@ -11,12 +11,20 @@ export class TeacherService {
 
 
   teacherList: AngularFireList<any>;
+  selectedteacherList: AngularFireList<any>;
 
   getteaches() {
     this.teacherList = this.firebase.list('Users');
 
     return this.teacherList.valueChanges();
   }
+
+  getteacherbyid(id){
+
+    this.selectedteacherList = this.firebase.list('/Users',ref => ref.orderByChild('id').equalTo(id));
+    return this.selectedteacherList.valueChanges();
+  }
+
 
   approve(id){
     this.teacherList.update(id, {

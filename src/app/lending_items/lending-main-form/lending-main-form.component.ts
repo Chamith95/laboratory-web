@@ -9,10 +9,15 @@ import { ItemService } from 'src/app/services/glassware.service';
 import { ChemicalsService } from 'src/app/services/chemicals.service';
 import { PerishablesService } from 'src/app/services/perishables.service';
 import { PermEquipmentService } from 'src/app/services/perm-equipment.service';
+import { TeacherService } from 'src/app/services/teacher.service';
+import { identifierModuleUrl } from '@angular/compiler';
 
 export interface Teacher {
-  name: string;
-  Gender: string;
+  id:String,
+  name: String,
+  email: String,
+  phoneNo: String, 
+  approved: String,
 }
 
 @Component({
@@ -29,6 +34,8 @@ export class LendingMainFormComponent implements OnInit {
   lendingcartarray:any[]=[];
   updatedtablearry:any[]=[];
   quantity: number;
+  selectedTeacher:any;
+  selectedTeacherOption:any;
 
   availableglassware:any[]=[];
   availableChemical:any[]=[];
@@ -37,6 +44,11 @@ export class LendingMainFormComponent implements OnInit {
   lendingcartitemarraywithoutkey:any[]=[];
   listData: MatTableDataSource<any>;
   dataavailableflag:boolean;
+
+    // teachers
+    Teachers: Teacher[] = [
+    ];
+  
 
 
    planModel: any = { start_time: new Date() };
@@ -48,6 +60,7 @@ export class LendingMainFormComponent implements OnInit {
     private chemicalService:ChemicalsService,
     private pershablesService:PerishablesService,
     private permEquipService:PermEquipmentService,
+    private teacherService:TeacherService,
     private dialog: MatDialog,
     private uiservice:UiService) {}
 
@@ -63,7 +76,19 @@ export class LendingMainFormComponent implements OnInit {
     });
 
 
+    // Getting teachers
+    this.teacherService.getteaches().subscribe(teachers=>{
+    this.Teachers = teachers.map(item => ({
+      id:item.id,
+      name: item.username,
+      email: item.email,
+      phoneNo: item.phoneNumber, 
+      approved: item.approve=="no" ? "Un Approved":"Approved",
+    }))
 
+    // console.log(this.event2);
+  })
+    
 
     let cart$ = this.itemlendingservice.getlendingsync()
     .subscribe(item => {
@@ -260,16 +285,26 @@ export class LendingMainFormComponent implements OnInit {
         ;
     }
 
+    // Getting the selected teachers value
+    changeClient(value) {
+      
+      this.teacherService.getteacherbyid(value).subscribe(item=>{
+        this.selectedTeacher={id:item[0].id,
+          name: item[0].username,
+          email: item[0].email,
+          phoneNo: item[0].phoneNumber, 
+          approved: item[0].approve=="no" ? "Un Approved":"Approved",
+      }
+      // this.selectedTeacherOption= this.selectedTeacher.id;
+      console.log(this.selectedTeacher);
+  })
+ 
+}
+
 
   displayedColumns: string[] = ['item_name', 'AvailableQuantity', 'lendquantity'];
 
    today: number = Date.now();
-  // teachers
-  Teachers: Teacher[] = [
-    {name: 'Teacher 1', Gender: 'Female'},
-    {name: 'Teacher 2', Gender: 'Male'},
-    {name: 'Teacher 3', Gender: 'Female'}
-  ];
 
 
   addto(item) {

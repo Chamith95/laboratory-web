@@ -32,3 +32,13 @@
 .availableheader{
     margin-left: 40px;
 }
+
+mat-card{
+    margin-top: 30px;
+    max-height: 400px;
+}
+
+img{
+    max-height: 200px;
+    max-width: 150px;
+}
