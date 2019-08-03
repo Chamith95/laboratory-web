@@ -16,6 +16,7 @@ export class TeachersComponent implements OnInit {
   ngOnInit() {
     this.teacherService.getteaches().subscribe(teachers=>{
         this.teachersUnchanged = teachers;
+        console.log(typeof teachers)
       this.teachers = this.teachersUnchanged.map(item => ({
         id:item.id,
         name: item.username,

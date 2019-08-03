@@ -41,6 +41,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 
+
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
@@ -79,6 +80,8 @@ import { PermQuantitydialogComponent } from './items/permEquipment/perm-quantity
 import { CategoryCardComponent } from './dashboard/category-card/category-card.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { TeacherCardsComponent } from './teachers/teacher-cards/teacher-cards.component';
+import { CurrentLendingsComponent } from './lending_items/current-lendings/current-lendings.component';
+import { CurrentLendingCardComponent } from './lending_items/current-lending-card/current-lending-card.component';
 
 
 
@@ -116,6 +119,8 @@ import { TeacherCardsComponent } from './teachers/teacher-cards/teacher-cards.co
     CategoryCardComponent,
     TeachersComponent,
     TeacherCardsComponent,
+    CurrentLendingsComponent,
+    CurrentLendingCardComponent,
 
 
    

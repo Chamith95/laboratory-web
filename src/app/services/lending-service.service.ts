@@ -43,7 +43,9 @@ export class LendingServiceService {
     return this.firebase.object('/new-lendings-cart/' + this.uid).valueChanges()
   }
 
-
+  getCurrentlendingsync(){
+    return this.firebase.list('lendings').valueChanges()
+  }
 
 
 

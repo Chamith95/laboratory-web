@@ -37,6 +37,7 @@ export class AdminNavComponent implements OnInit,OnDestroy {
       console.log(status)
     })
 
+    // removable item count
     let cart1$=await this.itemremservice.getRemovecart()
     cart1$.subscribe(cart=>{
      const newObj: any = cart;
@@ -49,6 +50,7 @@ export class AdminNavComponent implements OnInit,OnDestroy {
   }
     });
 
+    // Addition cart count
     let cart$=await this.addItemservice.getvoucher()
     cart$.valueChanges().subscribe(cart=>{
      const newObj: any = cart;
