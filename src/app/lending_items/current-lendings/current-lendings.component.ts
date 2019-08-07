@@ -29,16 +29,15 @@ export class CurrentLendingsComponent implements OnInit {
       
 
       this.lendings = this.lendingsUnchanged.map(item =>{ 
-     
         let teacherName=this.teacherService.getteacherbyidloadash(item.teacherId)
-        console.log(teacherName)
+   
        return {
-        // id:item.id,
-      
+         id:item.timestamp,
         date: item.date,
         status: item.status,
         teacherName:teacherName, 
-        time:item.time
+        time:item.time,
+        items:item.items
         
           
         // approved: item.approve=="no" ? "Un Approved":"Approved",

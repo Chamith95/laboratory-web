@@ -30,10 +30,15 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class CurrentLendingCardComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
+  public reasons : any = {};
+  items:any=[]
   @Input() lending: any;
   constructor() { }
 
   ngOnInit() {
+    this.items=this.lending.items
+    console.log( "ss", this.items)
+    this.dataSource=this.items
   }
 
 }
