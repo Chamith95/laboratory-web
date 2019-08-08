@@ -109,6 +109,7 @@ export class LendingFormStep1Component implements OnInit {
           };
         });
         this.tablearrayPermEquip = array;
+        console.log(array)
 
         this.listDatapermEquipment = new MatTableDataSource(array);
         this.listDatapermEquipment.sort = this.sort;

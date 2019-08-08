@@ -1,16 +1,27 @@
 <div class="container">
-  <mat-accordion multi="true" >
+
   <mat-expansion-panel  >
   <mat-expansion-panel-header>
-    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
-        <span>Vou Id: {{lending.id}}</span>
-        <span>Teacher name :{{lending.teacherName}}</span>
-    </div>
+      <mat-panel-title>
+          {{lending.teacherName}}
+        </mat-panel-title>
+
+        <mat-panel-description>
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="30px">
+
+                <!-- <span>Teacher:{{lending.teacherName}}</span> -->
+                <div>Date: {{lending.date}}</div>
+                <div>Time: {{lending.time}}</div>
+            </div>
+
+          </mat-panel-description>
+
 
   </mat-expansion-panel-header>
   
+  <mat-divider></mat-divider>
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+  <table mat-table  [dataSource]="dataSource"  class="mat-elevation-z0">
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
@@ -21,28 +32,39 @@
         <td mat-cell *matCellDef="let element"> {{element.item_name}} </td>
       </ng-container>
     
+      <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef> Category </th>
+          <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+        </ng-container>
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Quantity Taken </th>
-        <td mat-cell *matCellDef="let element"> {{element.Quantity}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Quantity}} {{element.measurement}}</td>
       </ng-container>
     
       <!-- Weight Column -->
       <ng-container matColumnDef="weight">
         <th mat-header-cell *matHeaderCellDef> Quantity Returning</th>
-        <td mat-cell *matCellDef="let element"> <mat-form-field class="custom-width">
-          <input matInput value="{{element.Quantity}}" type="number" max="{{element.Quantity}}" min=0  onkeyup="if(this.value > this.max) this.value = null;">
-        </mat-form-field></td>
+        <td mat-cell *matCellDef="let element ; let i = index" > 
+
+          <mat-form-field class="custom-width">
+         
+          <input matInput value="{{element.Quantity}}" [(ngModel)]="returnQuantity[i]"  type="number" max="{{element.Quantity}}" min=0  onkeyup="if(this.value > this.max) this.value = this.max;">
+        </mat-form-field>  {{element.measurement}}
+          
+     
+      </td>
+   
       </ng-container>
     
       <!-- Symbol Column -->
       <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef> Reason for Reduce</th>
-        <td mat-cell *matCellDef="let element; let i = index">  <div class="glassPermSelect">
+        <th mat-header-cell *matHeaderCellDef > Reason for Reduce</th>
+        <td mat-cell *matCellDef="let element; let i = index">  <div class="container" >
           
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="ReasonSelect" *ngIf="!(returnQuantity[i]==element.Quantity)">
               <!-- <input ngModel matInput required  #FromInput="ngModel" name="Reason" placeholder="Reason for Removal"> -->
-              <mat-label>Reason for Removal</mat-label>
+              <mat-label>Reason </mat-label>
               <mat-select ngModel #FromInput="ngModel"  class="form-control" [(ngModel)]="reasons[i]" name="Reason" required>
                 <mat-option value="Breakage">Breakage</mat-option>
                 <mat-option value="Missing">Missing</mat-option>
@@ -51,6 +73,10 @@
               </mat-select>
               <mat-error>This field is mandatory.</mat-error>
             </mat-form-field>
+
+            <div class="c" *ngIf="(returnQuantity[i]==element.Quantity)">
+                                 --
+            </div>
        
       </div></td>
       </ng-container>
@@ -59,9 +85,9 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   <mat-action-row >
-          <a mat-button color="primary" >RESOLVE</a>
+          <a mat-button color="primary" (click)="submit()" >RESOLVE</a>
           <button mat-button color="warn" >DELETE</button>
   </mat-action-row>
   </mat-expansion-panel>
-  </mat-accordion>
+
   </div>

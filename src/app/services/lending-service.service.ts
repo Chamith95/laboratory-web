@@ -47,6 +47,9 @@ export class LendingServiceService {
     return this.firebase.list('lendings').valueChanges()
   }
 
+  removelendingscart(){
+    return this.firebase.object('/new-lendings-cart/' + this.uid).remove()
+  }
 
 
 

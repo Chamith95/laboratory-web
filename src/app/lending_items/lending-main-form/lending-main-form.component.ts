@@ -12,6 +12,7 @@ import { PermEquipmentService } from 'src/app/services/perm-equipment.service';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { identifierModuleUrl } from '@angular/compiler';
 import { min } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export interface Teacher {
   id:String,
@@ -62,6 +63,7 @@ export class LendingMainFormComponent implements OnInit {
     private pershablesService:PerishablesService,
     private permEquipService:PermEquipmentService,
     private teacherService:TeacherService,
+    private router:Router,
     private dialog: MatDialog,
     private uiservice:UiService) {}
 
@@ -148,7 +150,7 @@ export class LendingMainFormComponent implements OnInit {
                   item_name: item[j].item_name,
                   category: item[j].category,
                   measurement: item[j].measurement,
-                  availablequantity:item[j].Quantity,
+                  availablequantity:item[j].available,
                   Quantity: (this.lendingcartarray[i].Quantity)
                 }
                 this.updatedtablearry.push(updatedtableobject);
@@ -173,7 +175,7 @@ export class LendingMainFormComponent implements OnInit {
                   item_name: item[j].item_name,
                   category: item[j].category,
                   measurement: item[j].measurement,
-                  availablequantity:item[j].Quantity,
+                  availablequantity:item[j].available,
                   Quantity: (this.lendingcartarray[i].Quantity)
                 }
                 this.updatedtablearry.push(updatedtableobject);
@@ -199,7 +201,7 @@ export class LendingMainFormComponent implements OnInit {
                   item_name: item[j].item_name,
                   category: item[j].category,
                   measurement: item[j].measurement,
-                  availablequantity:item[j].Quantity,
+                  availablequantity:item[j].available,
                   Quantity: (this.lendingcartarray[i].Quantity)
                 }
                 this.updatedtablearry.push(updatedtableobject);
@@ -226,7 +228,7 @@ export class LendingMainFormComponent implements OnInit {
                   item_name: item[j].item_name,
                   category: item[j].category,
                   measurement: item[j].measurement,
-                  availablequantity:item[j].Quantity,
+                  availablequantity:item[j].available,
                   Quantity: (this.lendingcartarray[i].Quantity)
                 }
                 this.updatedtablearry.push(updatedtableobject); 
@@ -372,6 +374,22 @@ export class LendingMainFormComponent implements OnInit {
  
    } 
    console.log(newlending);
+   console.log(this.updatedtablearry)
+   let availablearray=this.updatedtablearry.map(item =>{
+ 
+    return{
+      $key:item.$key,
+      available:item.availablequantity-item.Quantity,
+      category:item.category
+    }
+   })
+   console.log(availablearray)
    this.itemlendingservice.submitlending(newlending);
+   this.itemlendingservice.updateavailableQuantities(availablearray)
+   this.itemlendingservice.removelendingscart()
+   this.router.navigate(['lendingform'])
+   
+   this.updatedtablearry = [];
+   this.lendingcartarray=[]; 
   }
 }

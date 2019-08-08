@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
 
 
 
@@ -28,17 +30,46 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./current-lending-card.component.css']
 })
 export class CurrentLendingCardComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['position','category', 'name', 'weight', 'symbol'];
+  dataSource: MatTableDataSource<any>;
+  form: FormGroup;
+  users: any[] = [];
   public reasons : any = {};
   items:any=[]
+  returnQuantity:any={}
   @Input() lending: any;
-  constructor() { }
+  constructor( private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.form = this._formBuilder.group({
+      lendings: this._formBuilder.array([])
+    });
+
+
     this.items=this.lending.items
     console.log( "ss", this.items)
     this.dataSource=this.items
+    for(let i=0;i<this.lending.items.length;i++){
+      console.log(this.lending.items.length)
+ 
+     this.returnQuantity[i]=
+      this.lending.items[i].Quantity
+    
+      this.reasons[i]="Depleted"
+     
+      console.log(this.lending.items[i].Quantity)
+    }
+    // this.returnQuantity=this.items[0].Quantity
+   
   }
+
+  submit(){
+    console.log(this.returnQuantity)
+    console.log(this.reasons)
+
+    
+  }
+
+  
 
 }

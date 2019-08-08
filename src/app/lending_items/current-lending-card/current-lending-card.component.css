@@ -1,13 +1,29 @@
 table {
-  text-align: center !important;
+  text-align: left !important;
     width: 100%;
   }
 
 .mat-header-cell {
-    text-align: center;
+    text-align: left;
+
   }
 
 .custom-width{
   width:50px;
+  text-align: left;
+
+}
+
+.ReasonSelect{
+  max-width: 100px;
   text-align: center;
+}
+
+input{
+  width:50px;
+  text-align: center;
+}
+.c{
+  margin-left: 40px;
+  text-align: left;
 }
