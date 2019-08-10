@@ -41,6 +41,10 @@ export class ItemService {
     return this.glasswarelist.snapshotChanges();
   }
 
+  getGlasswarewithkey() {
+    return this.items;
+  }
+
 
   getGlasswareitems() {
     this.glasswarelist = this.firebase.list('glassware');

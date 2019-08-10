@@ -342,8 +342,9 @@ export class LendingMainFormComponent implements OnInit {
 
   OnSubmit(){
 
-    let array = this.lendingcartitemarraywithoutkey.map(list => {
+    let array = this.lendingcartarray.map(list => {
       return {
+        key:list.$key,
         item_name: list.item_name,
         category: list.category,
         measurement: list.measurement,
@@ -373,8 +374,8 @@ export class LendingMainFormComponent implements OnInit {
      items:array
  
    } 
-   console.log(newlending);
-   console.log(this.updatedtablearry)
+  //  console.log(newlending);
+  //  console.log(this.updatedtablearry)
    let availablearray=this.updatedtablearry.map(item =>{
  
     return{
@@ -383,7 +384,7 @@ export class LendingMainFormComponent implements OnInit {
       category:item.category
     }
    })
-   console.log(availablearray)
+   console.log(array)
    this.itemlendingservice.submitlending(newlending);
    this.itemlendingservice.updateavailableQuantities(availablearray)
    this.itemlendingservice.removelendingscart()

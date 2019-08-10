@@ -156,6 +156,44 @@ export class LendingServiceService {
 
   }
 
+  updateQuantities(data){
+    console.log(data)
+ 
+      if (data.category == "Glassware") {
+        this.glasswarelist.update(
+          data.$key, {
+            Quantity: data.Quantity,
+            available: data.available
+          })
+      }
+      if (data.category == "Chemicals") {
+        this.chemicalist.update(
+          data.$key, {
+            Quantity: data.Quantity,
+            available: data.available
+          })
+      }
+
+      if (data.category == "Perishables") {
+        this.perishablelist.update(
+          data.$key, {
+            Quantity: data.Quantity,
+            available: data.available
+          })
+      }
+
+      if (data.category == "Permanent Equipment") {
+        this.permEquiplist.update(
+          data.$key, {
+            Quantity: data.Quantity,
+            available: data.available
+          })
+      }
+    
+  }
+
+  
+
 
   updateavailableQuantities(data) {
     console.log(data)

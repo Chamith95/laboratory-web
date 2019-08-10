@@ -152,7 +152,7 @@ export class AvailableItemsService {
           data[i].$key, {
             item_name: data[i].item_name,
             category:data[i].category,    
-            Quantity: data[i].Quantity,
+            available: data[i].Quantity,
             measurement:data[i].measurement
           })
       }
@@ -161,7 +161,7 @@ export class AvailableItemsService {
           data[i].$key, {
             item_name: data[i].item_name,
             category:data[i].category,    
-            Quantity: data[i].Quantity,
+            available: data[i].Quantity,
             measurement:data[i].measurement
           })
       }
@@ -170,7 +170,7 @@ export class AvailableItemsService {
           data[i].$key, {
             item_name: data[i].item_name,
             category:data[i].category,    
-            Quantity: data[i].Quantity,
+            available: data[i].Quantity,
             measurement:data[i].measurement
           })
       }
@@ -179,7 +179,7 @@ export class AvailableItemsService {
           data[i].$key, {
             item_name: data[i].item_name,
             category:data[i].category,    
-            Quantity: data[i].Quantity,
+            available: data[i].Quantity,
             measurement:data[i].measurement
           })
       }
