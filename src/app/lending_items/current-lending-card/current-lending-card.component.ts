@@ -1,12 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
 import { ItemService } from 'src/app/services/glassware.service';
 import { ChemicalsService } from 'src/app/services/chemicals.service';
 import { PermEquipmentService } from 'src/app/services/perm-equipment.service';
 import { PerishablesService } from 'src/app/services/perishables.service';
 import { LendingServiceService } from 'src/app/services/lending-service.service';
+import { ItemRemovalService } from 'src/app/services/item-removal.service';
+import { ResolveLendingDialogComponent } from '../resolve-lending-dialog/resolve-lending-dialog.component';
 
 
 
@@ -46,24 +48,48 @@ export class CurrentLendingCardComponent implements OnInit {
   glasswareArray:any=[];
   chemicalArray:any=[];
   perishableArray:any=[];
-  updatedQuantities:any=[]
+  updatedQuantities:any=[];
+  updatedItemArray:any=[];
+  removalArray:any=[];
   permEquipArray:any=[];
+  resolvedLending:any;
+  removalVou:any=[]
   returnQuantity:any={}
+  vouid:any
+  planModel: any = { start_time: new Date() };
+
+  @Output() reslovedLending=new EventEmitter();
+
   @Input() lending: any;
   constructor( private _formBuilder: FormBuilder,
     private availableService:AvailableItemsService,
+    public dialog: MatDialog,
     private lendingService:LendingServiceService,
     private glassWareService:ItemService,
     private chemicalService:ChemicalsService,
     private perishableService:PerishablesService,
-    private permEquipService:PermEquipmentService) {
+    private permEquipService:PermEquipmentService,
+    private itemRemovalService:ItemRemovalService) {
 
      }
 
   ngOnInit() {
+    console.log(this.lending)
     this.form = this._formBuilder.group({
       lendings: this._formBuilder.array([])
     });
+
+    this.itemRemovalService.getRemvouchers().subscribe(item=>{
+      let k
+      if(item.length>0){
+      k=+(item[item.length-1].Voucher_Id)+1;
+      }
+      else{
+        k=1001
+      }
+      this.vouid=k;
+
+    })
 
 
     this.items=this.lending.items
@@ -87,16 +113,103 @@ export class CurrentLendingCardComponent implements OnInit {
   }
 
   submit(){
-    for(let i=0;i<this.lending.items.length;i++){
-      //  console.log(this.lending.items[i])
-      if(this.lending.items[i].Quantity ==this.returnQuantity[i]){
-        this.updateallEqupiment(this.lending.items[i],this.returnQuantity[i])     
-      }
-    }
- 
+   
+    let datenow = this.planModel.start_time;
+
+    let date = datenow.getDate();
+    let month = datenow.getMonth(); //Be careful! January is 0 not 1
+    let year = datenow.getFullYear();
+    
+    let dateString = date + "/" +(month + 1) + "/" + year;
 
     
+
+    let today = new Date();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+
+    for(let i=0;i<this.lending.items.length;i++){
+        console.log(this.lending.items[i])
+      if(this.lending.items[i].Quantity ==this.returnQuantity[i]){
+          this.updateallEqupiment(this.lending.items[i],this.returnQuantity[i])
+          let newObj={
+            ...this.lending.items[i],
+            ReturnedQuantity:this.returnQuantity[i],
+            Reason:"None"
+          }
+          this.updatedItemArray.push(newObj);
+      }
+      else{
+         this.updateallEqupiment(this.lending.items[i],this.returnQuantity[i])
+        let newObj={
+          ...this.lending.items[i],
+          ReturnedQuantity:this.returnQuantity[i],
+          Reason:this.reasons[i]
+        }
+        this.updatedItemArray.push(newObj);
+
+        let removalItem={
+              item_name:this.lending.items[i].item_name,
+              Reason:this.reasons[i],
+              category:this.lending.items[i].category,
+              measurements:this.lending.items[i].measurement,
+              Quantity:(this.lending.items[i].Quantity-this.returnQuantity[i])  
+        }
+        this.removalArray.push(removalItem);
+
+      }
+    }
+
+    if(this.removalArray.length>0){
+   
+           this.itemRemovalService.confirmremoval({
+           Voucher_Id: this.vouid,
+           Date_Removed:dateString,
+           items: this.removalArray,
+         });
+    }
+ 
+    this.resolvedLending={
+      id:this.lending.id,
+      date:this.lending.date,
+      time:this.lending.time,
+      duration:this.lending.duration,
+      items:this.updatedItemArray,
+      dateResovled:dateString,
+      teacherId:this.lending.teacherId,
+      teacherName:this.lending.teacherName,
+      timeResolved:time
+    }
+     this.lendingService.resolveLending(this.resolvedLending);
+  
+    this.updatedItemArray=[];
+    this.removalArray=[];
+
+    this.lendingService.getCurrentlendingsnap().subscribe(
+      list => {
+        let array = list.map(item => {
+          return {
+            $key: item.key,
+            ...item.payload.val()
+          };
+        });
+        let lends:any=array
+        for(let i=0;i<lends.length;i++){
+
+          if(lends[i].timestamp==this.lending.id){
+             this.lendingService.deletecurrentLending(lends[i].$key)
+          }
+        }
+      }
+
+
+    )
+  
+    this.reslovedLending.emit(this.lending.id);
+
   }
+
+
 
   updateallEqupiment(Lendeditem,ReturnQuntity){
     if(Lendeditem.category=="Glassware"){
@@ -133,7 +246,7 @@ export class CurrentLendingCardComponent implements OnInit {
                 category:this.glasswareArray[j].category
               }
               console.log(obj);
-              // this.lendingService.updateQuantities(obj)  
+               this.lendingService.updateQuantities(obj)  
           }
         }
       })
@@ -158,7 +271,7 @@ export class CurrentLendingCardComponent implements OnInit {
                 category:this.chemicalArray[j].category
               }
               console.log(obj);
-              // this.lendingService.updateQuantities(obj)  
+               this.lendingService.updateQuantities(obj)  
           }
         }
       })
@@ -183,7 +296,7 @@ export class CurrentLendingCardComponent implements OnInit {
                 category:this.perishableArray[j].category
               }
               console.log(obj);
-              // this.lendingService.updateQuantities(obj)  
+               this.lendingService.updateQuantities(obj)  
           }
         }
       })
@@ -208,12 +321,26 @@ export class CurrentLendingCardComponent implements OnInit {
                 category:this.permEquipArray[j].category
               }
               console.log(obj);
-              // this.lendingService.updateQuantities(obj)  
+              this.lendingService.updateQuantities(obj)  
           }
         }
       })
+
+      
   }
 
-  
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ResolveLendingDialogComponent, {
+      width: '400px',
+      // data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    
+      if(result){
+        this.submit()
+      }
+    });
+  }
 
 }

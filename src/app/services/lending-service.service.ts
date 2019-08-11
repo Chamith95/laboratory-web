@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,15 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class LendingServiceService {
 
   lendinglist: AngularFireList<any>
+  Pastlendinglist: AngularFireList<any>
   glasswarelist: AngularFireList<any>;
   chemicalist: AngularFireList<any>;
   perishablelist: AngularFireList<any>;
   permEquiplist: AngularFireList<any>;
+  pastLendings:AngularFireList<any>
   user:any;
   uid:any;
+  items: Observable<any[]>;
 
   constructor(private firebase: AngularFireDatabase, private afauth:AngularFireAuth,) {
     this.lendinglist = firebase.list('lendings');
@@ -22,6 +26,7 @@ export class LendingServiceService {
     this.chemicalist = this.firebase.list('chemicals');
     this.permEquiplist = this.firebase.list('permenant_equipment');
     this.perishablelist = this.firebase.list('perishables');
+    this.pastLendings=this.firebase.list('past_lendings')
     
     this.user=JSON.parse(localStorage.getItem('user'));
     this.uid=(this.user.uid);
@@ -34,6 +39,12 @@ export class LendingServiceService {
       }
     })
   }
+
+  this.items = this.lendinglist.snapshotChanges().pipe(
+    map(changes => 
+      changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+    )
+  );
    }
 
 
@@ -47,8 +58,20 @@ export class LendingServiceService {
     return this.firebase.list('lendings').valueChanges()
   }
 
+  getPastLending(){
+    return this.firebase.list('past_lendings').valueChanges()
+  }
+
+  getCurrentlendingsnap(){
+    return this.firebase.list('lendings').snapshotChanges()
+  }
+
   removelendingscart(){
     return this.firebase.object('/new-lendings-cart/' + this.uid).remove()
+  }
+
+  deletecurrentLending(key){
+   this.lendinglist.remove(key);
   }
 
 
@@ -228,5 +251,8 @@ export class LendingServiceService {
   }
 
 
+resolveLending(data){
+  this.pastLendings.push(data);
+}
 
 }

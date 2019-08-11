@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Confirm Resolve</h1>
+<div mat-dialog-content>
+  <p>This action cannot be undone.Do you want to continue?</p>
+
+</div>
+<div mat-dialog-actions>
+  <div fxLayout="row" class="action" fxLayoutAlign="end end" >
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
+</div>
+</div>

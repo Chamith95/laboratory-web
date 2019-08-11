@@ -82,6 +82,9 @@ import { TeachersComponent } from './teachers/teachers.component';
 import { TeacherCardsComponent } from './teachers/teacher-cards/teacher-cards.component';
 import { CurrentLendingsComponent } from './lending_items/current-lendings/current-lendings.component';
 import { CurrentLendingCardComponent } from './lending_items/current-lending-card/current-lending-card.component';
+import { PastLendingsComponent } from './lending_items/past-lendings/past-lendings.component';
+import { PastLendingsCardComponent } from './lending_items/past-lendings-card/past-lendings-card.component';
+import { ResolveLendingDialogComponent } from './lending_items/resolve-lending-dialog/resolve-lending-dialog.component';
 
 
 
@@ -121,6 +124,9 @@ import { CurrentLendingCardComponent } from './lending_items/current-lending-car
     TeacherCardsComponent,
     CurrentLendingsComponent,
     CurrentLendingCardComponent,
+    PastLendingsComponent,
+    PastLendingsCardComponent,
+    ResolveLendingDialogComponent,
 
 
    
@@ -170,6 +176,7 @@ import { CurrentLendingCardComponent } from './lending_items/current-lending-car
   entryComponents:[NewglasswareComponent,
     NewchemicalsdialogComponent,
     QuantitydialogComponent,
+    ResolveLendingDialogComponent,
     ChemicalquantitydialogComponent,
     NewperishablesComponent,
     LendingquantitydialogComponent,

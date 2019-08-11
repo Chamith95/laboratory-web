@@ -6,8 +6,13 @@
 <div class="container" >
                 <mat-accordion  >
 
-<current-lending-card *ngFor="let lending of lendings" [lending]="lending"></current-lending-card>
+<current-lending-card *ngFor="let lending of lendings" (reslovedLending)="onResolveLending($event)" [lending]="lending"></current-lending-card>
                 </mat-accordion  >
+</div>
+
+<div class="def" *ngIf="lendings.length==0">
+
+<h3 class="mat-display-3"> No Current Lendings</h3>
 </div>
 <!-- <mat-accordion multi="true" >
 <mat-expansion-panel  >

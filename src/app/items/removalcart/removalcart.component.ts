@@ -282,7 +282,6 @@ async ngOnInit() {
   
     this.itemremovalservice.confirmremoval({
       Voucher_Id: this.vouid,
-      Reason: form.value.Reason,
       Date_Removed: form.value.createdate.toDateString(),
       items: this.cartitemArrayWithoutkey,
     });

@@ -26,6 +26,7 @@ import { PerishablelistComponent } from './items/perishables/perishablelist/peri
 import { PermEquiplistComponent } from './items/permEquipment/perm-equiplist/perm-equiplist.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { CurrentLendingsComponent } from './lending_items/current-lendings/current-lendings.component';
+import { PastLendingsComponent } from './lending_items/past-lendings/past-lendings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full'},
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: 'lendingform',component:LendingMainFormComponent},
   { path: 'TeachersMain',component:TeachersComponent},
   { path: 'CurrentLendings',component:CurrentLendingsComponent},
+  { path: 'PastLendings',component:PastLendingsComponent},
 
 
 ];

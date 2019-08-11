@@ -3,6 +3,8 @@ import { LendingServiceService } from 'src/app/services/lending-service.service'
 import { map } from 'rxjs/operators';
 import { TeacherService } from 'src/app/services/teacher.service';
 import * as _ from 'lodash';
+import { MatDialog } from '@angular/material';
+import { ResolveLendingDialogComponent } from '../resolve-lending-dialog/resolve-lending-dialog.component';
 
 @Component({
   selector: 'app-current-lendings',
@@ -20,11 +22,10 @@ export class CurrentLendingsComponent implements OnInit {
     this.lendingService.getCurrentlendingsync().subscribe(item=>{
       this.lendingsUnchanged= item;
       this.lendings = item;
-      console.log(typeof this.lendingsUnchanged)
  
       let teacherName=null;
       this.teacherService.getteacherbyid
-      console.log(this.lendings);
+
       
       
 
@@ -35,7 +36,10 @@ export class CurrentLendingsComponent implements OnInit {
          id:item.timestamp,
         date: item.date,
         status: item.status,
-        teacherName:teacherName, 
+        teacherName:teacherName,
+        teacherId:item.teacherId,
+        duration:item.duration,
+        measurement:item.measurement,
         time:item.time,
         items:item.items
         
@@ -43,8 +47,20 @@ export class CurrentLendingsComponent implements OnInit {
         // approved: item.approve=="no" ? "Un Approved":"Approved",
       }
     })
-      console.log(this.lendings);
+  
     })
+  }
+
+  onResolveLending(id){
+
+    for(let i=0;i<this.lendings.length;i++){
+ 
+      if(this.lendings[i].id==id){
+
+        this.lendings.splice(i,1);
+      }
+    }
+   
   }
 
 
