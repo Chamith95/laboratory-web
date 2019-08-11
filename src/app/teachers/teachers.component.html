@@ -1,11 +1,11 @@
 <h1 class="mat-display-1">Teachers</h1>
 <!-- <mat-tab-group mat-align-tabs="center" class="example-stretched-tabs ">
     <mat-tab label="Aproved"> -->
-            <div class="container">
-                <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
-                <teacher-cards *ngFor="let teacher of teachers" [teacher]="teacher">
+            <div class="container"  fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+                <ng-container  *ngFor="let teacher of teachers">
+                <teacher-cards class="container2" fxFlex="0 1 calc(33.3% - 32px)"  [teacher]="teacher">
                   </teacher-cards>
-                </div>
+                </ng-container>
         </div>
 
 

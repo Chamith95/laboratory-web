@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class PastLendingsCardComponent implements OnInit {
 
+  
 
   displayedColumns: string[] = ['position','category', 'name','returnQuantity','reason'];
   dataSource: MatTableDataSource<any>;

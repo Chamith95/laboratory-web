@@ -43,9 +43,12 @@ export class TeacherService {
   }
 
   getteacherbyidloadash($key){
-    return _.find(this.array,(obj) =>{return obj.$key ==$key})['username'];
+    return _.find(this.array,(obj) =>{return obj.$key ==$key})['nameWithInitial'];
   }
 
+  getteachergenderbyidloadash($key){
+    return _.find(this.array,(obj) =>{return obj.$key ==$key})['gender'];
+  }
 
   approve(id){
     this.teacherList.update(id, {

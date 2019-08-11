@@ -8,6 +8,10 @@ h1{
 
 .container{
     margin:10px;
-    max-width:400px;
+   margin-bottom:10px; 
+}
+
+.container2{
+    margin-bottom:30px;
 }
 

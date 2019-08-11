@@ -85,12 +85,13 @@ export class LendingMainFormComponent implements OnInit {
     this.Teachers = teachers.map(item => ({
       id:item.id,
       name: item.username,
+      nameWithInitials:item.nameWithInitial,
       email: item.email,
       phoneNo: item.phoneNumber, 
       approved: item.approve=="no" ? "Un Approved":"Approved",
     }))
 
-    // console.log(this.event2);
+     console.log(this.Teachers);
   })
     
 
@@ -295,6 +296,7 @@ export class LendingMainFormComponent implements OnInit {
       this.teacherService.getteacherbyid(value).subscribe(item=>{
         this.selectedTeacher={id:item[0].id,
           name: item[0].username,
+          nameWithInitials: item[0].nameWithInitial,
           email: item[0].email,
           phoneNo: item[0].phoneNumber, 
           approved: item[0].approve=="no" ? "Un Approved":"Approved",

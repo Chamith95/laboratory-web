@@ -20,6 +20,7 @@ export class TeachersComponent implements OnInit {
       this.teachers = this.teachersUnchanged.map(item => ({
         id:item.id,
         name: item.username,
+        nameWithInitials:item.nameWithInitial,
         email: item.email,
         phoneNo: item.phoneNumber, 
         approved: item.approve=="no" ? "Un Approved":"Approved",

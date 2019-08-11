@@ -28,7 +28,7 @@ export class PastLendingsComponent implements OnInit {
 
       this.lendings = this.lendingsUnchanged.map(item =>{ 
         let teacherName=this.teacherService.getteacherbyidloadash(item.teacherId)
-   
+        let teacherGender=this.teacherService.getteachergenderbyidloadash(item.teacherId);
        return {
          id:item.id,
         date: item.date,
@@ -40,6 +40,7 @@ export class PastLendingsComponent implements OnInit {
         time:item.time,
         timeResolved:item.timeResolved,
         dateResolved:item.dateResovled,
+        teacherGender:teacherGender,
         items:item.items,
   
         

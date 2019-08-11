@@ -3,7 +3,7 @@
   <mat-expansion-panel  >
   <mat-expansion-panel-header [collapsedHeight]="'70px'">
       <mat-panel-title>
-          {{lending.teacherName}}
+ <div *ngIf="lending.teacherGender=='Male'" style="margin-right:5px;">Mr </div>  <div *ngIf="lending.teacherGender=='Female'" style="margin-right:5px;">Mrs </div>  {{lending.teacherName}}
         </mat-panel-title>
 
         <mat-panel-description>
@@ -70,5 +70,7 @@
           <button mat-button color="warn" >DELETE</button>
   </mat-action-row> -->
   </mat-expansion-panel>
+
+
 
   </div>
