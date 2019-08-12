@@ -1,8 +1,9 @@
 <div class="container">
 
   <mat-expansion-panel  >
-  <mat-expansion-panel-header>
-      <mat-panel-title>
+  <mat-expansion-panel-header  >
+      <mat-panel-title  [ngClass]="{red: !isdelay, blue: isdelay}">
+          <!-- <div *ngIf="lending.teacherGender=='Male'" style="margin-right:5px;">Mr </div>  <div *ngIf="lending.teacherGender=='Female'" style="margin-right:5px;">Mrs </div>  -->
           {{lending.teacherName}}
         </mat-panel-title>
 
@@ -12,6 +13,7 @@
                 <!-- <span>Teacher:{{lending.teacherName}}</span> -->
                 <div>Date: {{lending.date}}</div>
                 <div>Time: {{lending.time}}</div>
+                <div>Duration: {{lending.duration}}</div>
             </div>
 
           </mat-panel-description>
@@ -86,7 +88,7 @@
     </table>
   <mat-action-row >
           <a mat-button color="primary" (click)="openDialog()" >RESOLVE</a>
-          <!-- <button mat-button color="warn" (click)="openDialog()"  >DELETE</button> -->
+          <button mat-button color="accent" (click)="Notify()"  >Notify</button>
   </mat-action-row>
   </mat-expansion-panel>
 

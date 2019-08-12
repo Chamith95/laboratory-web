@@ -9,6 +9,7 @@ import { PerishablesService } from 'src/app/services/perishables.service';
 import { LendingServiceService } from 'src/app/services/lending-service.service';
 import { ItemRemovalService } from 'src/app/services/item-removal.service';
 import { ResolveLendingDialogComponent } from '../resolve-lending-dialog/resolve-lending-dialog.component';
+import { NotificationService } from 'src/app/services/notification.service';
 
 
 
@@ -56,25 +57,43 @@ export class CurrentLendingCardComponent implements OnInit {
   removalVou:any=[]
   returnQuantity:any={}
   vouid:any
+  isdelay:boolean;
   planModel: any = { start_time: new Date() };
 
   @Output() reslovedLending=new EventEmitter();
 
   @Input() lending: any;
+
+
   constructor( private _formBuilder: FormBuilder,
     private availableService:AvailableItemsService,
     public dialog: MatDialog,
     private lendingService:LendingServiceService,
     private glassWareService:ItemService,
     private chemicalService:ChemicalsService,
+    private NotifyService:NotificationService,
     private perishableService:PerishablesService,
     private permEquipService:PermEquipmentService,
     private itemRemovalService:ItemRemovalService) {
 
      }
-
+  today=Date.now()  
   ngOnInit() {
-    console.log(this.lending)
+  
+ 
+    // let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+ 
+ 
+    let addedhours2=this.lending.timestamp+(this.lending.duration*3600000)
+   
+
+    if(addedhours2>this.today){
+      this.isdelay=true
+    }
+    else{
+      this.isdelay=false;
+    }
+    console.log(this.isdelay);
     this.form = this._formBuilder.group({
       lendings: this._formBuilder.array([])
     });
@@ -341,6 +360,10 @@ export class CurrentLendingCardComponent implements OnInit {
         this.submit()
       }
     });
+  }
+
+  Notify(){
+    this.NotifyService.createRemindNotification(this.lending.teacherId);
   }
 
 }

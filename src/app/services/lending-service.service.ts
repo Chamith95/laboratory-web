@@ -171,6 +171,7 @@ export class LendingServiceService {
       teacherId:lendVoucher.teacherId,
       date:lendVoucher.date,
       time:lendVoucher.time,
+      datetime:lendVoucher.datetime,
       timestamp:lendVoucher.timestamp,
       duration:lendVoucher.duration,
       status:"UnResolved",
