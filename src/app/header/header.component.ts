@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
   authSubscription:Subscription;
   addcartitemcount:number;
   lendings:any=[];
+  overdueCount=0;
 
   constructor(public authService: AuthService,private lendingService:LendingServiceService,private route : ActivatedRoute,private addItemservice:ItemAdditionService) { 
 
@@ -34,7 +35,9 @@ export class HeaderComponent implements OnInit,OnDestroy {
     
     for(let i=0;i<this.lendings.length;i++){
       let addedhours2=this.lendings[i].timestamp+(this.lendings[i].duration*3600000)
-        if(addedhours2<this.today){}
+        if(addedhours2<this.today){
+          this.overdueCount+=1;
+        }
      }
    }
    )

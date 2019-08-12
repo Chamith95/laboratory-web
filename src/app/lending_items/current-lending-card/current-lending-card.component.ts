@@ -98,17 +98,7 @@ export class CurrentLendingCardComponent implements OnInit {
       lendings: this._formBuilder.array([])
     });
 
-    this.itemRemovalService.getRemvouchers().subscribe(item=>{
-      let k
-      if(item.length>0){
-      k=+(item[item.length-1].Voucher_Id)+1;
-      }
-      else{
-        k=1001
-      }
-      this.vouid=k;
 
-    })
 
 
     this.items=this.lending.items
@@ -133,6 +123,17 @@ export class CurrentLendingCardComponent implements OnInit {
 
   submit(){
    
+    this.itemRemovalService.getRemvouchers().subscribe(item=>{
+      let k
+      if(item.length>0){
+      k=+(item[item.length-1].Voucher_Id)+1;
+      }
+      else{
+        k=1001
+      }
+      this.vouid=k;
+
+    })
     let datenow = this.planModel.start_time;
 
     let date = datenow.getDate();

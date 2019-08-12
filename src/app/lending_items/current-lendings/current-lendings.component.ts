@@ -30,13 +30,14 @@ export class CurrentLendingsComponent implements OnInit {
       
 
       this.lendings = this.lendingsUnchanged.map(item =>{ 
+        console.log(item.teacherId);
         let teacherName=this.teacherService.getteacherbyidloadash(item.teacherId)
-        // let teacherGender=this.teacherService.getteachergenderbyidloadash(item.teacherId);
+         let teacherGender=this.teacherService.getteachergenderbyidloadash(item.teacherId);
        return {
          id:item.timestamp,
         date: item.date,
         teacherName:teacherName,
-        // teacherGender:teacherGender,
+         teacherGender:teacherGender,
         teacherId:item.teacherId,
         duration:item.duration,
         timestamp:item.timestamp,
