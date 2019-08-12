@@ -73,6 +73,7 @@ export class CurrentLendingCardComponent implements OnInit {
     private chemicalService:ChemicalsService,
     private NotifyService:NotificationService,
     private perishableService:PerishablesService,
+    private NotificationService:NotificationService,
     private permEquipService:PermEquipmentService,
     private itemRemovalService:ItemRemovalService) {
 
@@ -358,7 +359,8 @@ export class CurrentLendingCardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
     
       if(result){
-        this.submit()
+         this.submit()
+        this.NotificationService.createResolveNotification(this.lending.teacherId);
       }
     });
   }

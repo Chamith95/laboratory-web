@@ -108,7 +108,7 @@ console.log('We have a notification to send to :',reciever_user_id);
             notification:{
                 title:"Access Granted",
                 body:`Your request has been approved , Now you have access to the Smartlab App `,
-                icon:"default"git 
+                icon:"default"
             }
         };
 
