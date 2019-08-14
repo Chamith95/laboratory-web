@@ -43,6 +43,7 @@ export class TeacherService {
   }
 
   getteacherbyidloadash($key){
+    console.log($key);
     return _.find(this.array,(obj) =>{return obj.$key ==$key})['nameWithInitial'];
   }
 

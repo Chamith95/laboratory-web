@@ -85,6 +85,7 @@ import { CurrentLendingCardComponent } from './lending_items/current-lending-car
 import { PastLendingsComponent } from './lending_items/past-lendings/past-lendings.component';
 import { PastLendingsCardComponent } from './lending_items/past-lendings-card/past-lendings-card.component';
 import { ResolveLendingDialogComponent } from './lending_items/resolve-lending-dialog/resolve-lending-dialog.component';
+import { MyFilterPipe } from './pipes/mypipe';
 
 
 
@@ -127,7 +128,7 @@ import { ResolveLendingDialogComponent } from './lending_items/resolve-lending-d
     PastLendingsComponent,
     PastLendingsCardComponent,
     ResolveLendingDialogComponent,
-
+    MyFilterPipe
 
    
 

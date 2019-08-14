@@ -9,7 +9,8 @@
     </mat-card-header>
      </div>
      <div fxFlex=40 >
-<img mat-card-image  src="../../assets/images/person1.png" alt="Photo of a Shiba Inu">
+<img mat-card-image *ngIf="teacher.imageUrl !='default'" src={{teacher.imageUrl}} alt="photo">
+<img mat-card-image *ngIf="teacher.imageUrl == 'default'" src="../../assets/images/person1.png" alt="photo">
 </div>
 </div>
 <mat-card-content>

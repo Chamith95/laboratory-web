@@ -21,6 +21,7 @@ export class TeachersComponent implements OnInit {
         id:item.id,
         name: item.username,
         nameWithInitials:item.nameWithInitial,
+        imageUrl:item.imageURL,
         email: item.email,
         phoneNo: item.phoneNumber, 
         approved: item.approve=="no" ? "Un Approved":"Approved",

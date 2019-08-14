@@ -1,12 +1,21 @@
 <h1 class="mat-display-1">Past Lendings</h1>
 
+<mat-form-field  class="teacheroptions">
+    <mat-label>Teacher</mat-label>
+    <mat-select  [(ngModel)]="selectedTeacherOption" (selectionChange)="changeClient($event.value)">
+            <mat-option value="all">All</mat-option>
+      <mat-option *ngFor="let teacher of Teachers; index as i" [value]="teacher.id">
+        {{teacher.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
 
 <div class="container">
 <div class="container" >
                 <mat-accordion  >
 
-<past-lendings-card *ngFor="let lending of lendings"  [lending]="lending"></past-lendings-card>
+<past-lendings-card *ngFor="let lending of lendings | myfilter:filterargs"  [lending]="lending"></past-lendings-card>
                 </mat-accordion  >
 </div>
 

@@ -11,6 +11,10 @@ export class PastLendingsComponent implements OnInit {
 
   lendings:any=[]
   lendingsUnchanged:any=[]
+  searchKey: string;
+  Teachers:any=[];
+  selectedTeacher:any;
+  filterargs:any;
   constructor(private LendingsService:LendingServiceService,private teacherService:TeacherService) { }
 
   ngOnInit() {
@@ -20,8 +24,18 @@ export class PastLendingsComponent implements OnInit {
       this.lendings = item;
       console.log(item);
  
-      let teacherName=null;
-      this.teacherService.getteacherbyid
+      this.teacherService.getteaches().subscribe(teachers=>{
+        this.Teachers = teachers.map(item => ({
+          id:item.id,
+          name: item.username,
+          nameWithInitials:item.nameWithInitial,
+          email: item.email,
+          phoneNo: item.phoneNumber, 
+          approved: item.approve=="no" ? "Un Approved":"Approved",
+        }))
+    
+         console.log(this.Teachers);
+      })
 
       
       
@@ -54,6 +68,26 @@ export class PastLendingsComponent implements OnInit {
   
   }
 
-  
+
+
+  changeClient(value) {
+      if(value=="all"){
+        this.filterargs=null;
+        return
+      }
+    this.teacherService.getteacherbyid(value).subscribe(item=>{
+      this.selectedTeacher={id:item[0].id,
+        name: item[0].username,
+        nameWithInitials: item[0].nameWithInitial,
+        email: item[0].email,
+        phoneNo: item[0].phoneNumber, 
+        approved: item[0].approve=="no" ? "Un Approved":"Approved",
+    }
+    // this.selectedTeacherOption= this.selectedTeacher.id;
+    console.log(this.selectedTeacher);
+    this.filterargs={teacherId:this.selectedTeacher.id}
+})
+
+}
 
 }

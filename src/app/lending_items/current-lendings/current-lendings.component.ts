@@ -33,6 +33,7 @@ export class CurrentLendingsComponent implements OnInit {
         console.log(item.teacherId);
         let teacherName=this.teacherService.getteacherbyidloadash(item.teacherId)
          let teacherGender=this.teacherService.getteachergenderbyidloadash(item.teacherId);
+         
        return {
          id:item.timestamp,
         date: item.date,
