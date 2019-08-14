@@ -56,6 +56,7 @@ export class CurrentLendingCardComponent implements OnInit {
   resolvedLending:any;
   removalVou:any=[]
   returnQuantity:any={}
+  testArray:any=[];
   vouid:any
   isdelay:boolean;
   planModel: any = { start_time: new Date() };
@@ -81,7 +82,19 @@ export class CurrentLendingCardComponent implements OnInit {
   today=Date.now()  
   ngOnInit() {
   
- 
+    this.itemRemovalService.getRemvouchers().subscribe(item=>{
+      let k
+      if(item.length>0){
+      k=+(item[item.length-1].Voucher_Id)+1;
+      }
+      else{
+        k=1001
+      }
+      this.vouid=k;
+
+
+
+    })
     // let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
  
  
@@ -123,18 +136,11 @@ export class CurrentLendingCardComponent implements OnInit {
   }
 
   submit(){
-   
-    this.itemRemovalService.getRemvouchers().subscribe(item=>{
-      let k
-      if(item.length>0){
-      k=+(item[item.length-1].Voucher_Id)+1;
-      }
-      else{
-        k=1001
-      }
-      this.vouid=k;
+   this.testArray=[];
+   this.updatedItemArray=[];
+   this.removalArray=[];
 
-    })
+
     let datenow = this.planModel.start_time;
 
     let date = datenow.getDate();
@@ -150,7 +156,7 @@ export class CurrentLendingCardComponent implements OnInit {
 
 
     for(let i=0;i<this.lending.items.length;i++){
-        console.log(this.lending.items[i])
+        // console.log(this.lending.items[i])
       if(this.lending.items[i].Quantity ==this.returnQuantity[i]){
           this.updateallEqupiment(this.lending.items[i],this.returnQuantity[i])
           let newObj={
@@ -159,6 +165,7 @@ export class CurrentLendingCardComponent implements OnInit {
             Reason:"None"
           }
           this.updatedItemArray.push(newObj);
+          
       }
       else{
          this.updateallEqupiment(this.lending.items[i],this.returnQuantity[i])
@@ -179,15 +186,20 @@ export class CurrentLendingCardComponent implements OnInit {
         this.removalArray.push(removalItem);
 
       }
-    }
 
-    if(this.removalArray.length>0){
+    }
+    // console.log(this.testArray);
    
-           this.itemRemovalService.confirmremoval({
-           Voucher_Id: this.vouid,
-           Date_Removed:dateString,
-           items: this.removalArray,
-         });
+    
+   
+    if(this.removalArray.length>0){
+// removing items if any
+      this.itemRemovalService.confirmremoval({
+        Voucher_Id:this.vouid,
+         Date_Removed:dateString,
+         items: this.removalArray,
+       });
+     
     }
  
     this.resolvedLending={
@@ -201,10 +213,12 @@ export class CurrentLendingCardComponent implements OnInit {
       teacherName:this.lending.teacherName,
       timeResolved:time
     }
-     this.lendingService.resolveLending(this.resolvedLending);
+
+    // submit past lending
+    this.lendingService.resolveLending(this.resolvedLending); 
+    // Update quantities
+    this.lendingService.updateallQuantitiesarry(this.testArray);
   
-    this.updatedItemArray=[];
-    this.removalArray=[];
 
     this.lendingService.getCurrentlendingsnap().subscribe(
       list => {
@@ -222,11 +236,12 @@ export class CurrentLendingCardComponent implements OnInit {
           }
         }
       }
+      
 
 
     )
-  
-    this.reslovedLending.emit(this.lending.id);
+
+      this.reslovedLending.emit(this.lending.id);
 
   }
 
@@ -245,6 +260,7 @@ export class CurrentLendingCardComponent implements OnInit {
      if(Lendeditem.category=="Permanent Equipment"){
       this.updatePermEquipment(Lendeditem,ReturnQuntity)
      }  
+
    
   }
 
@@ -266,10 +282,13 @@ export class CurrentLendingCardComponent implements OnInit {
                 available:this.glasswareArray[j].available+ReturnQuntity,
                 category:this.glasswareArray[j].category
               }
-              console.log(obj);
-               this.lendingService.updateQuantities(obj)  
+              // console.log(obj);
+              this.testArray.push(obj)
+              //  this.lendingService.updateQuantities(obj)  
           }
+          
         }
+        
       })
   }
 
@@ -291,8 +310,9 @@ export class CurrentLendingCardComponent implements OnInit {
                 available:this.chemicalArray[j].available+ReturnQuntity,
                 category:this.chemicalArray[j].category
               }
-              console.log(obj);
-               this.lendingService.updateQuantities(obj)  
+              // console.log(obj);
+              this.testArray.push(obj)
+              //  this.lendingService.updateQuantities(obj)  
           }
         }
       })
@@ -316,8 +336,9 @@ export class CurrentLendingCardComponent implements OnInit {
                 available:this.perishableArray[j].available+ReturnQuntity,
                 category:this.perishableArray[j].category
               }
-              console.log(obj);
-               this.lendingService.updateQuantities(obj)  
+              // console.log(obj);
+              this.testArray.push(obj)
+              //  this.lendingService.updateQuantities(obj)  
           }
         }
       })
@@ -341,8 +362,9 @@ export class CurrentLendingCardComponent implements OnInit {
                 available:this.permEquipArray[j].available+ReturnQuntity,
                 category:this.permEquipArray[j].category
               }
-              console.log(obj);
-              this.lendingService.updateQuantities(obj)  
+              // console.log(obj);
+              this.testArray.push(obj)
+              // this.lendingService.updateQuantities(obj)  
           }
         }
       })
@@ -360,7 +382,7 @@ export class CurrentLendingCardComponent implements OnInit {
     
       if(result){
          this.submit()
-        this.NotificationService.createResolveNotification(this.lending.teacherId);
+         this.NotificationService.createResolveNotification(this.lending.teacherId);
       }
     });
   }

@@ -14,7 +14,7 @@
 
 
   <div class="mat-elevation-z8">
-    <mat-table [dataSource]="listData" matSort>
+    <mat-table id="my_table" [dataSource]="listData" matSort>
       <ng-container matColumnDef="item_name">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Category Name</mat-header-cell>
         <mat-cell *matCellDef="let element">{{element.item_name}}</mat-cell>
@@ -91,5 +91,5 @@
     </mat-table>
     <mat-paginator [pageSizeOptions]="[5,10,25,100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
   </div>
-
+  <button mat-raised-button color="primary" (click)="genPdf()">Generate pdf</button>
 </div>

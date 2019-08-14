@@ -159,9 +159,9 @@ export class ItemRemovalService {
   }
 
   confirmremoval(vocuher: remvoucher) {
-    console.log(this.removalcartlist);
+    console.log(vocuher);
     this.removalcartlist.push({
-      Voucher_Id: vocuher.Voucher_Id,
+      Voucher_Id:vocuher.Voucher_Id,
       Date_Removed: vocuher.Date_Removed.toString(),
       items: vocuher.items
     });

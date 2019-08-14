@@ -349,7 +349,7 @@ async ngOnInit() {
  
       }
 
-      if (this.cartitemArray[i].category == "Permanent Equipment") {
+      if (this.cartitemArray[i].category == "Permenent Equipment") {
         for (let j = 0; j < this.originalpermEquipmentquantities.length; j++) {
           if (this.cartitemArray[i].item_name == this.originalpermEquipmentquantities[j].item_name) {
             let updateditem = {

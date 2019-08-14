@@ -13,6 +13,10 @@ import { QuantitydialogComponent } from '../quantitydialog/quantitydialog.compon
 import { ItemRemovalService } from 'src/app/services/item-removal.service';
 import { UiService } from 'src/app/services/ui.service';
 import { AvailableItemsService } from 'src/app/services/available-items.service';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { ngxCsv } from 'ngx-csv/ngx-csv';
+import { CsvModule } from '@ctrl/ngx-csv';
 
 @Component({
   selector: 'app-glasswarelist',
@@ -25,6 +29,9 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
   Additemsub: Subscription;
   Removeitemsub: Subscription;
   tablearray: Array<any>;
+  renderedData: any;
+
+
   addcart: any;
   removecart: any;
   quantity: number;
@@ -92,6 +99,9 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
         this.listData = new MatTableDataSource(array);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
+        this.listData.connect().subscribe(
+          d=>this.renderedData=d
+        )
       }
 
 
@@ -216,5 +226,39 @@ export class GlasswarelistComponent implements OnInit, OnDestroy {
     this.itemRemovalService.subfromRemovecart(item);
 
 
+  }
+
+  genPdf=() =>{
+
+  //  let arr= [
+  //     { firstname: 'Ahmed', lastname: 'Tomi', email: 'ah@smthing.co.com' },
+  //     { firstname: 'Raed', lastname: 'Labes', email: 'rl@smthing.co.com' },
+  //     { firstname: 'Yezzi', lastname: 'Min l3b', email: 'ymin@cocococo.com' },
+  //   ]
+
+    var options = { 
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true, 
+      showTitle: true,
+      title: 'Your title',
+      useBom: true,
+      noDownload: false,
+      headers: ["Name", "Quantity", "available","measurement","recomended"]
+    };
+
+    this.service.getGlasswareitems().subscribe(item=>{
+    // console.log(arr)
+    // let array=[];
+    // for(let i=0;i<item.length;i++){
+    //   console.log(item[i]);
+    //   // let arr=[Name:item[i].item_name]
+    //    array.push(item[i])
+    // }
+    // console.log(array);
+        new ngxCsv(item,'Test Report',options);;
+    })
+    
   }
 }

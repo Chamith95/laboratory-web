@@ -251,6 +251,42 @@ export class LendingServiceService {
     }
   }
 
+  updateallQuantitiesarry(data) {
+    console.log(data)
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].category == "Glassware") {
+        this.glasswarelist.update(
+          data[i].$key, {
+            Quantity: data[i].Quantity,
+            available: data[i].available
+          })
+      }
+      if (data[i].category == "Chemicals") {
+        this.chemicalist.update(
+          data[i].$key, {
+            Quantity: data[i].Quantity,
+            available: data[i].available
+          })
+      }
+
+      if (data[i].category == "Perishables") {
+        this.perishablelist.update(
+          data[i].$key, {
+            Quantity: data[i].Quantity,
+            available: data[i].available
+          })
+      }
+
+      if (data[i].category == "Permanent Equipment") {
+        this.permEquiplist.update(
+          data[i].$key, {
+            Quantity: data[i].Quantity,
+            available: data[i].available
+          })
+      }
+    }
+  }
+
 
 resolveLending(data){
   this.pastLendings.push(data);

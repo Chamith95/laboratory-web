@@ -29,7 +29,7 @@ console.log('We have a notification to send to :',reciever_user_id);
         {
             notification:{
                 title:"Reminder to Return Equipments",
-                body:`You have not returned some equipments taken from the lab ,Please make sure to return them`,
+                body:`You have not returned some equipments taken from the lab,Please make sure to return them`,
                 icon:"default"
             }
         };
