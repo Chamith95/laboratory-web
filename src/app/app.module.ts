@@ -11,11 +11,11 @@ import { environment } from 'src/environments/environment';
 // Firebase Modules
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
-import { ProfileComponent } from './users/profile/profile.component';
-import { SignInComponent } from './users/sign-in/sign-in.component';
-import { SignUpComponent } from './users/sign-up/sign-up.component';
-import { ForgotPasswordComponent } from './users/forgot-password/forgot-password.component';
-import { VerifyEmailComponent } from './users/verify-email/verify-email.component';
+import { ProfileComponent } from './auth/profile/profile.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
 import { AuthService } from './services/auth.service';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 
@@ -92,11 +92,6 @@ import { MyFilterPipe } from './pipes/mypipe';
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent,
-    SignInComponent,
-    SignUpComponent,
-    ForgotPasswordComponent,
-    VerifyEmailComponent,
     HeaderComponent,
     DashboardMainComponent,
     GlasswareComponent,

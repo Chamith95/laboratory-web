@@ -3,33 +3,47 @@
   <mat-card-content>
     <div class="mat-card-content">
       <!-- <h3 class="mat-display-1">Sign In</h3> -->
-
+<form  [formGroup]="signInForm"
+(ngSubmit)="onSubmit()">
       <mat-form-field class="mat-form-field">
         <input
           matInput
           type="text"
+          formControlName="email"
           class="formControl"
-          [(ngModel)]="username"
+     
           placeholder="Email"
           #userName
           required
         />
-        <mat-hint>Please enter your valid email.</mat-hint>
-        <mat-error>Invalid or missing email.</mat-error>
+        <!-- <mat-hint>Please enter your valid email.</mat-hint> -->
+        <mat-error 
+        *ngIf="!signInForm.get('email').valid && signInForm.get('email').errors['required']"
+        >email is required</mat-error>
+
+        <mat-error 
+        *ngIf="!signInForm.get('email').valid && !signInForm.get('email').errors['required'] && signInForm.get('email').errors['email']"
+        >Please Enter a valid email</mat-error>
       </mat-form-field>
 
       <mat-form-field class="mat-form-field">
         <input
           matInput
           type="password"
+          formControlName="password"
           class="formControl"
-          [(ngModel)]="password"
           placeholder="Password"
           #userPassword
           required
         />
         <mat-hint>Please enter your password.</mat-hint>
-        <mat-error>Missing password.</mat-error>
+        <mat-error 
+        *ngIf="!signInForm.get('password').valid && signInForm.get('password').errors['required']"
+        >password is required</mat-error>
+
+        <!-- <mat-error 
+        *ngIf="!signInForm.get('password').valid && !signInForm.get('password').errors['required'] && signInForm.get('password').errors['password']"
+        >Please Enter a valid password</mat-error> -->
       </mat-form-field>
 
       <!-- (click)="authService.SignIn(userName.value, userPassword.value)" -->
@@ -37,13 +51,14 @@
       <div class="formGroup">
         <button
           *ngIf="!isLoading"
-          type="button"
+          type="submit"
           mat-raised-button
           color="primary"
           (click)="onSubmit()">
           Log in
         </button>
       </div>
+    </form>
       <div class="loadingspinner" fxLayout="row" fxLayoutAlign="center center">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
       </div>
