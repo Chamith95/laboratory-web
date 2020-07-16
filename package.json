@@ -34,7 +34,7 @@
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.2.2",
     "loadash": "^1.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "ng2-charts": "^2.2.2",
     "ngx-csv": "^0.3.1",
     "rxjs": "~6.3.3",
